@@ -13,6 +13,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+// Route::get('/test', function () {
+//     return view('welcome');
+// });
+Route::get('/', function(){
+    echo 'Hello World!';
+    //return 'Hello World!";
 });
+Route::get('/hello/{nom}/{prenom}', function($nom, $prenom){
+    return "Hello $nom et $prenom !";
+});
+Route::get('article/{title}', function ($title) {
+    return "Title : $title";
+})->where('title', '[A-Za-z]+');
+Route::get('/liste-joueurs', function () {
+    return "Liste des joueurs";
+})->name('listeJoueurs');
+
+
