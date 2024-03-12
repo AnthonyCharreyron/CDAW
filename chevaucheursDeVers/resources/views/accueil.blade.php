@@ -1,5 +1,5 @@
 @extends('template')
 
 @section('content')
-      <p class='title'>Bonjour bonjour !</p>
+      <p class='title'>COLLINE !</p>
 @endsection
