@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zones Cliquables avec Images</title>
+    <style>
+        /* Pour rendre l'image cliquable */
+        #imageMap {
+            position: relative;
+            display: block;
+        }
+
+        /* Style pour les zones cliquables (facultatif) */
+        .zoneClickable {
+            position: absolute;
+        }
+
+        /* Style pour l'image affichée */
+        #imageAffichee {
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: none; /* Initialement cachée */
+        }
+    </style>
+</head>
+<body>
+
+<!-- Image avec zones cliquables -->
+<img src="ChevaucheursDeVers-plateau.png" style="width: 70%"  alt="Image" usemap="#zonesCliquables" id="imageMap" onclick="enregistrerCoordonnees(event)">
+
+<!-- Définition de la carte des zones cliquables -->
+<map name="zonesCliquables">
+    <!-- Coordonnées pour la zone cliquable 1 -->
+    <area shape="rect" coords="50,50,150,150" href="#" alt="Zone 1" onclick="afficherImage('image.jpg')">
+
+    <!-- Coordonnées pour la zone cliquable 2 -->
+    <area shape="rect" coords="200,150,320,230" href="#" alt="Zone 2" onclick="afficherImage('image.jpg')">
+</map>
+
+<!-- Script JavaScript pour afficher l'image -->
+<script>
+    function afficherImage(image) {
+        // Mettre à jour l'attribut src de l'image affichée
+        document.getElementById('imageAffichee').src = image;
+
+        // Afficher l'image
+        document.getElementById('imageAffichee').style.display = 'block';
+    }
+
+    var coordonneesZones = [];
+
+    // Compteur pour suivre les clics et former un rectangle
+    var compteurClics = 0;
+
+    function enregistrerCoordonnees(event) {
+        // Récupérer les coordonnées du clic par rapport à l'image
+        var x = event.clientX - document.getElementById('imageMap').getBoundingClientRect().left;
+        var y = event.clientY - document.getElementById('imageMap').getBoundingClientRect().top;
+
+        // Ajouter les coordonnées au tableau
+        if (compteurClics === 0) {
+            // Premier clic, ajouter un nouvel objet
+            coordonneesZones.push({ x1: x, y1: y });
+        } else if (compteurClics === 4) {
+            // Quatrième clic, compléter les coordonnées pour former un rectangle
+            coordonneesZones[coordonneesZones.length - 1].x4 = x;
+            coordonneesZones[coordonneesZones.length - 1].y4 = y;
+            compteurClics = -1; // Réinitialiser le compteur
+        } else {
+            // Deuxième ou troisième clic, mettre à jour les coordonnées
+            coordonneesZones[coordonneesZones.length - 1]['x' + (compteurClics)] = x;
+            coordonneesZones[coordonneesZones.length - 1]['y' + (compteurClics)] = y;
+        }
+
+        // Afficher les coordonnées dans la console
+        console.log('Coordonnées du clic :', 'X:', x, 'Y:', y);
+
+        // Afficher le tableau des coordonnées dans la console
+        console.log('Coordonnées de toutes les zones :', coordonneesZones);
+
+        // Incrémenter le compteur de clics
+        compteurClics++;
+    }
+
+
+</script>
+
+</body>
+</html>
