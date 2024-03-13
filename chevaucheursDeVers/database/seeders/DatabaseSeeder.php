@@ -16,7 +16,9 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UtilisateurSeeder::class,
             PartieSeeder::class,
-            JoueSeeder::class
+            JoueSeeder::class,
+            ListAmiSeeder::class,
+            MenuSeeder::class
         ]);
     }
 }
