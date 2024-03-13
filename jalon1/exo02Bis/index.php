@@ -1,5 +1,7 @@
 <?php
-public $users = User::query("select * from User");
+
+require_once('User.php');
+$users = User::query("select * from User");
 ?>
 
 <!doctype HTML>
@@ -10,10 +12,11 @@ public $users = User::query("select * from User");
         <title> Users </title>
     </head>
     <body>
+        <h1>Liste des utilisateurs</h1>
         <?php
             if ($users->rowCount() > 0) {
                 echo "<table>";
-                echo "<tr><th>Nom</th><th>Email</th><th>Admin</th></tr>";
+                echo "<tr><th>Nom</th><th>Email</th></tr>";
                 foreach($users as $user) {
                     echo "<tr>";
                     if($user->isAdmin()){
