@@ -14,9 +14,15 @@ class CreatePartieTable extends Migration
     public function up()
     {
         Schema::create('partie', function (Blueprint $table) {
-            $table->id();
-            $table->string('nom');
-            $table->timestamps();
+            $table->integer('id_partie')->autoIncrement();
+            $table->date("date_partie");
+            $table->string('code')->nullable();
+            $table->boolean("partie_prive")->default(false);
+            $table->boolean("est_commencee")->default(false);
+            $table->boolean("est_terminee")->default(false);
+            $table->string("gagnant", 100)->nullable();
+
+
         });
     }
 
