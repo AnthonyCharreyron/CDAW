@@ -14,9 +14,8 @@ class Utilisateurs extends Model
     protected $primaryKey = 'pseudo';
 
     public static function isAdministrateur($user){
-        $isAdmin=self::select('est_administrateur')
-            ->where('pseudo','=', $user)
-            ->value();
+        $isAdmin = self::where('pseudo', $user)
+                        ->value('est_administrateur');
         
         return $isAdmin;
     }

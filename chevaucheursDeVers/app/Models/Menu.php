@@ -21,8 +21,7 @@ class Menu extends Model
                 ->get();
         $menu=array();
         foreach ($menuAppli as $key => $value) {
-            $menu[] = array('id_menu'=> $value['id_menu'], 'menu_libelle' => $value['menu_libelle'],
-                                'route' => $value['route']);
+            $menu[] = array('id_menu'=> $value['id_menu'], 'menu_libelle' => $value['menu_libelle'], 'route' => $value['route']);
         }
         Log::info($menu);
         return $menu;
