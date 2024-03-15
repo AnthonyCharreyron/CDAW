@@ -7,8 +7,9 @@ use Illuminate\Http\Request;
 class AccueilController extends MenuController
 {
     public function getPresentation(){
+
         return view('accueil', [
-            'menu' => $menu,
+            'menu' => $this->getMenu(),
         ]);
     }
 

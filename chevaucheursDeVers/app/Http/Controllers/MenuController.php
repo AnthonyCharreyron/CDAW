@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Models\Menu;
-use App\Http\Models\Utilisateur;
+use App\Models\Menu;
+use App\Models\Utilisateurs;
+
+use Illuminate\Support\Facades\Session;
 
 class MenuController extends Controller{
 
     //TODO : faire le identification helper et le cas non identifié getMenu;
-    function getMenu(){
+    public function getMenu(){
+        Session::put("PSEUDO", "Fifi");
         $user = session("PSEUDO");
-        $isAdmin = Utilisateur::isAdministrateur($user); //TODO
+        $isAdmin = Utilisateurs::isAdministrateur($user); //TODO
 
         $menu=Menu::getMenu($isAdmin);
     }
