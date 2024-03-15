@@ -6,6 +6,7 @@
         <meta charset="UTF-8">
         <title>Chevaucheurs De Vers</title>
         <link rel="stylesheet" type="text/css" href="{{asset('css/app.css')}}" />
+        <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
         @yield('style')
 
         @yield('head')
@@ -21,6 +22,9 @@
 
 
         @yield('content')
+
+        <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+        @yield('pagescripts')
     </body>
 
 
