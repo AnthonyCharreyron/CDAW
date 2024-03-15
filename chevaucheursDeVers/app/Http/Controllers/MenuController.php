@@ -7,7 +7,8 @@ use App\Http\Models\Utilisateur;
 
 class MenuController {
 
-    function afficheMenu(){
+    //TODO : faire le identification helper et le cas non identifié getMenu;
+    function getMenu(){
         $user = session("PSEUDO");
         $isAdmin = Utilisateur::isAdministrateur($user); //TODO
 

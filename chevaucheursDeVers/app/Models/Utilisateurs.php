@@ -2,9 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Utilisateur extends Model{
+class Utilisateurs extends Model
+{
+    use HasFactory;
 
     public static function isAdministrateur($user){
         $isAdmin=self::select('pour_admin')
