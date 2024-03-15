@@ -18,6 +18,7 @@ class CreateMenu extends Migration
             $table->string("menu_libelle", 255);
             $table->string("route", 255);
             $table->boolean("pour_admin")->default(false);
+            $table->integer("no_ordre");
 
         });
     }
