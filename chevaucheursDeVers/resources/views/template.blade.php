@@ -12,9 +12,9 @@
     </head>
     <body>
         <div class="row menu">
-            @foreach ($menu as $onglet)
+            @foreach($menu as $onglet)
                 <div class="col-2">
-                    <a href="{{$onglet->route}}">{{$onglet->menu_libelle}}</a>
+                    <a href="{{$onglet['route']}}">{{$onglet['menu_libelle']}}</a>
                 </div>
             @endforeach
         </div>

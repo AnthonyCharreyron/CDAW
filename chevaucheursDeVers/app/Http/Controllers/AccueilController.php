@@ -8,7 +8,7 @@ class AccueilController extends MenuController
 {
     public function getPresentation(){
 
-        return view('accueil', [
+        return view('template', [
             'menu' => $this->getMenu(),
         ]);
     }

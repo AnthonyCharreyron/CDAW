@@ -14,16 +14,23 @@ class Menu extends Model
     protected $table = 'menu';
     protected $primaryKey = 'id_menu';
 
+    //TODO : si on est identifié, le menu "se connecter" ne doit pas apparaitre & si on n'est pas connecté c'est "Jouer" qui n'apparait pas
     public static function getMenu($isAdmin){
-        $menuAppli = self::select('id_menu', 'menu_libelle', 'route')
-                ->whereIn('pour_admin', array(0, $isAdmin))
-                ->orderBy('no_ordre')
-                ->get();
-        $menu=array();
+        $menuAppli = self::select('menu_libelle', 'route')
+                        ->whereIn('pour_admin', [0, $isAdmin])
+                        ->orderBy('no_ordre')
+                        ->get();
+
+        $menu=[];
         foreach ($menuAppli as $key => $value) {
-            $menu[] = array('id_menu'=> $value['id_menu'], 'menu_libelle' => $value['menu_libelle'], 'route' => $value['route']);
+            $menu[] = [
+                'menu_libelle' => $value->menu_libelle,
+                'route' => $value->route
+            ];
         }
-        Log::info($menu);
+        
+        //Log::info($menu);
         return $menu;
     }
+
 }
