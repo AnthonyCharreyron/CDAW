@@ -5,25 +5,30 @@
     <head>
         <meta charset="UTF-8">
         <title>Chevaucheurs De Vers</title>
+        <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}">
         <link rel="stylesheet" type="text/css" href="{{asset('css/app.css')}}" />
-        <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
         @yield('style')
 
         @yield('head')
     </head>
     <body>
-        <div class="row menu">
-            @foreach($menu as $onglet)
-                <div class="col-2">
-                    <a href="{{$onglet['route']}}">{{$onglet['menu_libelle']}}</a>
+        <nav class="menu">
+            <ul class="row m-0">
+                <div class="col-1">
+                    <img src="images/Colline-logo.png" style="height: 10vh" alt="Logo Colline">
                 </div>
-            @endforeach
-        </div>
+                @foreach($menu as $onglet)
+                    <li class="col list-unstyled">
+                        <a class="text-decoration-none text-black"  style="{{$onglet['menu_libelle']==='Se connecter' ? 'font-weight: bold' : ''}}" href="{{$onglet['route']}}">{{$onglet['menu_libelle']}}</a>
+                    </li>
+                @endforeach
+            </ul>
+        </nav>
 
 
         @yield('content')
 
-        <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+        <script src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
         @yield('pagescripts')
     </body>
 
