@@ -28,5 +28,5 @@ use Illuminate\Support\Facades\Route;
 //     return "Liste des joueurs";
 // })->name('listeJoueurs');
 
-Route::get('/', function () {return view('accueil');});
+Route::get('/accueil', 'AccueilController@getPresentation');
 
