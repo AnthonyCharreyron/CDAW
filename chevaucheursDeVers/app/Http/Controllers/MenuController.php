@@ -22,4 +22,9 @@ class MenuController extends Controller{
         return $menu;
     }
 
+    public function getCurrentPage($url){
+        $currentPage = Menu::getCurrentPage($url);
+        return $currentPage;
+    }
+
 }
