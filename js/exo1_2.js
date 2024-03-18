@@ -1,5 +1,6 @@
 jQuery(function($) {
     $(document).ready(function() {
-        alert("Number One");
+        var maVar1 = 2;
+        alert("Number Two");
     });
 });
