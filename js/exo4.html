@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Listener</title>
+</head>
+<body>
+    <button id="b1">Bouton 1</button>
+    <button id="b2">Bouton 2</button>
+
+    <script>
+        function addClickListener(button) {
+            button.addEventListener("click", function() {
+                alert("Le bouton " + button.id + " a été cliqué !");
+                button.removeEventListener("click", arguments.callee);
+                if (button.id === "b1") {
+                    addClickListener(document.getElementById("b2"));
+                } else {
+                    addClickListener(document.getElementById("b1"));
+                }
+            });
+        }
+        document.addEventListener("DOMContentLoaded", function() {          
+            addClickListener(document.getElementById("b1"));
+        });
+    </script>
+</body>
+</html>
