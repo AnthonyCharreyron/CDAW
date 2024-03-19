@@ -13,11 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//Route::get('/', function () {return view('welcome');});
-// Route::get('/', function () {
-//     echo 'Hello World';
-//     //return 'Hello World';
-// });
+Route::get('/', function () {
+    echo 'Hello World';
+    //return 'Hello World';
+});
 // Route::get('/hello/{prenom}/{nom}', function ($prenom, $nom) {
 //     return "Bonjour $prenom $nom";
 // });
