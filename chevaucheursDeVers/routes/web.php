@@ -33,3 +33,5 @@ Route::get('/historique', 'HistoriqueController@getClassement');
 Route::get('/jouer', 'JouerController@getPartie');
 Route::get('/connexion', 'ConnexionController@getConnexion');
 
+Route::post('/login', [LoginController::class, 'authenticate'])->name('login');
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');

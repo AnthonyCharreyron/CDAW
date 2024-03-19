@@ -1,23 +1,12 @@
 <?php
-
+ 
 namespace App\Http\Controllers;
-
+ 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-
-class ConnexionController extends MenuController
+use Illuminate\Support\Facades\Auth;
+ 
+class LoginController extends Controller
 {
-    public function getConnexion(){
-
-        $url = request()->url();
-        //Log::info($url);
-
-        return view('connexion', [
-            'currentPage' => $this->getCurrentPage($url),
-            'menu' => $this->getMenu(),
-        ]);
-    }
-
     /**
      * Handle an authentication attempt.
      *
@@ -27,7 +16,7 @@ class ConnexionController extends MenuController
     public function authenticate(Request $request)
     {
         $credentials = $request->validate([
-            'pseudo' => ['required', 'pseudo'],
+            'pseudo' => ['required', 'string'],
             'mot_de_passe' => ['required'],
         ]);
  
