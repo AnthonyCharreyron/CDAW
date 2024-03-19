@@ -9,7 +9,6 @@ class Utilisateurs extends Model
 {
     use HasFactory;
 
-    protected $connection = 'bd_chevaucheurs';
     protected $table = 'utilisateurs';
     protected $primaryKey = 'pseudo';
 

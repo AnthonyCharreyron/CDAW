@@ -1,37 +1,16 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PresentationController;
+use App\Http\Controllers\HistoriqueController;
+use App\Http\Controllers\JouerController;
+use App\Http\Controllers\ConnexionController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+Route::get('/', function () {
+    return view('welcome');
+});
 
-//Route::get('/', function () {return view('welcome');});
-// Route::get('/', function () {
-//     echo 'Hello World';
-//     //return 'Hello World';
-// });
-// Route::get('/hello/{prenom}/{nom}', function ($prenom, $nom) {
-//     return "Bonjour $prenom $nom";
-// });
-// Route::get('/article/{title}', function ($title) {
-//     return "Article: $title";
-// })->where('title', '[A-Za-z]+');
-// Route::get('/liste-joueurs', function () {
-//     return "Liste des joueurs";
-// })->name('listeJoueurs');
-
-Route::get('/presentation', 'PresentationController@getPresentation');
-Route::get('/historique', 'HistoriqueController@getClassement');
-Route::get('/jouer', 'JouerController@getPartie');
-Route::get('/connexion', 'ConnexionController@getConnexion');
-
-Route::post('/login', [LoginController::class, 'authenticate'])->name('login');
-Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+Route::get('/presentation', [PresentationController::class, 'getPresentation']);
+Route::get('/historique', [HistoriqueController::class, 'getClassement']);
+Route::get('/jouer', [JouerController::class, 'getPartie']);
+Route::get('/connexion', [ConnexionController::class, 'getConnexion']);

@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Export to Excel</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.0/xlsx.full.min.js"></script>
     <style>
         #imageContainer {
             position: relative;
@@ -37,31 +36,9 @@
 <p id="coordinatesDisplay">Coordonnées cliquées :</p>
 
 <script>
-    var wb = XLSX.utils.book_new();
-    var ws = XLSX.utils.aoa_to_sheet([["X", "Y"]]);
-    XLSX.utils.book_append_sheet(wb, ws, "Points");
-    
     var coordinates = [];
     var imageContainer = document.getElementById('imageContainer');
     var coordinatesDisplay = document.getElementById('coordinatesDisplay');
-
-    function exportToExcel() {
-        // Créer un nouveau classeur et une nouvelle feuille de calcul
-        var wb = XLSX.utils.book_new();
-        var ws = XLSX.utils.aoa_to_sheet([["X", "Y"]]);
-
-        // Ajouter les coordonnées à la feuille de calcul
-        for (var i = 0; i < coordinates.length; i++) {
-            var coord = coordinates[i];
-            XLSX.utils.sheet_add_aoa(ws, [[coord.x, coord.y]]);
-        }
-
-        // Ajouter la feuille de calcul au classeur
-        XLSX.utils.book_append_sheet(wb, ws, "Points");
-
-        // Télécharger le fichier Excel
-        XLSX.writeFile(wb, "points.xlsx");
-    }
 
     function recordCoordinates(event) {
         // Récupérer les coordonnées du clic par rapport à l'image
@@ -85,8 +62,6 @@
     // Ajouter un gestionnaire d'événement pour enregistrer les coordonnées lors d'un clic sur le conteneur de l'image
     imageContainer.addEventListener('click', recordCoordinates);
 </script>
-
-<button onclick="exportToExcel()">Exporter vers Excel</button>
 
 </body>
 </html>
