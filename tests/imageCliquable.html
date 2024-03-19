@@ -3,89 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zones Cliquables avec Images</title>
+    <title>Export to Excel</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.0/xlsx.full.min.js"></script>
     <style>
-        /* Pour rendre l'image cliquable */
-        #imageMap {
+        #imageContainer {
             position: relative;
+            width: 500px; /* Ajuster la largeur de l'image selon vos besoins */
+            height: auto; /* Garder l'aspect ratio */
+            cursor: crosshair;
+        }
+
+        #imageContainer img {
+            width: 100%;
+            height: auto;
             display: block;
         }
 
-        /* Style pour les zones cliquables (facultatif) */
-        .zoneClickable {
+        .point {
             position: absolute;
-        }
-
-        /* Style pour l'image affichée */
-        #imageAffichee {
-            position: absolute;
-            top: 0;
-            left: 0;
-            display: none; /* Initialement cachée */
+            width: 5px;
+            height: 5px;
+            background-color: red;
+            border-radius: 50%;
         }
     </style>
 </head>
 <body>
 
-<!-- Image avec zones cliquables -->
-<img src="ChevaucheursDeVers-plateau.png" style="width: 70%"  alt="Image" usemap="#zonesCliquables" id="imageMap" onclick="enregistrerCoordonnees(event)">
+<div id="imageContainer">
+    <img id="imageMap" src="ChevaucheursDeVers-plateau.png" alt="Map">
+</div>
 
-<!-- Définition de la carte des zones cliquables -->
-<map name="zonesCliquables">
-    <!-- Coordonnées pour la zone cliquable 1 -->
-    <area shape="rect" coords="50,50,150,150" href="#" alt="Zone 1" onclick="afficherImage('image.jpg')">
+<p id="coordinatesDisplay">Coordonnées cliquées :</p>
 
-    <!-- Coordonnées pour la zone cliquable 2 -->
-    <area shape="rect" coords="200,150,320,230" href="#" alt="Zone 2" onclick="afficherImage('image.jpg')">
-</map>
-
-<!-- Script JavaScript pour afficher l'image -->
 <script>
-    function afficherImage(image) {
-        // Mettre à jour l'attribut src de l'image affichée
-        document.getElementById('imageAffichee').src = image;
+    var wb = XLSX.utils.book_new();
+    var ws = XLSX.utils.aoa_to_sheet([["X", "Y"]]);
+    XLSX.utils.book_append_sheet(wb, ws, "Points");
+    
+    var coordinates = [];
+    var imageContainer = document.getElementById('imageContainer');
+    var coordinatesDisplay = document.getElementById('coordinatesDisplay');
 
-        // Afficher l'image
-        document.getElementById('imageAffichee').style.display = 'block';
-    }
+    function exportToExcel() {
+        // Créer un nouveau classeur et une nouvelle feuille de calcul
+        var wb = XLSX.utils.book_new();
+        var ws = XLSX.utils.aoa_to_sheet([["X", "Y"]]);
 
-    var coordonneesZones = [];
-
-    // Compteur pour suivre les clics et former un rectangle
-    var compteurClics = 0;
-
-    function enregistrerCoordonnees(event) {
-        // Récupérer les coordonnées du clic par rapport à l'image
-        var x = event.clientX - document.getElementById('imageMap').getBoundingClientRect().left;
-        var y = event.clientY - document.getElementById('imageMap').getBoundingClientRect().top;
-
-        // Ajouter les coordonnées au tableau
-        if (compteurClics === 0) {
-            // Premier clic, ajouter un nouvel objet
-            coordonneesZones.push({ x1: x, y1: y });
-        } else if (compteurClics === 4) {
-            // Quatrième clic, compléter les coordonnées pour former un rectangle
-            coordonneesZones[coordonneesZones.length - 1].x4 = x;
-            coordonneesZones[coordonneesZones.length - 1].y4 = y;
-            compteurClics = -1; // Réinitialiser le compteur
-        } else {
-            // Deuxième ou troisième clic, mettre à jour les coordonnées
-            coordonneesZones[coordonneesZones.length - 1]['x' + (compteurClics)] = x;
-            coordonneesZones[coordonneesZones.length - 1]['y' + (compteurClics)] = y;
+        // Ajouter les coordonnées à la feuille de calcul
+        for (var i = 0; i < coordinates.length; i++) {
+            var coord = coordinates[i];
+            XLSX.utils.sheet_add_aoa(ws, [[coord.x, coord.y]]);
         }
 
-        // Afficher les coordonnées dans la console
-        console.log('Coordonnées du clic :', 'X:', x, 'Y:', y);
+        // Ajouter la feuille de calcul au classeur
+        XLSX.utils.book_append_sheet(wb, ws, "Points");
 
-        // Afficher le tableau des coordonnées dans la console
-        console.log('Coordonnées de toutes les zones :', coordonneesZones);
-
-        // Incrémenter le compteur de clics
-        compteurClics++;
+        // Télécharger le fichier Excel
+        XLSX.writeFile(wb, "points.xlsx");
     }
 
+    function recordCoordinates(event) {
+        // Récupérer les coordonnées du clic par rapport à l'image
+        var x = event.clientX - imageContainer.getBoundingClientRect().left;
+        var y = event.clientY - imageContainer.getBoundingClientRect().top;
 
+        // Ajouter les coordonnées à la liste
+        coordinates.push({ x: x, y: y });
+
+        // Mettre à jour l'affichage des coordonnées sur la page
+        coordinatesDisplay.textContent += ' (' + x + ', ' + y + ')';
+
+        // Créer un point rouge à la position du clic
+        var point = document.createElement('span');
+        point.className = 'point';
+        point.style.left = x + 'px';
+        point.style.top = y + 'px';
+        imageContainer.appendChild(point);
+    }
+
+    // Ajouter un gestionnaire d'événement pour enregistrer les coordonnées lors d'un clic sur le conteneur de l'image
+    imageContainer.addEventListener('click', recordCoordinates);
 </script>
+
+<button onclick="exportToExcel()">Exporter vers Excel</button>
 
 </body>
 </html>

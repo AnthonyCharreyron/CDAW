@@ -12,7 +12,7 @@ class ConnexionController extends MenuController
         $url = request()->url();
         //Log::info($url);
 
-        return view('template', [
+        return view('connexion', [
             'currentPage' => $this->getCurrentPage($url),
             'menu' => $this->getMenu(),
         ]);

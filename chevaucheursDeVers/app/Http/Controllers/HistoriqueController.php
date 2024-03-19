@@ -12,7 +12,7 @@ class HistoriqueController extends MenuController
         $url = request()->url();
         //Log::info($url);
 
-        return view('template', [
+        return view('historique', [
             'currentPage' => $this->getCurrentPage($url),
             'menu' => $this->getMenu(),
         ]);

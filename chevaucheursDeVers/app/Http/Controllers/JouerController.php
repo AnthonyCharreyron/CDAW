@@ -12,7 +12,7 @@ class JouerController extends MenuController
         $url = request()->url();
         //Log::info($url);
 
-        return view('template', [
+        return view('jouer', [
             'currentPage' => $this->getCurrentPage($url),
             'menu' => $this->getMenu(),
         ]);

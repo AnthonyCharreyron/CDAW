@@ -12,7 +12,7 @@ class PresentationController extends MenuController
         $url = request()->url();
         //Log::info($url);
 
-        return view('template', [
+        return view('presentation', [
             'currentPage' => $this->getCurrentPage($url),
             'menu' => $this->getMenu(),
         ]);
