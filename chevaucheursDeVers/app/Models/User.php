@@ -44,4 +44,11 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public static function isAdministrateur($user){
+        $isAdmin = self::where('pseudo', $user)
+                        ->value('est_administrateur');
+        
+        return $isAdmin;
+    }
 }

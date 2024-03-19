@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 class ConnexionController extends MenuController
 {
@@ -18,28 +20,28 @@ class ConnexionController extends MenuController
         ]);
     }
 
-    /**
+       /**
      * Handle an authentication attempt.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function authenticate(Request $request)
+    public function authenticate(Request $request): RedirectResponse
     {
         $credentials = $request->validate([
-            'pseudo' => ['required', 'pseudo'],
+            'pseudo' => ['required', 'string'],
             'mot_de_passe' => ['required'],
         ]);
  
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
  
-            return redirect()->intended('presentation');
+            return redirect()->intended('accueil');
         }
  
         return back()->withErrors([
-            'pseudo' => "Probleme d'authentification",
-        ]);
+            'pseudo' => 'The provided credentials do not match our records.',
+        ])->onlyInput('pseudo');
     }
 
     /**
@@ -56,6 +58,6 @@ class ConnexionController extends MenuController
     
         $request->session()->regenerateToken();
     
-        return redirect('/');
+        return redirect()->route('accueil');
     }
 }

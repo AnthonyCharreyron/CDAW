@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Menu;
-use App\Models\Utilisateurs;
+use App\Models\User;
 
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
@@ -14,7 +14,7 @@ class MenuController extends Controller{
     public function getMenu(){
         Session::put("PSEUDO", "Riri");
         $user = session("PSEUDO");
-        $isAdmin = Utilisateurs::isAdministrateur($user); //TODO
+        $isAdmin = User::isAdministrateur($user); //TODO
         //Log::info($isAdmin);
         $menu=Menu::getMenu($isAdmin);
         //Log::info($menu);

@@ -10,7 +10,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/presentation', [PresentationController::class, 'getPresentation']);
+Route::get('/presentation', [PresentationController::class, 'getPresentation'])->name('accueil');
 Route::get('/historique', [HistoriqueController::class, 'getClassement']);
 Route::get('/jouer', [JouerController::class, 'getPartie']);
 Route::get('/connexion', [ConnexionController::class, 'getConnexion']);
+
+Route::post('/authenticate', [ConnexionController::class, 'authenticate'])->name('connexion.authenticate');
