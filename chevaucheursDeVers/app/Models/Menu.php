@@ -10,7 +10,6 @@ class Menu extends Model
 {
     use HasFactory;
 
-    protected $connection = 'bd_chevaucheurs';
     protected $table = 'menu';
     protected $primaryKey = 'id_menu';
 

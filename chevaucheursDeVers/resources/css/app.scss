@@ -1,0 +1,34 @@
+@import 'bootstrap/scss/bootstrap';
+
+.title{
+    font-family: sans-serif;
+    font-size: large;
+}
+
+body {
+    background-color: #f0d8a9ff;
+}
+
+.menu {
+    background-color: #dec189ff;
+}
+
+nav a{
+    height: 10vh;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    font-family: sans-serif;
+    font-size: medium;
+    border: 1px solid #B49252;
+}
+
+nav a.active{
+    background-color: #B49252; 
+}
+
+nav .col:hover{
+    background-color: lightgray; 
+
+}
+
