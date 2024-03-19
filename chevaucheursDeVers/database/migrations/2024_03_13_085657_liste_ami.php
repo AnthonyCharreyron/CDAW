@@ -15,10 +15,10 @@ class ListeAmi extends Migration
     {
         Schema::create('liste_ami', function (Blueprint $table) {
             $table->string("pseudo1", 100);
-            $table->foreign("pseudo1")->references("pseudo")->on("utilisateurs");
+            $table->foreign("pseudo1")->references("pseudo")->on("users");
 
             $table->string("pseudo2", 100);
-            $table->foreign("pseudo2")->references("pseudo")->on("utilisateurs");
+            $table->foreign("pseudo2")->references("pseudo")->on("users");
 
             $table->primary(["pseudo1", "pseudo2"]);
 
