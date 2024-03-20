@@ -35,7 +35,6 @@ class ConnexionController extends MenuController
  
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
- 
             return redirect()->intended('presentation');
         }
  
