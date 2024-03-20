@@ -5,6 +5,8 @@ use App\Http\Controllers\PresentationController;
 use App\Http\Controllers\HistoriqueController;
 use App\Http\Controllers\JouerController;
 use App\Http\Controllers\ConnexionController;
+use App\Http\Middleware\AuthMiddleware;
+
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -12,11 +14,9 @@ use App\Http\Controllers\ConnexionController;
 
 Route::get('/presentation', [PresentationController::class, 'getPresentation'])->name('presentation');
 Route::get('/historique', [HistoriqueController::class, 'getClassement']);
-Route::group(['middleware' => 'auth'], function () {
-    Route::get('/jouer', [JouerController::class, 'getPartie']);
-});
+Route::get('/jouer', [JouerController::class, 'getPartie'])->middleware(AuthMiddleware::class);
 
-Route::get('/connexion', [ConnexionController::class, 'getConnexion']);
+Route::get('/connexion', [ConnexionController::class, 'getConnexion'])->name('connexion');
 Route::get('/chat', function () {
     return view('chat');
 });
