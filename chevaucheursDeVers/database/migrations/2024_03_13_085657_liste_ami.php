@@ -14,16 +14,16 @@ class ListeAmi extends Migration
     public function up()
     {
         Schema::create('liste_ami', function (Blueprint $table) {
-            $table->string("pseudo1", 100);
-            $table->foreign("pseudo1")->references("pseudo")->on("users");
-
-            $table->string("pseudo2", 100);
-            $table->foreign("pseudo2")->references("pseudo")->on("users");
-
-            $table->primary(["pseudo1", "pseudo2"]);
-
+            $table->unsignedBigInteger("id1");
+            $table->unsignedBigInteger("id2");
+    
+            $table->foreign("id1")->references("id")->on("users")->onDelete("cascade");
+            $table->foreign("id2")->references("id")->on("users")->onDelete("cascade");
+    
+            $table->primary(["id1", "id2"]);
         });
     }
+    
 
     /**
      * Reverse the migrations.

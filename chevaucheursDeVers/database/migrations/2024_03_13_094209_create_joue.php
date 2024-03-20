@@ -17,12 +17,12 @@ class CreateJoue extends Migration
             $table->integer('id_partie');
             $table->foreign("id_partie")->references("id_partie")->on("partie");
 
-            $table->string("pseudo", 100);
-            $table->foreign("pseudo")->references("pseudo")->on("utilisateurs");
+            $table->unsignedBigInteger("id");
+            $table->foreign("id")->references("id")->on("users");
 
             $table->integer("score");
 
-            $table->primary(["id_partie", "pseudo"]);
+            $table->primary(["id_partie", "id"]);
 
         });
     }
