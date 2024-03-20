@@ -17,9 +17,6 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 Route::get('/connexion', [ConnexionController::class, 'getConnexion']);
-Route::get('/chat', function () {
-    return view('chat');
-});
 
 Route::post('/authenticate', [ConnexionController::class, 'authenticate'])->name('connexion.authenticate');
 Route::post('/logout', [ConnexionController::class, 'logout'])->name('connexion.logout');

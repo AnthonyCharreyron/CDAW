@@ -1,6 +1,5 @@
 import './bootstrap';
 
-
 const socket = new WebSocket('ws://localhost:8080');
 
 socket.onopen = function(event) {
@@ -13,7 +12,7 @@ socket.onmessage = function(event) {
         const messages = document.getElementById('messages');
         const li = document.createElement('li');
         li.textContent = event.data;
-        messages.appendChild(li);
+        messages.insertBefore(li, messages.firstChild); // Insérer le nouvel élément avant le premier enfant existant
     } else {
         // Si les données ne sont pas sous forme de chaîne de caractères, traiter avec FileReader
         const reader = new FileReader();
@@ -21,22 +20,28 @@ socket.onmessage = function(event) {
             const messages = document.getElementById('messages');
             const li = document.createElement('li');
             li.textContent = reader.result;
-            messages.appendChild(li);
+            messages.insertBefore(li, messages.firstChild); // Insérer le nouvel élément avant le premier enfant existant
         };
         reader.readAsText(event.data);
     }
 };
 
-
 window.sendMessage = function() {
     const input = document.getElementById('messageInput');
-    const message = input.value;
-    const messages = document.getElementById('messages');
-    const li = document.createElement('li');
-    li.textContent = message;
-    messages.appendChild(li);
-    socket.send(message);
-    input.value = '';
-}
+    const message = input.value.trim(); // Supprimer les espaces avant et après le message
+    if (message !== '') { // Vérifier si le message n'est pas vide
+        const messages = document.getElementById('messages');
+        const li = document.createElement('li');
+        li.textContent = message;
+        messages.insertBefore(li, messages.firstChild); // Insérer le nouvel élément avant le premier enfant existant
+        socket.send(message);
+        input.value = '';
+    }
+};
 
-
+document.getElementById('messageInput').addEventListener('keypress', function(event) {
+    if (event.key === 'Enter') {
+        const message = event.target.value;
+        sendMessage();
+    }
+});
