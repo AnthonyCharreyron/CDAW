@@ -18,10 +18,14 @@
         <label for="pseudo">Pseudo:</label>
         <input type="text" id="pseudo" name="pseudo" required>
         <br>
-        <label for="mot_de_passe">Mot de passe:</label>
-        <input type="password" id="mot_de_passe" name="mot_de_passe" required>
+        <label for="password">Mot de passe:</label>
+        <input type="password" id="password" name="password" required>
         <br>
         <button type="submit">Se connecter</button>
+    </form>
+    <form method="POST" action="{{ route('connexion.logout') }}">
+        @csrf
+        <button type="submit">Se déconnecter</button>
     </form>
 @endsection
 

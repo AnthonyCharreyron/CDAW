@@ -30,13 +30,13 @@ class ConnexionController extends MenuController
     {
         $credentials = $request->validate([
             'pseudo' => ['required', 'string'],
-            'mot_de_passe' => ['required'],
+            'password' => ['required'],
         ]);
  
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
  
-            return redirect()->intended('accueil');
+            return redirect()->intended('presentation');
         }
  
         return back()->withErrors([
@@ -58,6 +58,6 @@ class ConnexionController extends MenuController
     
         $request->session()->regenerateToken();
     
-        return redirect()->route('accueil');
+        return redirect()->route('presentation');
     }
 }

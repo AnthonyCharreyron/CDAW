@@ -15,9 +15,9 @@ class JoueSeeder extends Seeder
     public function run()
     {
         DB::table('joue')->insert([
-            ['id_partie'=>1, 'pseudo'=>'Tom', 'score'=>'80'],
-            ['id_partie'=>1, 'pseudo'=>'Riri', 'score'=>'93'],
-            ['id_partie'=>1, 'pseudo'=>'Fifi', 'score'=>'120']
+            ['id_partie'=>1, 'id'=>'1', 'score'=>'80'],
+            ['id_partie'=>1, 'id'=>'2', 'score'=>'93'],
+            ['id_partie'=>1, 'id'=>'3', 'score'=>'120']
         ]);
     }
 }

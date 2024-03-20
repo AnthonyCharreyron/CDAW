@@ -15,8 +15,8 @@ class ListAmiSeeder extends Seeder
     public function run()
     {
         DB::table('liste_ami')->insert([
-            ['pseudo1'=>'Fifi', 'pseudo2'=>'Riri'],
-            ['pseudo1'=>'Tom', 'pseudo2'=>'Riri']
+            ['id1'=>'1', 'id2'=>'3'],
+            ['id1'=>'2', 'id2'=>'3']
         ]);
     }
 }

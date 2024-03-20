@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+
 
 
 class UserSeeder extends Seeder
@@ -16,28 +18,39 @@ class UserSeeder extends Seeder
     public function run()
     {
         DB::table('users')->insert([
-            'pseudo' => 'admin',
-            'email' => 'admin@example.com',
-            'email_verified_at' => now(),
-            'mot_de_passe' => Hash::make('password'),
-            'est_administrateur' => true,
-            'est_bloque' => false,
-            'photo_profil' => 0,
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-        for ($i = 0; $i < 10; $i++) {
-            DB::table('users')->insert([
-                'pseudo' => 'utilisateur' . $i,
-                'email' => 'user' . $i . '@example.com',
+            [
+                'pseudo' => 'Riri',
+                'email' => 'riri@example.com',
                 'email_verified_at' => now(),
-                'mot_de_passe' => Hash::make('password'),
+                'password' => Hash::make('riri'),
+                'est_administrateur' => true,
+                'est_bloque' => false,
+                'photo_profil' => 0,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'pseudo' => 'Fifi',
+                'email' => 'fifi@example.com',
+                'email_verified_at' => now(),
+                'password' => Hash::make('fifi'),
                 'est_administrateur' => false,
                 'est_bloque' => false,
                 'photo_profil' => 0,
                 'created_at' => now(),
                 'updated_at' => now(),
-            ]);
-        }
+            ],
+            [
+                'pseudo' => 'Tom',
+                'email' => 'tom@free.fr',
+                'email_verified_at' => now(),
+                'password' => Hash::make('test'),
+                'est_administrateur' => false,
+                'est_bloque' => false,
+                'photo_profil' => 0,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]
+        ]);
     }
 }
