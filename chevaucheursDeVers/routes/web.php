@@ -12,7 +12,9 @@ Route::get('/', function () {
 
 Route::get('/presentation', [PresentationController::class, 'getPresentation'])->name('presentation');
 Route::get('/historique', [HistoriqueController::class, 'getClassement']);
-Route::get('/jouer', [JouerController::class, 'getPartie']);
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/jouer', [JouerController::class, 'getPartie']);
+});
 
 Route::get('/connexion', [ConnexionController::class, 'getConnexion']);
 
