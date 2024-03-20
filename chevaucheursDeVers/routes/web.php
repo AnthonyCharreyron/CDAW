@@ -25,9 +25,7 @@ Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $requ
     return redirect('/presentation');
 })->middleware([AuthMiddleware::class, 'signed'])->name('verification.verify');
 
-Route::get('/chat', function () {
-    return view('chat');
-});
+
 
 Route::post('/authenticate', [ConnexionController::class, 'authenticate'])->name('connexion.authenticate');
 Route::post('/logout', [ConnexionController::class, 'logout'])->name('connexion.logout');

@@ -64,3 +64,32 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+
+## PhP & Laravel version
+
+On utilise php 8.2 et laravel 11.0
+
+## Utilisation de npm 
+
+"npm install"
+
+## Utilisation de websocket pour le chat 
+
+"npm install websocket"
+
+## Migrations et seeders
+
+nom de la base de données : bd_chevaucheurs 
+--> copier le .env.example et le renommer en .env
+
+"php artisan migrate"
+"php artisan db:seed"
+
+## Démarrer les serveurs
+au niveau de /chevaucheursDeVers :
+
+- pour le site web : "php artisan serve"
+
+- pour le chat : "npm run chat"
+
