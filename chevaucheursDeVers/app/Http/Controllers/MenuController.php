@@ -13,9 +13,13 @@ class MenuController extends Controller{
 
     //TODO : faire le identification helper et le cas non identifié getMenu;
     public function getMenu(){
-        $user = Auth::user()->pseudo;
+        $user = Auth::user();
+        $pseudo = $user==null ? 'Anonymous' : $user->pseudo;
+
         Log::info($user);
-        $isAdmin = User::isAdministrateur($user); //TODO
+        Log::info($pseudo);
+
+        $isAdmin = User::isAdministrateur($pseudo); //TODO
         //Log::info($isAdmin);
         $menu=Menu::getMenu($isAdmin);
         //Log::info($menu);

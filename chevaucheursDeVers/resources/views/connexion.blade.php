@@ -23,6 +23,7 @@
         <br>
         <button type="submit">Se connecter</button>
     </form>
+    
     <form method="POST" action="{{ route('connexion.logout') }}">
         @csrf
         <button type="submit">Se déconnecter</button>
