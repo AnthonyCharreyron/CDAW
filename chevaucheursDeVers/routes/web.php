@@ -6,6 +6,7 @@ use App\Http\Controllers\PresentationController;
 use App\Http\Controllers\HistoriqueController;
 use App\Http\Controllers\JouerController;
 use App\Http\Controllers\ConnexionController;
+use App\Http\Controllers\MessageController;
 use App\Http\Middleware\AuthMiddleware;
 
 
@@ -29,3 +30,4 @@ Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $requ
 
 Route::post('/authenticate', [ConnexionController::class, 'authenticate'])->name('connexion.authenticate');
 Route::post('/logout', [ConnexionController::class, 'logout'])->name('connexion.logout');
+Route::post('/message', [MessageController::class, 'sendMessage'])->name('message.send');

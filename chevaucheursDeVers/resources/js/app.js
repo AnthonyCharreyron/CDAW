@@ -25,19 +25,37 @@ socket.onmessage = function(event) {
         reader.readAsText(event.data);
     }
 };
+jQuery(function($) {
+    $(document).ready(function() {
+        const csrfToken = $('meta[name="csrf-token"]').attr('content');
 
-window.sendMessage = function() {
-    const input = document.getElementById('messageInput');
-    const message = input.value.trim(); // Supprimer les espaces avant et après le message
-    if (message !== '') { // Vérifier si le message n'est pas vide
-        const messages = document.getElementById('messages');
-        const li = document.createElement('li');
-        li.textContent = message;
-        messages.insertBefore(li, messages.firstChild); // Insérer le nouvel élément avant le premier enfant existant
-        socket.send(message);
-        input.value = '';
-    }
-};
+        window.sendMessage = function() {
+            const input = document.getElementById('messageInput');
+            const rawMessage = input.value.trim(); // Supprimer les espaces avant et après le message
+            if (rawMessage !== '') { // Vérifier si le message n'est pas vide
+                $.ajax({
+                    type: "POST",
+                    url: "/message",
+                    data: { message: rawMessage },
+                    headers: {'X-CSRF-TOKEN': csrfToken},
+                    success: function(response) {
+                        console.log(response);
+                        const messages = document.getElementById('messages');
+                        const li = document.createElement('li');
+                        li.innerHTML = '<b>' + response.pseudo + '</b> : ' + response.message;
+                        messages.insertBefore(li, messages.firstChild); // Insérer le nouvel élément avant le premier enfant existant
+                        socket.send(response.message);
+                        input.value = '';
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
+            }
+        };
+    });
+});
+
 
 document.getElementById('messageInput').addEventListener('keypress', function(event) {
     if (event.key === 'Enter') {
