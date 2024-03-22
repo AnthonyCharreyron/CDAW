@@ -13,11 +13,11 @@ class Partie extends Model
     protected $table = 'partie';
     protected $primaryKey = 'id_partie';
 
-    public static function createPartie($estPrivee, $date){
-                self::insert(
+    public static function createPartie($idUser, $estPrivee, $date){
+        $idPartie = self::insertGetId(
             [
                 'id_partie' => null,
-                'date_partie' => '2024-03-22',
+                'date_partie' => $date,
                 'code' => Str::random(10),
                 'partie_privee' => $estPrivee,
                 'est_commencee' => 0,
@@ -25,5 +25,6 @@ class Partie extends Model
                 'id_user_gagnant' => null
             ]
         );
+        Joue::userJouePartie($idUser, $idPartie);
     }
 }

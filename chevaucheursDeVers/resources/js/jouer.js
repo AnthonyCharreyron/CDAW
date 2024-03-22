@@ -33,7 +33,7 @@ $(document).ready(function() {
                 console.log(data);
                 const json = data;
                 if(json.success){
-                    //window.location.href = 'jouer/' + nomPartie;
+                    window.location.href = 'jouer/' + nomPartie;
                 }
             },
             error: function(err) {
