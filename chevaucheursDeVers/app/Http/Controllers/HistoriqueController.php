@@ -24,8 +24,15 @@ class HistoriqueController extends MenuController
     }
 
     public function statClassement($id){
-
-        $data = User::statClassement();
-        echo json_encode(array("data" => $data));
+        if($id==1){
+            $data = User::statClassementScores();
+            echo json_encode(array("data" => $data));
+        }elseif($id==2){
+            $data = User::statClassementGagnants();
+            echo json_encode(array("data" => $data));
+        }else{
+           return;
+        }
+        
     }
 }
