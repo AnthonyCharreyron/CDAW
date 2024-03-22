@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\UserController;
 
 class ConnexionController extends MenuController
 {
@@ -16,6 +17,7 @@ class ConnexionController extends MenuController
 
         return view('connexion', [
             'currentPage' => $this->getCurrentPage($url),
+            'isConnected' => UserController::isConnected(),
             'menu' => $this->getMenu(),
         ]);
     }

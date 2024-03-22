@@ -15,13 +15,14 @@ class MenuController extends Controller{
     public function getMenu(){
         $user = Auth::user();
         $pseudo = $user==null ? 'Anonymous' : $user->pseudo;
+        $isConnected = $user==null ? false : true;
 
         Log::info($user);
         Log::info($pseudo);
 
         $isAdmin = User::isAdministrateur($pseudo); //TODO
         //Log::info($isAdmin);
-        $menu=Menu::getMenu($isAdmin);
+        $menu=Menu::getMenu($isAdmin, $isConnected);
         //Log::info($menu);
 
         return $menu;
