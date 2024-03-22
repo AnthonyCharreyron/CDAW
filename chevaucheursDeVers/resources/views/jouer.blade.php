@@ -15,7 +15,6 @@
                 <button class="create-submit">Créer</button>
             </div>
         </div>
-        <div class="vr"></div>
         <div class='col-3 join'>
             <button class="join">Rejoindre une partie</button>
             <div class="join-table" style="display: none;">
