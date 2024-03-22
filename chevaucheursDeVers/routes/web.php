@@ -20,12 +20,13 @@ Route::get('/historique', [HistoriqueController::class, 'getClassement']);
 Route::get('/historique/{id}', [HistoriqueController::class, 'statClassement'])->name('stats');
 
 Route::get('/jouer', [JouerController::class, 'getPartie'])->middleware(AuthMiddleware::class);
+//Route::get('/jouer/{nom_de_partie}', [JouerController::class, 'setPartie'])->middleware(AuthMiddleware::class);
+Route::post('/jouer/creer', [JouerController::class, 'createPartie'])->middleware(AuthMiddleware::class);
 
 Route::get('/connexion', [ConnexionController::class, 'getConnexion'])->name('connexion');
 Route::get('/email/verify', function () {return view('verify-email');})->middleware(AuthMiddleware::class)->name('verification.notice');
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill();
- 
     return redirect('/presentation');
 })->middleware([AuthMiddleware::class, 'signed'])->name('verification.verify');
 

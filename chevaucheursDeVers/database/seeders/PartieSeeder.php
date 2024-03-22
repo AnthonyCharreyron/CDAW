@@ -20,9 +20,9 @@ class PartieSeeder extends Seeder
         $dateNow = $dt->toDateTimeString();
         //Etape 1
         DB::table('partie')->insert([
-            ['id_partie'=>1, 'date_partie'=>$dateNow, 'code'=> Str::random(10), 'partie_privee'=>0, 'est_commencee'=>1, 'est_terminee'=>1, 'gagnant'=>'Fifi'],
-            ['id_partie'=>2, 'date_partie'=>$dateNow, 'code'=> Str::random(10), 'partie_privee'=>1, 'est_commencee'=>1, 'est_terminee'=>0, 'gagnant'=>null],
-            ['id_partie'=>3, 'date_partie'=>$dateNow, 'code'=> Str::random(10), 'partie_privee'=>0, 'est_commencee'=>0, 'est_terminee'=>0, 'gagnant'=>null]
+            ['id_partie'=>1, 'date_partie'=>$dateNow, 'code'=> Str::random(10), 'partie_privee'=>0, 'est_commencee'=>1, 'est_terminee'=>1, 'id_user_gagnant'=>1],
+            ['id_partie'=>2, 'date_partie'=>$dateNow, 'code'=> Str::random(10), 'partie_privee'=>1, 'est_commencee'=>1, 'est_terminee'=>0, 'id_user_gagnant'=>null],
+            ['id_partie'=>3, 'date_partie'=>$dateNow, 'code'=> Str::random(10), 'partie_privee'=>0, 'est_commencee'=>0, 'est_terminee'=>0, 'id_user_gagnant'=>null]
         ]);
 
         //Etape 2

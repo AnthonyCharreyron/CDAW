@@ -1,6 +1,7 @@
 import './bootstrap';
 
 import'./classement';
+import'./jouer';
 
 const socket = new WebSocket('ws://localhost:8080');
 

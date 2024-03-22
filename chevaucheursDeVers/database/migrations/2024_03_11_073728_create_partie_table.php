@@ -20,8 +20,8 @@ class CreatePartieTable extends Migration
             $table->boolean("partie_privee")->default(false);
             $table->boolean("est_commencee")->default(false);
             $table->boolean("est_terminee")->default(false);
-            $table->string("gagnant", 100)->nullable();
-
+            $table->unsignedBigInteger("id_user_gagnant")->nullable();
+            $table->foreign("id_user_gagnant")->references("id")->on("users")->onDelete("cascade");
 
         });
     }
