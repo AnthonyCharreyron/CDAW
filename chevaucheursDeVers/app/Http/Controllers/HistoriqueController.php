@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\UserController;
 
+use App\Models\User;
+
+
 class HistoriqueController extends MenuController
 {
     public function getClassement(){
@@ -18,5 +21,11 @@ class HistoriqueController extends MenuController
             'isConnected' => UserController::isConnected(),
             'menu' => $this->getMenu(),
         ]);
+    }
+
+    public function statClassement($id){
+
+        $data = User::statClassement();
+        echo json_encode(array("data" => $data));
     }
 }

@@ -15,7 +15,10 @@ use App\Http\Middleware\AuthMiddleware;
 // });
 
 Route::get('/presentation', [PresentationController::class, 'getPresentation'])->name('presentation');
+
 Route::get('/historique', [HistoriqueController::class, 'getClassement']);
+Route::get('/historique/{id}', [HistoriqueController::class, 'statClassement'])->name('stats');
+
 Route::get('/jouer', [JouerController::class, 'getPartie'])->middleware(AuthMiddleware::class);
 
 Route::get('/connexion', [ConnexionController::class, 'getConnexion'])->name('connexion');
