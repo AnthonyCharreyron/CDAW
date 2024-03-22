@@ -12,17 +12,17 @@
         <thead>
             <tr>
                 <th scope="col">Joueur</th>
-                <th scope="col">Nombre de parties jouées</th>
-                <th scope="col">Nombre de victoires</th>
-                <th scope="col">Pourcentage</th>
-                <th scope="col">Nombre de points moyens</th>
+                <th scope="col">Score</th>
+                <th scope="col">Gagnant</th>
+                <!-- <th scope="col">Pourcentage</th>
+                <th scope="col">Nombre de points moyens</th> -->
             </tr>
         </thead>
     </table>
 @endsection
 
 @section('pagescripts')
-    <script type="text/javascript" src="{{asset('js/classement.js')}}"></script>
+    <script>console.log('test');</script>
 @endsection
 
 

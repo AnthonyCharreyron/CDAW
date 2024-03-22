@@ -51,4 +51,12 @@ class User extends Authenticatable implements MustVerifyEmail
         
         return $isAdmin;
     }
+
+    public static function statClassement(){
+        $data = self::select('users.pseudo', 'joue.score', 'partie.gagnant')
+                    ->leftJoin('joue', 'users.id', '=', 'joue.id')
+                    ->leftJoin('partie', 'joue.id_partie', '=', 'partie.id_partie')
+                    ->get();
+        return $data;
+    }
 }
