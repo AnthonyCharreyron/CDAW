@@ -33,9 +33,9 @@
             <label>Adresse mail : </label>
             <input type="email" id="inscription-email"><br>
             <label>Mot de passe : </label>
-            <input type="text" id="inscription-password"><br>
+            <input type="password" id="inscription-password"><br>
 
-            <button class="btn-inscription">Créer</button>
+            <button class="submit-inscription">Créer</button>
         </div>
     </div>
 

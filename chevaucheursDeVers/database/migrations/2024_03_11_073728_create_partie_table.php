@@ -22,6 +22,8 @@ class CreatePartieTable extends Migration
             $table->boolean("est_terminee")->default(false);
             $table->unsignedBigInteger("id_user_gagnant")->nullable();
             $table->foreign("id_user_gagnant")->references("id")->on("users")->onDelete("cascade");
+            $table->integer("nombre_joueurs")->default(2);
+            $table->time("temps_par_coup")->default('00:01:00');
 
         });
     }

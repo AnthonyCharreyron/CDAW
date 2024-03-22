@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -69,5 +70,21 @@ class User extends Authenticatable implements MustVerifyEmail
             ->get();
 
         return $data;
+    }
+
+    public static function createUser($pseudo, $email, $password){
+        self::insert(
+            [
+                'pseudo' => $pseudo,
+                'email' => $email,
+                'email_verified_at' => now(),
+                'password' => Hash::make($password),
+                'est_administrateur' => false,
+                'est_bloque' => false,
+                'photo_profil' => 0,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]
+        );
     }
 }

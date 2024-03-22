@@ -4,7 +4,7 @@
     <x-chat/>
 
     <div class='row'>
-        <div class='col-3 create'>
+        <div class='col-3'>
             <button class="create">Créer une partie</button>
             <div class="create-form" style="display: none;">
                 <label>Nom de la partie : </label>
@@ -15,7 +15,7 @@
                 <button class="create-submit">Créer</button>
             </div>
         </div>
-        <div class='col-3 join'>
+        <div class='col-3'>
             <button class="join">Rejoindre une partie</button>
             <div class="join-table" style="display: none;">
                 <!-- DataTable pour les parties en cours -->

@@ -3,13 +3,13 @@ $(document).ready(function() {
 
 
     $('.create').on('click', function() {
-        $('.create-form').show();
+        $('.create-form').toggle();
         $('.join-table').hide();
     });
 
     // Gérer le clic sur le bouton "Rejoindre une partie"
     $('.join').on('click', function() {
-        $('.join-table').show();
+        $('.join-table').toggle();
         $('.create-form').hide();
     });
 
