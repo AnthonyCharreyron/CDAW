@@ -59,9 +59,13 @@ jQuery(function($) {
 });
 
 
-document.getElementById('messageInput').addEventListener('keypress', function(event) {
-    if (event.key === 'Enter') {
-        const message = event.target.value;
-        sendMessage();
-    }
-});
+// Vérifier si l'URL actuelle correspond à "/jouer"
+if (window.location.pathname === '/jouer') {
+    document.getElementById('messageInput').addEventListener('keypress', function(event) {
+        if (event.key === 'Enter') {
+            const message = event.target.value;
+            sendMessage();
+        }
+    });
+}
+
