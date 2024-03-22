@@ -35,14 +35,6 @@ jQuery(function($) {
                 console.log('Erreur:', error);
             }
         },
-        columnDefs: [
-            {
-                targets: '_all',
-                render: function(data) {
-                    return data ? data : '<span style="color: brown;">Non défini</span';
-                }
-            }
-        ],
         columns: [
             { data: 'pseudo', name:'Pseudo' },
             { data: 'nombre_parties_gagnees', name:'Nombre de parties gagnées' }

@@ -62,11 +62,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $data;
     }
     public static function statClassementGagnants(){
-        $data = self::select('users.id', 'users.pseudo', DB::raw('COUNT(partie.id_partie) AS nombre_parties_gagnees'))
-                    ->leftJoin('partie', 'users.id', '=', 'partie.id_user_gagnant')
-                    ->groupBy('users.id', 'users.pseudo')
-                    ->orderBy('nombre_parties_gagnees', 'DESC')
-                    ->get();
+        $data = self::select('users.id', 'users.pseudo', DB::raw('COALESCE(COUNT(partie.id_partie), 0) AS nombre_parties_gagnees'))
+            ->leftJoin('partie', 'users.id', '=', 'partie.id_user_gagnant')
+            ->groupBy('users.id', 'users.pseudo')
+            ->orderBy('nombre_parties_gagnees', 'DESC')
+            ->get();
 
         return $data;
     }

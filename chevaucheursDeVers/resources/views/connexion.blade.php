@@ -13,6 +13,7 @@
         </div>
     @endif
 
+
     <form method="POST" action="{{ route('connexion.authenticate') }}">
         @csrf
         <label for="pseudo">Pseudo:</label>
@@ -23,6 +24,22 @@
         <br>
         <button type="submit">Se connecter</button>
     </form>
+
+    <div >
+        <button class="inscription">S'inscrire</button>
+        <div class="inscription-form" style="display: none">
+            <label>Pseudo : </label>
+            <input type="text" id="inscription-pseudo"><br>
+            <label>Adresse mail : </label>
+            <input type="email" id="inscription-email"><br>
+            <label>Mot de passe : </label>
+            <input type="text" id="inscription-password"><br>
+
+            <button class="btn-inscription">Créer</button>
+        </div>
+    </div>
+
+
 
 @endsection
 

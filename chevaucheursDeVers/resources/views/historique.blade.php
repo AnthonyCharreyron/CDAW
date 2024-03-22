@@ -7,9 +7,10 @@
     
     <div class="row">
         <div class="col-md-6">
-            <div class="rounded p-4 m-2" style="background-color: #dec189ff;">
+            <div class="rounded p-4 m-4" style="background-color: #dec189ff;">
                 <div class="row">
-                    <p>Classement des joueurs ayant les meilleurs scores</p>
+                    <h4 class='text-center' >Classement des joueurs ayant les meilleurs scores</h4>
+                    <hr>
                 </div>
                 <table id="meilleurScore" class="hover">
                     <thead>
@@ -22,9 +23,10 @@
             </div>
         </div>
         <div class="col-md-6">
-        <div class="rounded p-4 m-2" style="background-color: #dec189ff;">
+        <div class="rounded p-4 m-4" style="background-color: #dec189ff;">
                 <div class="row">
-                    <p>Classement des joueurs ayant gagné le plus de parties</p>
+                    <h4 class='text-center'>Classement des joueurs ayant gagné le plus de parties</h4>
+                    <hr>
                 </div>
                 <table id="nbParties" class="hover">
                     <thead>
