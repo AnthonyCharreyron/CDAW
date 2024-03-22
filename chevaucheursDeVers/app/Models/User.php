@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -52,11 +53,18 @@ class User extends Authenticatable implements MustVerifyEmail
         return $isAdmin;
     }
 
-    public static function statClassement(){
-        $data = self::select('users.pseudo', 'joue.score', 'partie.gagnant')
-                    ->leftJoin('joue', 'users.id', '=', 'joue.id')
-                    ->leftJoin('partie', 'joue.id_partie', '=', 'partie.id_partie')
-                    ->get();
+    public static function statClassementScores(){
+        $data = self::select('users.pseudo', DB::raw('MAX(j.score) as meilleur_score'))
+            ->leftJoin(DB::raw('(SELECT id, MAX(score) AS score FROM joue GROUP BY id) as j'), 'users.id', '=', 'j.id')
+            ->groupBy('users.id', 'users.pseudo')
+            ->orderBy('meilleur_score', 'DESC')
+            ->get();
+
+        return $data;
+    }
+    public static function statClassementGagnants(){
+        $data = '';
+
         return $data;
     }
 }
