@@ -5,6 +5,7 @@
         <meta charset="UTF-8">
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>Chevaucheurs De Vers</title>
+        <link rel="stylesheet" href="https://cdn.datatables.net/2.0.2/css/dataTables.dataTables.css" />
         @vite('resources/css/app.scss')
         @yield('style')
 
@@ -31,6 +32,6 @@
         @vite('resources/js/app.js')
         @yield('pagescripts')
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
+        <script src="https://cdn.datatables.net/2.0.2/js/dataTables.js"></script>
     </body>
 </html>
