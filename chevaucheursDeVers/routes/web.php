@@ -22,6 +22,8 @@ Route::get('/historique/{id}', [HistoriqueController::class, 'statClassement'])-
 Route::get('/jouer', [JouerController::class, 'getPartie'])->middleware(AuthMiddleware::class);
 Route::get('/jouer/{nom_de_partie}', [JouerController::class, 'setPartie'])->middleware(AuthMiddleware::class);
 Route::post('/jouer/creer', [JouerController::class, 'createPartie'])->middleware(AuthMiddleware::class);
+Route::post('/jouer/rejoindre', [JouerController::class, 'rejoindrePartie'])->middleware(AuthMiddleware::class);
+
 
 Route::get('/connexion', [ConnexionController::class, 'getConnexion'])->name('connexion');
 Route::get('/email/verify', function () {return view('verify-email');})->middleware(AuthMiddleware::class)->name('verification.notice');

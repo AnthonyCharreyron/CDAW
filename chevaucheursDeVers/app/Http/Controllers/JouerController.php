@@ -29,12 +29,15 @@ class JouerController extends MenuController
         $user = Auth::user();
         Log::info($user->id);
 
-        $estPrivee=$request->input('partie_privee');
-        Log::info($estPrivee);
+        $estPrivee = $request->input('partie_privee');
+        $tempsParCoup = $request->input('partie_tpsParCoup');
+        $nombreJoueurs = $request->input('partie_nbJoueurs');
+
+
         $dateDuJour = Carbon::now();
         $date = $dateDuJour->format('Y-m-d');
         
-        Partie::createPartie($user->id, $estPrivee, $date);
+        Partie::createPartie($user->id, $estPrivee, $date, $tempsParCoup, $nombreJoueursMax);
         return response()->json([
             "success" => true,
             "message" => "OK partie créée"
@@ -51,5 +54,10 @@ class JouerController extends MenuController
             'isConnected' => UserController::isConnected(),
             'menu' => $this->getMenu(),
         ]);
+    }
+
+    //TO DO
+    public function rejoindrePartie(Request $request){
+
     }
 }
