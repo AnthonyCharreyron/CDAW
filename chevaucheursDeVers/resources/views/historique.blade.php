@@ -22,9 +22,3 @@
 
 @section('pagescripts')
 @endsection
-
-
-
-
-
-
