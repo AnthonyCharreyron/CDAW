@@ -37,7 +37,7 @@ class JouerController extends MenuController
         $dateDuJour = Carbon::now();
         $date = $dateDuJour->format('Y-m-d');
         
-        Partie::createPartie($user->id, $estPrivee, $date, $tempsParCoup, $nombreJoueursMax);
+        Partie::createPartie($user->id, $estPrivee, $date, $nombreJoueurs, $tempsParCoup);
         return response()->json([
             "success" => true,
             "message" => "OK partie créée"

@@ -50,9 +50,10 @@ $(document).ready(function() {
     $('.create-submit').on('click', function() {
         
         let estPrivee = $('#partie-privee').is(':checked') ? 1 : 0;
-        let tempsParCoup = $('#partie-temps').val();
-        let nbJoueurs = $('#partie-nb-joueurs').val();
-
+        let tempsParCoup = $('#temps-coup').val();
+        let nbJoueurs = $('#nombre-joueurs').val();
+        console.log(nbJoueurs);
+        console.log(tempsParCoup);
 
         let formData = new FormData();
         formData.append("partie_privee", estPrivee);
@@ -61,7 +62,7 @@ $(document).ready(function() {
 
 
         $.ajax({
-            url: 'jouer/creer',
+            url: 'creer',
             data: formData,
             cache: false,
             contentType: false,
