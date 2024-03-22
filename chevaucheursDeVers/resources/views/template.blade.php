@@ -29,7 +29,7 @@
                     @else
                         <a class="col text-decoration-none text-black {{$currentPage===$onglet['menu_libelle'] ? 'active' : ''}}"  href="{{$onglet['route']}}">
                             @if($onglet['no_ordre']===1)
-                                <img src="images/Colline-logo.png" style="height: 10vh" alt="Logo Colline">
+                                <img src="{{asset('images/Colline-logo.png')}}" style="height: 10vh" alt="Logo Colline">
                                 <p>&nbsp;</p>
                             @endif
                             

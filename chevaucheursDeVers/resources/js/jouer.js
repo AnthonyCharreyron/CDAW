@@ -16,7 +16,7 @@ $(document).ready(function() {
     $('.create-submit').on('click', function() {
         
         let nomPartie = $('#partie-nom').val();
-        let estPrivee = $('#partie-privee').is(':checked');
+        let estPrivee = $('#partie-privee').is(':checked') ? 1 : 0;
 
         let formData = new FormData();
         formData.append("partie_privee", estPrivee);
@@ -33,7 +33,7 @@ $(document).ready(function() {
                 console.log(data);
                 const json = data;
                 if(json.success){
-                    window.location.href = 'jouer/'. nomPartie;
+                    window.location.href = 'jouer/' + nomPartie;
                 }
             },
             error: function(err) {

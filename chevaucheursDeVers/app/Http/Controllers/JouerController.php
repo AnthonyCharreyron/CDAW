@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\UserController;
 use App\Models\Partie;
@@ -25,16 +26,30 @@ class JouerController extends MenuController
 
     public function createPartie(Request $request){
 
+        $user = Auth::user();
+        Log::info($user->id);
+
         $estPrivee=$request->input('partie_privee');
         Log::info($estPrivee);
         $dateDuJour = Carbon::now();
         $date = $dateDuJour->format('Y-m-d');
         
-        Partie::createPartie($estPrivee, $date);
+        Partie::createPartie($user->id, $estPrivee, $date);
         return response()->json([
             "success" => true,
             "message" => "OK partie créée"
         ]);
 
+    }
+
+    public function setPartie(){
+        $url = request()->url();
+        Log::info($url);
+
+        return view('template', [
+            'currentPage' => $this->getCurrentPage($url),
+            'isConnected' => UserController::isConnected(),
+            'menu' => $this->getMenu(),
+        ]);
     }
 }
