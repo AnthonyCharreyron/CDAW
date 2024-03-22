@@ -7,6 +7,7 @@ use App\Http\Controllers\HistoriqueController;
 use App\Http\Controllers\JouerController;
 use App\Http\Controllers\ConnexionController;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\UserController;
 use App\Http\Middleware\AuthMiddleware;
 
 
@@ -26,6 +27,7 @@ Route::post('/jouer/rejoindre', [JouerController::class, 'rejoindrePartie'])->mi
 
 
 Route::get('/connexion', [ConnexionController::class, 'getConnexion'])->name('connexion');
+Route::post('/connexion/creerUser', [UserController::class, 'createUser'])->name('inscription');
 Route::get('/email/verify', function () {return view('verify-email');})->middleware(AuthMiddleware::class)->name('verification.notice');
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill();
