@@ -15,7 +15,16 @@
             <ul class="row m-0">
                 @foreach($menu as $onglet)
                     @if(($isConnected && $onglet['menu_libelle'] === 'Se connecter') || (!$isConnected && $onglet['menu_libelle'] === 'Jouer'))
-                        <div class='col'></div>
+                        @if($onglet['menu_libelle']==='Se connecter')
+                            <div class="col d-flex align-items-center justify-content-end">
+                                <form method="POST" action="{{ route('connexion.logout') }}">
+                                    @csrf
+                                    <button class="btn btn-link" type="submit">Se déconnecter</button>
+                                </form>
+                            </div>
+                        @else
+                            <div class='col'></div>
+                        @endif
                     @else
                         <a class="col text-decoration-none text-black {{$currentPage===$onglet['menu_libelle'] ? 'active' : ''}}"  href="{{$onglet['route']}}">
                             @if($onglet['no_ordre']===1)
