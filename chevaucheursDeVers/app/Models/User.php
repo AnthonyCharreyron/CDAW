@@ -54,16 +54,19 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     public static function statClassementScores(){
-        $data = self::select('users.pseudo', DB::raw('MAX(j.score) as meilleur_score'))
-            ->leftJoin(DB::raw('(SELECT id, MAX(score) AS score FROM joue GROUP BY id) as j'), 'users.id', '=', 'j.id')
-            ->groupBy('users.id', 'users.pseudo')
-            ->orderBy('meilleur_score', 'DESC')
-            ->get();
-
+        $data = self::select('users.id', 'users.pseudo', DB::raw('MAX(joue.score) AS meilleur_score'))
+                    ->leftJoin('joue', 'users.id', '=', 'joue.id_user')
+                    ->groupBy('users.id', 'users.pseudo')
+                    ->orderBy('meilleur_score', 'DESC')
+                    ->get();
         return $data;
     }
     public static function statClassementGagnants(){
-        $data = '';
+        $data = self::select('users.id', 'users.pseudo', DB::raw('COUNT(partie.id_partie) AS nombre_parties_gagnees'))
+                    ->leftJoin('partie', 'users.id', '=', 'partie.id_user_gagnant')
+                    ->groupBy('users.id', 'users.pseudo')
+                    ->orderBy('nombre_parties_gagnees', 'DESC')
+                    ->get();
 
         return $data;
     }

@@ -39,13 +39,13 @@ jQuery(function($) {
             {
                 targets: '_all',
                 render: function(data) {
-                    return data ? data : '<span style="color: #f7b500;">Non défini</span>';
+                    return data ? data : '<span style="color: brown;">Non défini</span';
                 }
             }
         ],
         columns: [
             { data: 'pseudo', name:'Pseudo' },
-            { data: 'nb_parties', name:'Nombre de parties gagnées' }
+            { data: 'nombre_parties_gagnees', name:'Nombre de parties gagnées' }
         ],
         order: {
             name: 'Nombre de parties gagnées',
