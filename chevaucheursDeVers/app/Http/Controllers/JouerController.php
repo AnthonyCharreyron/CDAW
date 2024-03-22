@@ -37,4 +37,15 @@ class JouerController extends MenuController
         ]);
 
     }
+
+    public function setPartie(){
+        $url = request()->url();
+        Log::info($url);
+
+        return view('jouer', [
+            //'currentPage' => $this->getCurrentPage($url),
+            'isConnected' => UserController::isConnected(),
+            'menu' => $this->getMenu(),
+        ]);
+    }
 }
