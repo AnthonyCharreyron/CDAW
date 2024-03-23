@@ -9,22 +9,22 @@ $(document).ready(function() {
 
     $('.create-submit').on('click', function() {
         $('.launch-form').toggle();
+        $('.create').hide();
         $('.create-form').hide();
-        $('.join-more').hide();
+        $('.join-all').hide();
     });
 
     $('.join').on('click', function() {
         $('.join-more').toggle();
         $('.create-form').hide();
-        $('.launch-form').hide();
     });
 
     $('.join-submit').on('click', function() {
-        $('.join-more').hide();
+        $('.create-all').hide();
 
         let codePartie = $('#code-partie').val();
         let formData = new FormData();
-        formData.append("partie_code", estPrivee);
+        formData.append("partie_code", codePartie);
 
         $.ajax({
             url: 'jouer/rejoindre',
@@ -62,7 +62,7 @@ $(document).ready(function() {
 
 
         $.ajax({
-            url: 'creer',
+            url: 'jouer/creer',
             data: formData,
             cache: false,
             contentType: false,

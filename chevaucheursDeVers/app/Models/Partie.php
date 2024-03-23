@@ -29,4 +29,10 @@ class Partie extends Model
         );
         Joue::userJouePartie($idUser, $idPartie);
     }
+
+    public static function verifyCode($codePartie){
+        $partie = self::where('code', $codePartie)->first();
+
+        return $partie ? $partie->id_partie : false;
+    }
 }

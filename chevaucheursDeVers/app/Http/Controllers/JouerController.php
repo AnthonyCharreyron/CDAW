@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\UserController;
 use App\Models\Partie;
+use App\Models\Joue;
 
 class JouerController extends MenuController
 {
@@ -27,7 +28,6 @@ class JouerController extends MenuController
     public function createPartie(Request $request){
 
         $user = Auth::user();
-        Log::info($user->id);
 
         $estPrivee = $request->input('partie_privee');
         $tempsParCoup = $request->input('partie_tpsParCoup');
@@ -56,8 +56,23 @@ class JouerController extends MenuController
         ]);
     }
 
-    //TO DO
+    
     public function rejoindrePartie(Request $request){
+        $user = Auth::user();
+        $codePartie = $request->input('partie_code');
 
+        $partieExistante = Partie::verifyCode($codePartie);
+        
+        if ($partieExistante != 'false'){
+            Joue::userJouePartie($user->id, $partieExistante);
+            return response()->json([
+                "success" => true,
+                "message" => "OK partie rejointe"
+            ]);
+        }
+        return response()->json([
+            "success" => false,
+            "message" => "Le code donnée n'est pas bon"
+        ]);
     }
 }

@@ -4,7 +4,7 @@
     <x-chat/>
 
     <div class='row'>
-        <div class='col-6'>
+        <div class='col-6 create-all'>
             <button class="create">Créer une partie</button>
 
             <div class="create-form" style="display: none;">
@@ -36,7 +36,7 @@
 
 
         </div>
-        <div class='col-6'>
+        <div class='col-6 join-all'>
             <button class="join">Rejoindre une partie</button>
 
             <div class="join-more join-form" style="display: none">
