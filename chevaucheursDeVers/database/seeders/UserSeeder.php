@@ -28,6 +28,7 @@ class UserSeeder extends Seeder
                 'photo_profil' => 0,
                 'created_at' => now(),
                 'updated_at' => now(),
+                'commentaires'=> null
             ],
             [
                 'pseudo' => 'Fifi',
@@ -39,6 +40,7 @@ class UserSeeder extends Seeder
                 'photo_profil' => 0,
                 'created_at' => now(),
                 'updated_at' => now(),
+                'commentaires' => '25/03 : Plaintes contre ce joueur, à suivre'
             ],
             [
                 'pseudo' => 'Tom',
@@ -50,6 +52,7 @@ class UserSeeder extends Seeder
                 'photo_profil' => 0,
                 'created_at' => now(),
                 'updated_at' => now(),
+                'commentaires' => null
             ]
         ]);
     }

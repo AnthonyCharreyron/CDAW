@@ -1,7 +1,6 @@
 jQuery(function($) {
-    console.log("Loading datatable ...");
 
-    let table1 = $('#meilleurScore').DataTable({
+    let meilleur_score = $('#meilleurScore').DataTable({
         ajax:{ 
             url: 'historique/1',
             type: 'GET',
@@ -27,7 +26,7 @@ jQuery(function($) {
         }
     });
 
-    let table2 = $('#nbParties').DataTable({
+    let nbPartie = $('#nbParties').DataTable({
         ajax:{ 
             url: 'historique/2',
             type: 'GET',

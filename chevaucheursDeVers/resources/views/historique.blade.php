@@ -20,7 +20,7 @@
             </div>
         </div>
         <div class="col-md-6">
-        <div class="rounded p-4 m-4" style="background-color: #dec189ff;">
+            <div class="rounded p-4 m-4" style="background-color: #dec189ff;">
                 <div class="row">
                     <h4 class='text-center'>Classement des joueurs ayant gagné le plus de parties</h4>
                     <hr>
@@ -34,7 +34,6 @@
                     </thead>
                 </table>
             </div>
-        </div>
         </div>
     </div>
 @endsection

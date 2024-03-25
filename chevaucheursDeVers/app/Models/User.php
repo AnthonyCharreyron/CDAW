@@ -103,4 +103,25 @@ class User extends Authenticatable implements MustVerifyEmail
                 'password' => Hash::make($password),
             ]);
     }
+
+    public static function getAllInfos(){
+        $users = self::select('id', 'pseudo', 'est_bloque', 'est_administrateur', 'commentaires')
+                ->get();
+        return $users;
+    }
+
+    public static function putAdmin($idUser){
+        self::where('id', '=', $idUser)
+            ->update([
+                'est_administrateur' => 1
+            ]);
+    }
+
+    public static function blockUser($idUser){
+        self::where('id', '=', $idUser)
+            ->update([
+                'est_bloque' => 1
+            ]);
+    }
+    
 }

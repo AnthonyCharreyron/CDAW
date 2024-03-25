@@ -9,6 +9,7 @@ use App\Http\Controllers\ConnexionController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\MonProfilController;
+use App\Http\Controllers\MonitorController;
 use App\Http\Middleware\AuthMiddleware;
 
 
@@ -31,6 +32,10 @@ Route::get('/jouer/partie/{code_partie}', [JouerController::class, 'getPartieJou
 Route::post('/jouer/creer', [JouerController::class, 'createPartie'])->middleware(AuthMiddleware::class);
 Route::post('/jouer/rejoindre', [JouerController::class, 'rejoindrePartie'])->middleware(AuthMiddleware::class);
 
+Route::get('/monitoring', [MonitorController::class, 'getMonitor'])->middleware(AuthMiddleware::class);
+Route::get('/monitoring/users', [MonitorController::class, 'getAllUsers'])->middleware(AuthMiddleware::class);
+Route::post('/monitoring/admin', [MonitorController::class, 'putAdmin'])->middleware(AuthMiddleware::class);
+Route::post('/monitoring/block', [MonitorController::class, 'blockUser'])->middleware(AuthMiddleware::class);
 
 Route::get('/connexion', [ConnexionController::class, 'getConnexion'])->name('connexion');
 Route::post('/connexion/creerUser', [UserController::class, 'createUser'])->name('inscription');
