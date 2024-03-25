@@ -29,14 +29,8 @@
 
                 <button class="create-submit">Créer la partie</button>
             </div>
-            <div class="launch-form" style="display: none">
-                <p>En attente des joueurs</p>
-                <button class="launch-submit incomplet">Lancer la partie sans attendre</button>
-                <button class="launch-submit complet" style="display: none">Lancer la partie</button>
-            </div>
-
-
         </div>
+        
         <div class='col-6 join-all'>
             <button class="join-btn">Rejoindre une partie</button>
             <div class='join-more' style="display: none">

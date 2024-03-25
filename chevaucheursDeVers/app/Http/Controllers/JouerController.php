@@ -33,26 +33,26 @@ class JouerController extends MenuController
         $tempsParCoup = $request->input('partie_tpsParCoup');
         $nombreJoueurs = $request->input('partie_nbJoueurs');
 
-
         $dateDuJour = Carbon::now();
         $date = $dateDuJour->format('Y-m-d');
         
-        Partie::createPartie($user->id, $estPrivee, $date, $nombreJoueurs, $tempsParCoup);
+        $codePartie = Partie::createPartie($user->id, $estPrivee, $date, $nombreJoueurs, $tempsParCoup);
         return response()->json([
             "success" => true,
-            "message" => "OK partie créée"
+            "message" => "OK partie créée",
+            "redirect_url" => "/jouer/lobby/" . $codePartie
         ]);
 
     }
-    // TO DO
-    public function setPartie(){
+    
+    public function getLobby($codePartie){
         $url = request()->url();
-        Log::info($url);
 
-        return view('template', [
-            'currentPage' => $this->getCurrentPage($url),
+        return view('lobby', [
+            'currentPage' => 'Jouer',
             'isConnected' => UserController::isConnected(),
             'menu' => $this->getMenu(),
+            'code_partie' => $codePartie
         ]);
     }
 
@@ -67,7 +67,8 @@ class JouerController extends MenuController
             Joue::userJouePartie($user->id, $partieExistante);
             return response()->json([
                 "success" => true,
-                "message" => "OK partie rejointe"
+                "message" => "OK partie rejointe",
+                "redirect_url" => "/jouer/lobby/" . $codePartie
             ]);
         }
         return response()->json([

@@ -14,21 +14,24 @@ class Partie extends Model
     protected $primaryKey = 'id_partie';
 
     public static function createPartie($idUser, $estPrivee, $date, $nombreJoueurs, $tempsParCoup){
-        $idPartie = self::insertGetId(
-            [
-                'id_partie' => null,
-                'date_partie' => $date,
-                'code' => Str::random(10),
-                'partie_privee' => $estPrivee,
-                'est_commencee' => 0,
-                'est_terminee' => 0,
-                'id_user_gagnant' => null,
-                'nombre_joueurs' => $nombreJoueurs,
-                'temps_par_coup' => $tempsParCoup
-            ]
-        );
+        $codePartie = Str::random(10);
+    
+        $idPartie = self::insertGetId([
+            'date_partie' => $date,
+            'code' => $codePartie,
+            'partie_privee' => $estPrivee,
+            'est_commencee' => 0,
+            'est_terminee' => 0,
+            'id_user_gagnant' => null,
+            'nombre_joueurs' => $nombreJoueurs,
+            'temps_par_coup' => $tempsParCoup
+        ]);
+    
         Joue::userJouePartie($idUser, $idPartie);
+    
+        return $codePartie;
     }
+    
 
     public static function verifyCode($codePartie){
         $partie = self::where('code', $codePartie)->first();
