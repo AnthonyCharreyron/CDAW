@@ -33,6 +33,14 @@ class Partie extends Model
     public static function verifyCode($codePartie){
         $partie = self::where('code', $codePartie)->first();
 
-        return $partie ? $partie->id_partie : false;
+        return $partie ? $partie->id_partie : 0;
+    }
+
+    public static function getInfoParties(){
+        $partie = self::select('id_partie', 'nombre_joueurs', 'temps_par_coup', 'code')
+                        ->where('partie_privee', 0)
+                        ->where('est_commencee', 0)
+                        ->get();
+        return $partie;
     }
 }

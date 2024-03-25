@@ -2,27 +2,61 @@ $(document).ready(function() {
     const csrfToken = $('meta[name="csrf-token"]').attr('content');
 
 
-    $('.create').on('click', function() {
-        $('.create-form').toggle();
-        $('.join-more').hide();
+    $('.create-btn').on('click', function() {
+        $('.create-form').show();
+        $('.create-btn').hide();
+        $('.join-all').hide();
+    });
+
+    $('.join-btn').on('click', function() {
+        $('.join-more').show();
+        $('.join-btn').hide();
+        $('.create-all').hide();
     });
 
     $('.create-submit').on('click', function() {
         $('.launch-form').toggle();
-        $('.create').hide();
-        $('.create-form').hide();
-        $('.join-all').hide();
-    });
-
-    $('.join').on('click', function() {
-        $('.join-more').toggle();
         $('.create-form').hide();
     });
 
-    $('.join-submit').on('click', function() {
-        $('.create-all').hide();
+    let table1 = $('#partiePublique').DataTable({
+        ajax:{ 
+            url: 'jouer/partie',
+            type: 'GET',
+            error: function(xhr, error, thrown) {
+                console.log('Erreur:', error);
+            }
+        },
+        columnDefs: [
+            {
+                targets: '_all',
+                render: function(data) {
+                    return data ? data : '<span style="color: #f7b500;">Non défini</span>';
+                }
+            }
+        ],
+        columns: [
+            { data: 'id_partie', name:'Numéro de partie' },
+            { data: 'nombre_joueurs', name:'Nombre de joueurs' },
+            { data: 'temps_par_coup', name:'Temps par coup' },
+            { data: null, orderable: false, name:'Rejoindre',
+                render: function ( data, type, row ) {
+                    return '<button class="join-submit" data-code-partie="' + data.code + '">Rejoindre</button>';
+                }
+            }
 
+        ],
+        searching: false, 
+        lengthChange: false,
+        info: false
+    });
+
+    $('#partiePublique').on('click', '.join-submit', function() {
         let codePartie = $('#code-partie').val();
+        if(codePartie === null){
+            codePartie = $(this).data('#code-partie');
+        }
+
         let formData = new FormData();
         formData.append("partie_code", codePartie);
 
@@ -36,7 +70,11 @@ $(document).ready(function() {
             headers: {'X-CSRF-TOKEN': csrfToken},
             success: function(data){
                 console.log(data);
-                alert("Vous avez rejoint une partie. En attente de l'hôte pour lancer");
+                if(data.success) {
+                    alert("Vous avez rejoint une partie. En attente de l'hôte pour lancer.");
+                } else {
+                    alert("Le code fourni ne correspond pas.");
+                }
             },
             error: function(err) {
                 console.log("Erreur");
@@ -44,7 +82,6 @@ $(document).ready(function() {
                 alert("Problème pour rejoindre la partie");
             }
         });
-
     });
 
     $('.create-submit').on('click', function() {

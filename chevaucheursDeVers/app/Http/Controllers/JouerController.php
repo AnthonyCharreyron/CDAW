@@ -44,7 +44,7 @@ class JouerController extends MenuController
         ]);
 
     }
-
+    // TO DO
     public function setPartie(){
         $url = request()->url();
         Log::info($url);
@@ -63,7 +63,7 @@ class JouerController extends MenuController
 
         $partieExistante = Partie::verifyCode($codePartie);
         
-        if ($partieExistante != 'false'){
+        if ($partieExistante != 0){
             Joue::userJouePartie($user->id, $partieExistante);
             return response()->json([
                 "success" => true,
@@ -74,5 +74,14 @@ class JouerController extends MenuController
             "success" => false,
             "message" => "Le code donnée n'est pas bon"
         ]);
+    }
+
+    public function getInfoParties(){
+        
+        $parties_infos = Partie::getInfoParties();
+
+        echo json_encode(array("data" => $parties_infos));
+
+
     }
 }
