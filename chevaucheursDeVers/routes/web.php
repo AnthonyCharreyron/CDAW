@@ -9,6 +9,7 @@ use App\Http\Controllers\ConnexionController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\MonProfilController;
+use App\Http\Controllers\PartieController;
 use App\Http\Controllers\MonitorController;
 use App\Http\Middleware\AuthMiddleware;
 
@@ -27,7 +28,7 @@ Route::get('/historique/{id}', [HistoriqueController::class, 'statClassement'])-
 Route::get('/jouer', [JouerController::class, 'getPartie'])->middleware(AuthMiddleware::class);
 Route::get('/jouer/parties', [JouerController::class, 'getInfoParties'])->middleware(AuthMiddleware::class);
 Route::get('/jouer/lobby/{code_partie}', [JouerController::class, 'getLobby'])->middleware(AuthMiddleware::class);
-Route::get('/jouer/partie/{code_partie}', [JouerController::class, 'getPartieJouee'])->middleware(AuthMiddleware::class);
+Route::get('/jouer/partie/{code_partie}', [PartieController::class, 'getPartieJouee'])->middleware(AuthMiddleware::class);
 
 Route::post('/jouer/creer', [JouerController::class, 'createPartie'])->middleware(AuthMiddleware::class);
 Route::post('/jouer/rejoindre', [JouerController::class, 'rejoindrePartie'])->middleware(AuthMiddleware::class);

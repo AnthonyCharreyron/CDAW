@@ -3,6 +3,7 @@
     <h4 class="text-center">Chat</h4>
     <div class="bg-light rounded">
         <ul id="messages" class="list-group m-1" style="height: 20vh; overflow-y: auto; overflow-x: hidden; display: flex; flex-direction: column-reverse;"> 
+        <!-- Les messages se rajoutent ici -->
         </ul>
     </div>
     <div class="input-group mt-3">
