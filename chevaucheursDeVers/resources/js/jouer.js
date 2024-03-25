@@ -17,7 +17,7 @@ jQuery(function($){
     
         let table1 = $('#partiePublique').DataTable({
             ajax:{ 
-                url: 'jouer/partie',
+                url: 'jouer/parties',
                 type: 'GET',
                 error: function(xhr, error, thrown) {
                     console.log('Erreur:', error);

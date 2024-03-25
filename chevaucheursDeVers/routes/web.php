@@ -23,7 +23,7 @@ Route::get('/historique', [HistoriqueController::class, 'getClassement']);
 Route::get('/historique/{id}', [HistoriqueController::class, 'statClassement'])->name('stats');
 
 Route::get('/jouer', [JouerController::class, 'getPartie'])->middleware(AuthMiddleware::class);
-Route::get('/jouer/partie', [JouerController::class, 'getInfoParties'])->middleware(AuthMiddleware::class);
+Route::get('/jouer/parties', [JouerController::class, 'getInfoParties'])->middleware(AuthMiddleware::class);
 Route::get('/jouer/lobby/{code_partie}', [JouerController::class, 'getLobby'])->middleware(AuthMiddleware::class);
 Route::get('/jouer/partie/{code_partie}', [JouerController::class, 'getPartieJouee'])->middleware(AuthMiddleware::class);
 
