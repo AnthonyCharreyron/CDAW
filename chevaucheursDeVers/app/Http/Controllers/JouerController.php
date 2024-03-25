@@ -17,11 +17,13 @@ class JouerController extends MenuController
 
         $url = request()->url();
         //Log::info($url);
+        $user=Auth::user();
 
         return view('jouer', [
             'currentPage' => $this->getCurrentPage($url),
             'isConnected' => UserController::isConnected(),
             'menu' => $this->getMenu(),
+            'photo_profil' => $user!=null ? UserController::getUserPhoto($user['id']) : 0,
         ]);
     }
 

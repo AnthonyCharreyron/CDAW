@@ -9,7 +9,7 @@ socket.onmessage = function(event) {
         // Si les données sont déjà sous forme de chaîne de caractères, pas besoin de les traiter avec FileReader
         const messages = document.getElementById('messages');
         const li = document.createElement('li');
-        li.textContent = event.data;
+        li.innerHTML = event.data;
         messages.insertBefore(li, messages.firstChild); // Insérer le nouvel élément avant le premier enfant existant
     } else {
         // Si les données ne sont pas sous forme de chaîne de caractères, traiter avec FileReader
@@ -17,7 +17,7 @@ socket.onmessage = function(event) {
         reader.onload = function() {
             const messages = document.getElementById('messages');
             const li = document.createElement('li');
-            li.textContent = reader.result;
+            li.innerHTML = reader.result;
             messages.insertBefore(li, messages.firstChild); // Insérer le nouvel élément avant le premier enfant existant
         };
         reader.readAsText(event.data);
@@ -42,7 +42,7 @@ jQuery(function($) {
                         const li = document.createElement('li');
                         li.innerHTML = '<b>' + response.pseudo + '</b> : ' + response.message;
                         messages.insertBefore(li, messages.firstChild); // Insérer le nouvel élément avant le premier enfant existant
-                        socket.send(response.message);
+                        socket.send('<b>' + response.pseudo + '</b> : ' + response.message);
                         input.value = '';
                     },
                     error: function(xhr, status, error) {
