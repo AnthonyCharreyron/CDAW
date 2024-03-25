@@ -5,4 +5,5 @@ import './jouer';
 import './chat';
 import './inscription';
 import './profil';
+import './lobby';
 

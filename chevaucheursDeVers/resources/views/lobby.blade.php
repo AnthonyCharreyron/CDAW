@@ -10,3 +10,9 @@
         <button class="launch-submit complet" style="display: none">Lancer la partie</button>
     </div>
 @endsection
+
+@section('pagescripts')
+    <script>
+        const codePartie = "{{$code_partie}}";
+    </script>
+@endsection
