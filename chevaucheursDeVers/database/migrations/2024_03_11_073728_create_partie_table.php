@@ -16,7 +16,7 @@ class CreatePartieTable extends Migration
         Schema::create('partie', function (Blueprint $table) {
             $table->integer('id_partie')->autoIncrement();
             $table->date("date_partie");
-            $table->string('code')->nullable();
+            $table->string('code')->unique();
             $table->boolean("partie_privee")->default(false);
             $table->boolean("est_commencee")->default(false);
             $table->boolean("est_terminee")->default(false);

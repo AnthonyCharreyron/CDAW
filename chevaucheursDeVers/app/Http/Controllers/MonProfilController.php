@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 
+use App\Models\User;
+
 class MonProfilController extends MenuController
 {
     public function getProfil(){
@@ -19,6 +21,18 @@ class MonProfilController extends MenuController
             'menu' => $this->getMenu(),
             'photo_profil' => $user!=null ? UserController::getUserPhoto($user['id']) : 0,
             'user' => $user
+        ]);
+    }
+
+    public function modifierProfil(Request $request){
+        $pseudo = $request->input('pseudo');
+        $password = $request->input('password');
+        $email = $request->input('email');
+        User::updateUser($pseudo, $password, $email);
+
+        return response()->json([
+            "success" => true,
+            "message" => "OK profil modifié"
         ]);
     }
 }

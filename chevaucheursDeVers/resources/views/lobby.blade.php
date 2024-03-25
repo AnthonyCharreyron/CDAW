@@ -6,7 +6,9 @@
         <b>Liste des joueurs présents :</b><br>
         
         <p>En attente des joueurs restants</p>
-        <button class="launch-submit incomplet">Lancer la partie sans attendre</button>
+        @if($isHost)
+            <button class="launch-submit incomplet">Lancer la partie sans attendre</button>
+        @endif
         <button class="launch-submit complet" style="display: none">Lancer la partie</button>
     </div>
 @endsection

@@ -85,13 +85,18 @@ jQuery(function($){
             let estPrivee = $('#partie-privee').is(':checked') ? 1 : 0;
             let tempsParCoup = $('#temps-coup').val();
             let nbJoueurs = $('#nombre-joueurs').val();
+            let hostId = $('#hostId').val();
             console.log(nbJoueurs);
             console.log(tempsParCoup);
+            console.log(hostId);
     
             let formData = new FormData();
             formData.append("partie_privee", estPrivee);
             formData.append("partie_tpsParCoup", tempsParCoup);
             formData.append("partie_nbJoueurs", nbJoueurs);
+            formData.append("id_user_host", hostId);
+
+
     
     
             $.ajax({

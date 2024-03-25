@@ -13,7 +13,7 @@ class Partie extends Model
     protected $table = 'partie';
     protected $primaryKey = 'id_partie';
 
-    public static function createPartie($idUser, $estPrivee, $date, $nombreJoueurs, $tempsParCoup){
+    public static function createPartie($idUser, $estPrivee, $date, $nombreJoueurs, $tempsParCoup, $idHost){
         $codePartie = Str::random(10);
     
         $idPartie = self::insertGetId([
@@ -24,7 +24,8 @@ class Partie extends Model
             'est_terminee' => 0,
             'id_user_gagnant' => null,
             'nombre_joueurs' => $nombreJoueurs,
-            'temps_par_coup' => $tempsParCoup
+            'temps_par_coup' => $tempsParCoup, 
+            'id_user_host' => $idHost
         ]);
     
         Joue::userJouePartie($idUser, $idPartie);
@@ -45,5 +46,13 @@ class Partie extends Model
                         ->where('est_commencee', 0)
                         ->get();
         return $partie;
+    }
+
+    public static function getHostId($code){
+        $hostId = self::select('id_user_host')
+                    ->where('code', '=', $code)
+                    ->value('id_user_host');
+        return $hostId;
+
     }
 }

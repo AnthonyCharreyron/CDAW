@@ -13,26 +13,21 @@
             <div class="row d-flex align-items-center my-2">
                 <b class='col'>Photo de profil : </b>
                 <div class='col'>
-                    <img src="{{ asset('images/'.$photo_profil.'.png') }}" style="height: 5vh;" alt="profil">
+                    <img id="photoContainer" src="{{ asset('images/'.$photo_profil.'.png') }}" style="height: 5vh;" alt="profil">
                 </div>
             </div>
             <div class="row">
                 <b class='col'>Pseudo : </b>
-                <div class='col'>
-                    <p id="pseudoContainer">{{$user['pseudo']}}</p>
-                </div>
+                <p class='col' id="pseudoContainer">{{$user['pseudo']}}</p>
             </div>
             <div class="row">
                 <b class='col'>Email : </b>
-                <div class='col'>
-                    <p>{{$user['email']}}</p>
-                </div>
+                <p class='col' id="emailContainer">{{$user['email']}}</p>
             </div>
             <div class="row">
                 <b class='col'>Mot de passe : </b>
-                <div class='col'>
-                    <p>****</p>
-                </div>
+                <p class='col' id="mdpContainer">****</p>
+
             </div>
             <div class="row justify-content-end m-3">
                 <div class="col-3"> 
@@ -40,9 +35,10 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row m-1 border-brown rounded justify-content-center">
         <div class="col-5 m-3 border-brown rounded">
         </div>
     </div>
+
+    
+
 @endsection
