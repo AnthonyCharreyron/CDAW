@@ -26,7 +26,7 @@
                     <option value="4">4 joueurs</option>
                     <option value="5">5 joueurs</option>
                 </select><br><br>
-
+                <input type="hidden" id="hostId" value="{{$user['id']}}"><br>
                 <button class="create-submit">Créer la partie</button>
             </div>
         </div>

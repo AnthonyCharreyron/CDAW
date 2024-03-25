@@ -17,7 +17,8 @@ use App\Http\Middleware\AuthMiddleware;
 // });
 
 Route::get('/presentation', [PresentationController::class, 'getPresentation'])->name('presentation');
-Route::get('/monProfil', [MonProfilController::class, 'getProfil']);
+Route::get('/monProfil', [MonProfilController::class, 'getProfil'])->middleware(AuthMiddleware::class);
+Route::post('/monProfil/modifierProfil', [MonProfilController::class, 'modifierProfil'])->name('modifier_profil');
 
 Route::get('/historique', [HistoriqueController::class, 'getClassement']);
 Route::get('/historique/{id}', [HistoriqueController::class, 'statClassement'])->name('stats');

@@ -24,6 +24,7 @@ class JouerController extends MenuController
             'isConnected' => UserController::isConnected(),
             'menu' => $this->getMenu(),
             'photo_profil' => $user!=null ? UserController::getUserPhoto($user['id']) : 0,
+            'user' => $user
         ]);
     }
 
@@ -34,27 +35,32 @@ class JouerController extends MenuController
         $estPrivee = $request->input('partie_privee');
         $tempsParCoup = $request->input('partie_tpsParCoup');
         $nombreJoueurs = $request->input('partie_nbJoueurs');
+        $idHost = $request->input('id_user_host');
 
         $dateDuJour = Carbon::now();
         $date = $dateDuJour->format('Y-m-d');
         
-        $codePartie = Partie::createPartie($user->id, $estPrivee, $date, $nombreJoueurs, $tempsParCoup);
+        $codePartie = Partie::createPartie($user->id, $estPrivee, $date, $nombreJoueurs, $tempsParCoup, $idHost);
         return response()->json([
             "success" => true,
             "message" => "OK partie créée",
-            "redirect_url" => "/jouer/lobby/" . $codePartie
+            "redirect_url" => "jouer/lobby/" . $codePartie
         ]);
 
     }
     
     public function getLobby($codePartie){
         $url = request()->url();
+        $user=Auth::user();
+        $isHost = Partie::getHostid($codePartie)==$user['id'] ? true : false;
 
         return view('lobby', [
             'currentPage' => 'Jouer',
             'isConnected' => UserController::isConnected(),
             'menu' => $this->getMenu(),
-            'code_partie' => $codePartie
+            'code_partie' => $codePartie,
+            'photo_profil' => $user!=null ? UserController::getUserPhoto($user['id']) : 0,
+            'isHost' => $isHost
         ]);
     }
 

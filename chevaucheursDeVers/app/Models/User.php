@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -93,5 +94,13 @@ class User extends Authenticatable implements MustVerifyEmail
                             ->where('id','=', $userId)
                             ->value('photo_profil');
         return $photo_profil;
+    }
+
+    public static function updateUser($pseudo, $password, $email){
+        self::where('email', '=', $email)
+            ->update([
+                'pseudo' => $pseudo,
+                'password' => Hash::make($password),
+            ]);
     }
 }
