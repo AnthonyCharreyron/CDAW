@@ -15,4 +15,8 @@ class UserController extends Controller
     public function createUser(Request $request){
         User::createUser($request->input('pseudo'),$request->input('email'),$request->input('password'));
     }
+
+    public static function getUserPhoto($userId){
+        return User::getUserPhoto($userId);
+    }
 }

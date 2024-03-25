@@ -87,4 +87,11 @@ class User extends Authenticatable implements MustVerifyEmail
             ]
         );
     }
+
+    public static function getUserPhoto($userId){
+        $photo_profil = self::select('photo_profil')
+                            ->where('id','=', $userId)
+                            ->value('photo_profil');
+        return $photo_profil;
+    }
 }

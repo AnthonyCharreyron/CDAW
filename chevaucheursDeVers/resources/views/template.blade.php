@@ -22,6 +22,9 @@
                                     @csrf
                                     <button class="btn btn-link" type="submit">Se déconnecter</button>
                                 </form>
+                                <a class="border-0" href="/monProfil">
+                                    <img src="{{ asset('images/'.$photo_profil.'.png') }}" style="height: 10vh" alt="profil">
+                                </a>
                             </div>
                         @else
                             <div class='col'></div>

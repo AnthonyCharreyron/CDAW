@@ -8,6 +8,7 @@ use App\Http\Controllers\JouerController;
 use App\Http\Controllers\ConnexionController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\MonProfilController;
 use App\Http\Middleware\AuthMiddleware;
 
 
@@ -16,6 +17,7 @@ use App\Http\Middleware\AuthMiddleware;
 // });
 
 Route::get('/presentation', [PresentationController::class, 'getPresentation'])->name('presentation');
+Route::get('/monProfil', [MonProfilController::class, 'getProfil']);
 
 Route::get('/historique', [HistoriqueController::class, 'getClassement']);
 Route::get('/historique/{id}', [HistoriqueController::class, 'statClassement'])->name('stats');

@@ -13,7 +13,7 @@ jQuery(function($) {
             {
                 targets: '_all',
                 render: function(data) {
-                    return data ? data : '<span style="color: #f7b500;">Non défini</span>';
+                    return data ? data : 0;
                 }
             }
         ],
