@@ -41,4 +41,34 @@ nav a:hover{
     border: 1px solid #B49252;
 }
 
+.sidebar{
+    background-color: #B49252;
+}
+#imageContainer {
+    position: relative;
+    width: 98vh; /* Ajuster la largeur de l'image selon vos besoins */
+    height: auto; /* Garder l'aspect ratio */
+    cursor: crosshair;
+}
+
+#imageContainer image {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+#imageContainer img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.rotate-image {
+    transform: rotate(-90deg);
+  }
+
+.card {
+    width: 10vh;
+    height: auto;
+}
+
 

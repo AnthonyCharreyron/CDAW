@@ -53,6 +53,17 @@ class Partie extends Model
                     ->where('code', '=', $code)
                     ->value('id_user_host');
         return $hostId;
-
     }
+
+    public static function generateCartesPiocheVisible(){
+        $nomsCartes = ['Carte ver bleu', 'Carte ver jaune', 'Carte ver multicolore', 'Carte ver rose', 'Carte ver rouge', 'Carte ver vert'];
+        $cartes = [];
+
+        for($i=0; $i<5; $i++){
+            $carte = $nomsCartes[rand(0,5)]; 
+            array_push($cartes, $carte);
+        }
+        return $cartes;
+    }
+    
 }

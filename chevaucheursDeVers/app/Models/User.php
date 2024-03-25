@@ -73,6 +73,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return $data;
     }
 
+    //TODO : traiter cas où il y a déjà un compte avec ce pseudo ou cet email 
     public static function createUser($pseudo, $email, $password){
         self::insert(
             [
@@ -96,6 +97,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return $photo_profil;
     }
 
+    //TODO : traiter cas où il y a déjà un compte avec ce pseudo
     public static function updateUser($pseudo, $password, $email){
         self::where('email', '=', $email)
             ->update([
