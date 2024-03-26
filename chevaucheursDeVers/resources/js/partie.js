@@ -12,19 +12,17 @@ jQuery(function($){
                 success: function(response) {
                     console.log(response);
                     console.log('test2');
-                    console.log('test3');
                     sendPiocheVisible(response.piocheVisibleGlobale);
-                    reloadPageForAllClients();
+                    console.log('test3');
+                    setTimeout(reloadPageForAllClients(), 2000);
                 },
                 error: function(xhr, status, error) {
                     console.error(xhr.responseText);
                 }
             });
         }
-
     });
 
-    
-    
+ 
 
 });
