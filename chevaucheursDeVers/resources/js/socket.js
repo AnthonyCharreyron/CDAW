@@ -5,16 +5,26 @@ socket.onopen = function(event) {
 };
 
 socket.onmessage = function(event) {
-    if (event.data === 'reload') {
-        window.location.reload(); // Recharge la page lorsque le message 'reload' est reçu
-    } else if(event.data[0] === 'piocheVisible'){
-        console.log('test4');
-        miseEnSession(event.data['piocheVisible'], event.data['csrfToken']);
-    } else if (typeof event.data === 'string') {
-        const messages = document.getElementById('messages');
-        const li = document.createElement('li');
-        li.innerHTML = event.data;
-        messages.insertBefore(li, messages.firstChild); // Insérer le nouvel élément avant le premier enfant existant
+    const data = event.data.split(','); // Séparer les données en utilisant la virgule comme délimiteur
+    
+    const type = data[0]; // Le premier élément sera le type
+    const content = data.slice(1).join(','); // Le contenu sera le reste des éléments concaténés
+
+    switch (type) {
+        case 'chat':
+            const messages = document.getElementById('messages');
+            const li = document.createElement('li');
+            li.innerHTML = content;
+            messages.insertBefore(li, messages.firstChild); // Insérer le nouvel élément avant le premier enfant existant
+            break;
+        case 'reload':
+            window.location.reload(); // Recharge la page lorsque le message 'reload' est reçu
+            break;
+        case 'pioche':
+            miseEnSession(content);
+            break;
+        default:
+            console.error('Type de message non pris en charge.');
     }
 };
 
@@ -49,7 +59,7 @@ function sendMessage(message) {
             const li = document.createElement('li');
             li.innerHTML = '<b>' + response.pseudo + '</b> : ' + response.message;
             messages.insertBefore(li, messages.firstChild); // Insérer le nouvel élément avant le premier enfant existant
-            sendToServer('<b>' + response.pseudo + '</b> : ' + response.message);
+            sendToServer('chat,' + '<b>' + response.pseudo + '</b> : ' + response.message);
             input.value = '';
         },
         error: function(xhr, status, error) {
@@ -65,16 +75,18 @@ window.reloadPageForAllClients=function() {
 }
 
 window.sendPiocheVisible=function(piocheVisible, csrfToken){
-    sendToServer({ piocheVisible: piocheVisible, csrfToken: csrfToken });
+    const message = 'pioche,' + piocheVisible;
+    sendToServer(message);
 }
 
-function miseEnSession(piocheVisible, csrfToken){
+function miseEnSession(piocheVisible){
+    const csrfToken2 = $('meta[name="csrf-token"]').attr('content');
     console.log('test5');
     $.ajax({
         type: "POST",
         url: "/miseEnSessionCartes",
         data: { cartes: piocheVisible },
-        headers: {'X-CSRF-TOKEN': csrfToken},
+        headers: {'X-CSRF-TOKEN': csrfToken2},
         success: function(response) {
             console.log(response);
             console.log('test7');

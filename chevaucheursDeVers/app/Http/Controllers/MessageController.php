@@ -17,7 +17,13 @@ class MessageController extends Controller
     }
 
     public function miseEnSessionCartes(Request $request){
-        Log::info('test6');
-        session(['piocheVisibleGlobale' => $request->input('data')]);
+        // Récupérer les cartes depuis la requête
+        $cartes = $request->input('cartes');
+        $cartesArray = array_map('trim', explode(',', $cartes));
+        $cartesIndexees = array_values($cartesArray);
+        session(['piocheVisibleGlobale' => $cartesIndexees]);
+    
+        Log::info('test6 : ', [$cartesIndexees]);
     }
+    
 }

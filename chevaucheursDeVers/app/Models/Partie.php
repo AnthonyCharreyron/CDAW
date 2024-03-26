@@ -31,7 +31,7 @@ class Partie extends Model
     
         Joue::userJouePartie($idUser, $idPartie);
         
-        session(['participant', $codePartie.'_'.$idUser]);
+        session(['participant' => $codePartie.'_'.$idUser]);
     
         return $codePartie;
     }

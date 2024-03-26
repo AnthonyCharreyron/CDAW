@@ -74,7 +74,7 @@ class JouerController extends MenuController
         
         if ($partieExistante != 0){
             Joue::userJouePartie($user->id, $partieExistante);
-            session(['participant', $codePartie.'_'.$user->id]);           
+            session(['participant' => $codePartie.'_'.$user->id]);           
             return response()->json([
                 "success" => true,
                 "message" => "OK partie rejointe",

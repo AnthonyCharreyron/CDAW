@@ -12,9 +12,9 @@ jQuery(function($){
                 success: function(response) {
                     console.log(response);
                     console.log('test2');
-                    //reloadPageForAllClients();
                     console.log('test3');
-                    sendPiocheVisible(response.piocheVisibleGlobale, csrfToken);
+                    sendPiocheVisible(response.piocheVisibleGlobale);
+                    reloadPageForAllClients();
                 },
                 error: function(xhr, status, error) {
                     console.error(xhr.responseText);
