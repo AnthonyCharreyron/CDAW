@@ -66,4 +66,27 @@ class Partie extends Model
         return $cartes;
     }
     
+    public static function inilialiserCartesEnMain($nombreCarte){
+        $nomsCartes = ['Carte ver bleu', 'Carte ver jaune', 'Carte ver multicolore', 'Carte ver rose', 'Carte ver rouge', 'Carte ver vert'];
+        $cartes = [];
+
+        for($i=0; $i<$nombreCarte; $i++){
+            $carte = $nomsCartes[rand(0,5)]; 
+            array_push($cartes, $carte);
+        }
+        return $cartes;
+    }
+
+    public static function obtenirCartesDestination($nombreCarte){
+        $nomsCartes = ['Destination 1', 'Destination 2', 'Destination 3', 'Destination 4', 'Destination 5', 'Destination 6'];
+        $cartes = [];
+
+        for($i = 0; $i < $nombreCarte; $i++){
+            $index = array_rand($nomsCartes);
+            $carte = $nomsCartes[$index];
+            array_push($cartes, $carte);
+            array_splice($nomsCartes, $index, 1);
+        }
+        return $cartes;
+    }
 }

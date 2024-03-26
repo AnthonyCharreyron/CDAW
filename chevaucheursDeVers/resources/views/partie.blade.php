@@ -27,13 +27,13 @@
                     </div>  
                 </div>
                 <div class='row'>
-                    <div class='col'>
+                    <div class='col-9'>
                         <x-carte-jeu/>
                     </div>
-                    <div class='col'>
+                    <div class='col-3'>
                         @foreach($piocheVisible as $carte)
-                            <div class='row mx-auto'>
-                                <img class="card p-0 rotate-image" src="{{asset('images/'.$carte.'.png')}}" alt="{{$carte}}" style="width: 100px; height: auto;">
+                            <div class='row'>
+                                <img class="card p-0 mx-auto rotate-image" src="{{asset('images/'.$carte.'.png')}}" alt="{{$carte}}" style="width: 100px; height: auto;">
                             </div>
                         @endforeach
                     </div>

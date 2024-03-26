@@ -6,5 +6,6 @@ import './chat';
 import './inscription';
 import './profil';
 import './lobby';
-import './gestionUser'
+import './gestionUser';
+import './partie';
 
