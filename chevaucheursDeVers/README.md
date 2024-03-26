@@ -91,5 +91,5 @@ au niveau de /chevaucheursDeVers :
 
 - pour le site web : "php artisan serve"
 
-- pour le chat : "npm run chat"
+- pour les websockets : "npm run socket"
 

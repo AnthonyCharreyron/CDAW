@@ -2,7 +2,7 @@ import './bootstrap';
 
 import './classement';
 import './jouer';
-import './chat';
+import './socket';
 import './inscription';
 import './profil';
 import './lobby';

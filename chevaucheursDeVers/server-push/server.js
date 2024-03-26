@@ -31,3 +31,5 @@ wss.on('request', function(request) {
 httpServer.listen(8080, function() {
     console.log('Serveur HTTP démarré sur le port 8080.');
 });
+
+

@@ -12,6 +12,7 @@ class Partie extends Model
 
     protected $table = 'partie';
     protected $primaryKey = 'id_partie';
+    public $timestamps = false;
 
     public static function createPartie($idUser, $estPrivee, $date, $nombreJoueurs, $tempsParCoup, $idHost){
         $codePartie = Str::random(10);
@@ -63,10 +64,10 @@ class Partie extends Model
             $carte = $nomsCartes[rand(0,5)]; 
             array_push($cartes, $carte);
         }
-        return $cartes;
+        session(['piocheVisibleGlobale' => $piocheVisible]);
     }
     
-    public static function inilialiserCartesEnMain($nombreCarte){
+    public static function inilialiserCartesEnMain($nombreCarte, $idUser){
         $nomsCartes = ['Carte ver bleu', 'Carte ver jaune', 'Carte ver multicolore', 'Carte ver rose', 'Carte ver rouge', 'Carte ver vert'];
         $cartes = [];
 
@@ -74,11 +75,12 @@ class Partie extends Model
             $carte = $nomsCartes[rand(0,5)]; 
             array_push($cartes, $carte);
         }
-        return $cartes;
+
+        session(['cartesEnMain_'.$idUser => $cartes]);
     }
 
-    public static function obtenirCartesDestination($nombreCarte){
-        $nomsCartes = ['Destination 1', 'Destination 2', 'Destination 3', 'Destination 4', 'Destination 5', 'Destination 6'];
+    public static function obtenirCartesDestination($nombreCarte, $idUser){
+        $nomsCartes = ["Sietch Tabr-Territoire des vers","Caladan-Terre du Sud","Sihaya-Faux mur du Sud","Sietch Tabr-Plaine funèbre","Sihaya-Montagne Chin","Sihaya-Carthag","Arsunt-Observatoire","Territoire des vers-Bassin Impérial","Sietch de Tuek-Base météorologique","Sietch de Tuek-Grotte des oiseaux","Grotte des oiseaux-Pole Nord","Barrière-Base météorologique","Sietch Tabr-Réserve d'épices","Kaitain-Faux mur du Sud","Plaine funèbre-Bassin Impérial","Sietch Tabr-Sietch de Tuek","Petit Erg-Observatoire","Montagne Chin-Carthag","Grotte des oiseaux-Tsimpo","Tsimpo-Mont idaho"];
         $cartes = [];
 
         for($i = 0; $i < $nombreCarte; $i++){
@@ -87,6 +89,21 @@ class Partie extends Model
             array_push($cartes, $carte);
             array_splice($nomsCartes, $index, 1);
         }
-        return $cartes;
+        session(['cartesDestinationsMain_'.$idUser => $cartes]);
+    }
+
+    public static function estCommencee($codePartie){
+        $bool = self::select('est_commencee')
+                    ->where('code', '=', $codePartie)
+                    ->value('est_commencee');
+        
+        return $bool;
+    }
+
+    public static function lancerPartie($code){
+        self::where('code', '=', $code)
+            ->update([
+                'est_commencee' => 1,
+            ]);
     }
 }
