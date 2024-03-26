@@ -22,4 +22,12 @@ class PartieController extends Controller
             'piocheVisible' => $piocheVisible,
         ]);
     }
+
+    public function initialisationPartieUser(){
+
+        $cartesEnMain=Partie::inilialiserCartesEnMain(4);
+        $cartesDestinations=Partie::obtenirCartesDestination(3);
+        
+
+    }
 }
