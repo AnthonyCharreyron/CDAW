@@ -39,15 +39,19 @@
                         <x-carte-jeu/>
                     </div>
                     
-                    <div class='col-3'>
-                        @if($partie_commencee)
-                            @foreach(session('piocheVisibleGlobale') as $carte)
-                                <div class='row'>
-                                    <img class="card p-0 mx-auto rotate-image" src="{{asset('images/'.$carte.'.png')}}" alt="{{$carte}}" style="width: 100px; height: auto;">
-                                </div>
-                            @endforeach
-                        @endif
-                    </div>
+                    <div class="col-3">
+                    @if($partie_commencee)
+                        @forelse(session()->get('piocheVisibleGlobale', []) as $carte)
+                            <div class="row">
+                                <img class="card p-0 mx-auto rotate-image" src="{{ asset('images/'.$carte.'.png') }}" alt="{{ $carte }}" style="width: 100px; height: auto;">
+                            </div>
+                        @empty
+                            <div class="row">
+                                <p>Aucune carte visible pour le moment.</p>
+                            </div>
+                        @endforelse
+                    @endif
+                </div>
                 </div>
             </div>
             <div class="col-3 sidebar">

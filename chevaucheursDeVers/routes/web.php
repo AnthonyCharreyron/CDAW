@@ -53,3 +53,4 @@ Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $requ
 Route::post('/authenticate', [ConnexionController::class, 'authenticate'])->name('connexion.authenticate');
 Route::post('/logout', [ConnexionController::class, 'logout'])->name('connexion.logout');
 Route::post('/message', [MessageController::class, 'sendMessage'])->name('message.send');
+Route::post('/miseEnSessionCartes', [MessageController::class, 'miseEnSessionCartes']);

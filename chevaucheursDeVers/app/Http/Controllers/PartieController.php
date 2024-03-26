@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Cookie;
 use App\Models\Partie;
+use App\Models\Joue;
 
 class PartieController extends Controller
 {
@@ -23,14 +24,23 @@ class PartieController extends Controller
         ]);
     }
 
-    public function initiliserMesCartes(Request $request){
-        Partie::generateCartesPiocheVisible();
-        Partie::initialiserCartesEnMain(4,$user->id);
-        Partie::obtenirCartesDestination(3, $user->id);
-    }
-
     public function lancerPartie(Request $request){
-        Partie::lancerPartie($request->input('code'));
+        $code=$request->input('code');
+        $idPartie = Partie::verifyCode($code);
+        $participants = Joue::getParticipants($idPartie);
+
+        Partie::lancerPartie($code);
+        Partie::generateCartesPiocheVisible();
+        Partie::initialiserCartesEnMain(4, $idPartie, $participants);
+        Partie::obtenirCartesDestination(3, $idPartie, $participants);
+
+    Log::info('Test1');
+
+        return response()->json([
+            "success" => true,
+            "message" => "OK partie initialisée",
+            "piocheVisibleGlobale" => session()->get('piocheVisibleGlobale')
+        ]);
     }
  
 

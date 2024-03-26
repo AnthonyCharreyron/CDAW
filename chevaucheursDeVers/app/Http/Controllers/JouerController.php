@@ -41,6 +41,7 @@ class JouerController extends MenuController
         $date = $dateDuJour->format('Y-m-d');
         
         $codePartie = Partie::createPartie($user->id, $estPrivee, $date, $nombreJoueurs, $tempsParCoup, $idHost);
+        
         return response()->json([
             "success" => true,
             "message" => "OK partie créée",
@@ -73,6 +74,7 @@ class JouerController extends MenuController
         
         if ($partieExistante != 0){
             Joue::userJouePartie($user->id, $partieExistante);
+            session(['participant', $codePartie.'_'.$user->id]);           
             return response()->json([
                 "success" => true,
                 "message" => "OK partie rejointe",

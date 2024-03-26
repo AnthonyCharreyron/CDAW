@@ -30,6 +30,8 @@ class Partie extends Model
         ]);
     
         Joue::userJouePartie($idUser, $idPartie);
+        
+        session(['participant', $codePartie.'_'.$idUser]);
     
         return $codePartie;
     }
@@ -64,32 +66,38 @@ class Partie extends Model
             $carte = $nomsCartes[rand(0,5)]; 
             array_push($cartes, $carte);
         }
-        session(['piocheVisibleGlobale' => $piocheVisible]);
+        session(['piocheVisibleGlobale' => $cartes]);
     }
     
-    public static function inilialiserCartesEnMain($nombreCarte, $idUser){
+    public static function initialiserCartesEnMain($nombreCarte, $idPartie, $participants){
         $nomsCartes = ['Carte ver bleu', 'Carte ver jaune', 'Carte ver multicolore', 'Carte ver rose', 'Carte ver rouge', 'Carte ver vert'];
-        $cartes = [];
+        foreach($participants as $user){
+            $cartes = [];
 
-        for($i=0; $i<$nombreCarte; $i++){
-            $carte = $nomsCartes[rand(0,5)]; 
-            array_push($cartes, $carte);
+            for($i=0; $i<$nombreCarte; $i++){
+                $carte = $nomsCartes[rand(0,5)]; 
+                array_push($cartes, $carte);
+            }
+
+            session(['cartesEnMain_'.$user->id_user => $cartes]);
         }
 
-        session(['cartesEnMain_'.$idUser => $cartes]);
+        
     }
 
-    public static function obtenirCartesDestination($nombreCarte, $idUser){
+    public static function obtenirCartesDestination($nombreCarte, $idPartie, $participants){
         $nomsCartes = ["Sietch Tabr-Territoire des vers","Caladan-Terre du Sud","Sihaya-Faux mur du Sud","Sietch Tabr-Plaine funèbre","Sihaya-Montagne Chin","Sihaya-Carthag","Arsunt-Observatoire","Territoire des vers-Bassin Impérial","Sietch de Tuek-Base météorologique","Sietch de Tuek-Grotte des oiseaux","Grotte des oiseaux-Pole Nord","Barrière-Base météorologique","Sietch Tabr-Réserve d'épices","Kaitain-Faux mur du Sud","Plaine funèbre-Bassin Impérial","Sietch Tabr-Sietch de Tuek","Petit Erg-Observatoire","Montagne Chin-Carthag","Grotte des oiseaux-Tsimpo","Tsimpo-Mont idaho"];
-        $cartes = [];
+        foreach($participants as $user){
+            $cartes = [];
 
-        for($i = 0; $i < $nombreCarte; $i++){
-            $index = array_rand($nomsCartes);
-            $carte = $nomsCartes[$index];
-            array_push($cartes, $carte);
-            array_splice($nomsCartes, $index, 1);
+            for($i = 0; $i < $nombreCarte; $i++){
+                $index = array_rand($nomsCartes);
+                $carte = $nomsCartes[$index];
+                array_push($cartes, $carte);
+                array_splice($nomsCartes, $index, 1);
+            }
+            session(['cartesDestinationsMain_'.$user->id_user => $cartes]);
         }
-        session(['cartesDestinationsMain_'.$idUser => $cartes]);
     }
 
     public static function estCommencee($codePartie){

@@ -7,6 +7,9 @@ socket.onopen = function(event) {
 socket.onmessage = function(event) {
     if (event.data === 'reload') {
         window.location.reload(); // Recharge la page lorsque le message 'reload' est reçu
+    } else if(event.data[0] === 'piocheVisible'){
+        console.log('test4');
+        miseEnSession(event.data['piocheVisible'], event.data['csrfToken']);
     } else if (typeof event.data === 'string') {
         const messages = document.getElementById('messages');
         const li = document.createElement('li');
@@ -57,5 +60,27 @@ function sendMessage(message) {
 
 // Fonction pour déclencher le rechargement de la page pour tous les clients
 window.reloadPageForAllClients=function() {
+    location.reload();
     sendToServer('reload');
+}
+
+window.sendPiocheVisible=function(piocheVisible, csrfToken){
+    sendToServer({ piocheVisible: piocheVisible, csrfToken: csrfToken });
+}
+
+function miseEnSession(piocheVisible, csrfToken){
+    console.log('test5');
+    $.ajax({
+        type: "POST",
+        url: "/miseEnSessionCartes",
+        data: { cartes: piocheVisible },
+        headers: {'X-CSRF-TOKEN': csrfToken},
+        success: function(response) {
+            console.log(response);
+            console.log('test7');
+        },
+        error: function(xhr, status, error) {
+            console.error(xhr.responseText);
+        }
+    });
 }

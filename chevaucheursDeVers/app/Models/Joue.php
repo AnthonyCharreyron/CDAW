@@ -24,4 +24,10 @@ class Joue extends Model
         );
     }
 
+    public static function getParticipants($idPartie){
+        return self::select('id_user')
+                            ->where('id_partie', '=', $idPartie)
+                            ->get();
+    }
+
 }
