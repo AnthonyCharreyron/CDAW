@@ -32,7 +32,7 @@ jQuery(function($){
                     render: function(data, type, row) {
                         return `<button class="btn btn-success btn-action" data-action="admin" data-id="${row.id}">Ajouter en admin</button>
                                 <button class="btn btn-danger btn-action" data-action="block" data-id="${row.id}">Bloquer</button>
-                                <button type="button" class="btn btn-primary" data-id="${row.id}" onclick="commentUser(this)">Ajouter un commentaire</button>
+                                <button type="button" class="btn btn-primary" data-id="${row.id}" onclick="commentUser(this)">Modifier les commentaires</button>
                                 `;
                     }
                 } 
@@ -98,20 +98,50 @@ jQuery(function($){
     });
     
     window.commentUser = function(button) {
-        
         let userId = $(button).data('id');
-
-        let commentaryContainer = document.getElementById(userId).value;
-        console.log(document.getElementById(userId).value);
-        
+        //console.log(userId)
+    
+        let currentRow = $(button).closest("tr");
+        let commentaryContainer = currentRow.find("td:eq(4)");
+        //console.log(commentaryContainer.text());
+    
+        // Créer un nouvel élément input avec la valeur du commentaire
         let inputCommentary = document.createElement('input');
         inputCommentary.setAttribute('type', 'text');
-        inputCommentary.setAttribute('value', commentaryContainer.textContent);
-        commentaryContainer.parentNode.replaceChild(inputCommentary, commentaryContainer);
-        
+        inputCommentary.setAttribute('id', 'inputComment');
+        inputCommentary.setAttribute('value', commentaryContainer.text());
+        commentaryContainer.html(inputCommentary); 
+    
         $(`button.btn-action[data-id="${userId}"]`).hide();
         $(button).replaceWith(`<button type="button" class="btn btn-success" data-id="${userId}" onclick="saveComment(this)">Enregistrer</button>`);
     }
+
+    window.saveComment = function(button) {
+        let userId = $(button).data('id');
+        //console.log(userId)
+    
+        let currentRow = $(button).closest("tr");
+        let commentary = currentRow.find("input:eq(0)").val();
+    
+        currentRow.find('td:eq(4)').text(commentary); 
+    
+        $(`button.btn-action[data-id="${userId}"]`).show();
+        $(button).replaceWith(`<button type="button" class="btn btn-primary" data-id="${userId}" onclick="commentUser(this)">Modifier les commentaires</button>`);
+
+        $.ajax({
+            type: "POST",
+            url: "monitoring/comment",
+            data: { commentaires: commentary, id_user: userId },
+            headers: {'X-CSRF-TOKEN': csrfToken},
+            success: function(response) {
+                console.log(response);
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText);
+            }
+        });
+    }
+    
     
 
 });

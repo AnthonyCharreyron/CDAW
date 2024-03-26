@@ -125,5 +125,12 @@ class User extends Authenticatable implements MustVerifyEmail
                 'est_bloque' => 1
             ]);
     }
+
+    public static function updateComment($idUser, $commentaires){
+        self::where('id', '=', $idUser)
+            ->update([
+                'commentaires' => $commentaires,
+            ]);
+    }
     
 }
