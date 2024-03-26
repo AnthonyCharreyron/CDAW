@@ -28,7 +28,7 @@ class UserSeeder extends Seeder
                 'photo_profil' => 0,
                 'created_at' => now(),
                 'updated_at' => now(),
-                'commentaires'=> null
+                'commentaires' => 'Aucun'
             ],
             [
                 'pseudo' => 'Fifi',
@@ -52,7 +52,7 @@ class UserSeeder extends Seeder
                 'photo_profil' => 0,
                 'created_at' => now(),
                 'updated_at' => now(),
-                'commentaires' => null
+                'commentaires' => 'Aucun'
             ]
         ]);
     }

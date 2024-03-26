@@ -37,6 +37,7 @@ Route::get('/monitoring', [MonitorController::class, 'getMonitor'])->middleware(
 Route::get('/monitoring/users', [MonitorController::class, 'getAllUsers'])->middleware(AuthMiddleware::class);
 Route::post('/monitoring/admin', [MonitorController::class, 'putAdmin'])->middleware(AuthMiddleware::class);
 Route::post('/monitoring/block', [MonitorController::class, 'blockUser'])->middleware(AuthMiddleware::class);
+Route::post('/monitoring/comment', [MonitorController::class, 'updateComment'])->middleware(AuthMiddleware::class);
 
 Route::get('/connexion', [ConnexionController::class, 'getConnexion'])->name('connexion');
 Route::post('/connexion/creerUser', [UserController::class, 'createUser'])->name('inscription');

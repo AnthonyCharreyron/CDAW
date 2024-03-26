@@ -49,4 +49,16 @@ class MonitorController extends MenuController
             "message" => "Utilisateur bloqué",
         ]);
     }
+
+    public function updateComment(Request $request){
+        $id_user = $request->input('id_user');
+        $commentaires = $request->input('commentaires');
+
+        User::updateComment($id_user, $commentaires);
+
+        return response()->json([
+            "success" => true,
+            "message" => "Commentaires modifiés",
+        ]);
+    }
 }

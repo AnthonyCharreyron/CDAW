@@ -22,7 +22,7 @@ return new class extends Migration
             $table->boolean('est_bloque')->default(false);
             $table->boolean('est_administrateur')->default(false);
             $table->integer('photo_profil')->default(0);
-            $table->string('commentaires', 999)->nullable();
+            $table->string('commentaires', 999)->default('Aucun');
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
