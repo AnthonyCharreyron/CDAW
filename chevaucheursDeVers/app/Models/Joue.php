@@ -12,7 +12,7 @@ class Joue extends Model
     use HasFactory;
 
     protected $table = 'joue';
-    protected $primaryKey = array('id_partie', 'id_user');
+    //protected $primaryKey = ['id_partie', 'id_user'];
 
     public static function userJouePartie($idUser, $idPartie){
         self::insert(
@@ -26,7 +26,7 @@ class Joue extends Model
 
     public static function getParticipants($idPartie){
         return self::select('id_user')
-                    ->where('id_partie', '=', $idPartie)
+                    ->where('id_partie', $idPartie)
                     ->get();
     }
 

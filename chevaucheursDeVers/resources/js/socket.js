@@ -23,6 +23,9 @@ socket.onmessage = function(event) {
         case 'pioche':
             miseEnSession(content);
             break;
+        case 'redirect':
+            window.location.href='/jouer/partie/' + content;
+            break;
         default:
             console.error('Type de message non pris en charge.');
     }
@@ -76,6 +79,11 @@ window.reloadPageForAllClients=function() {
 
 window.sendPiocheVisible=function(piocheVisible, csrfToken){
     const message = 'pioche,' + piocheVisible;
+    sendToServer(message);
+}
+
+window.sendRedirectionPartie=function(codePartie){
+    const message = 'redirect,' + codePartie;
     sendToServer(message);
 }
 

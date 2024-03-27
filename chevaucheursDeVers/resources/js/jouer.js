@@ -17,7 +17,7 @@ jQuery(function($){
     
         let table1 = $('#partiePublique').DataTable({
             ajax:{ 
-                url: 'jouer/parties',
+                url: '/jouer/parties',
                 type: 'GET',
                 error: function(xhr, error, thrown) {
                     console.log('Erreur:', error);
@@ -57,7 +57,7 @@ jQuery(function($){
             formData.append("partie_code", codePartie);
     
             $.ajax({
-                url: 'jouer/rejoindre',
+                url: '/jouer/rejoindre',
                 data: formData,
                 cache: false,
                 contentType: false,
@@ -100,7 +100,7 @@ jQuery(function($){
     
     
             $.ajax({
-                url: 'jouer/creer',
+                url: '/jouer/creer',
                 data: formData,
                 cache: false,
                 contentType: false,

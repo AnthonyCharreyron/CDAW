@@ -45,7 +45,7 @@ class JouerController extends MenuController
         return response()->json([
             "success" => true,
             "message" => "OK partie créée",
-            "redirect_url" => "jouer/lobby/" . $codePartie
+            "redirect_url" => "/jouer/lobby/" . $codePartie
         ]);
 
     }

@@ -15,7 +15,7 @@ jQuery(function($){
                     console.log('test2');
                     sendPiocheVisible(response.piocheVisibleGlobale);
                     console.log('test3');
-                    reloadPageForAllClients();
+                    //reloadPageForAllClients();
                 },
                 error: function(xhr, status, error) {
                     console.error(xhr.responseText);
