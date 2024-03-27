@@ -26,6 +26,15 @@ socket.onmessage = function(event) {
         case 'redirect':
             window.location.href='/jouer/partie/' + content;
             break;
+        case 'user_join':
+            //let codePartie = content.split('|')[0]; 
+            let pseudo = content.split('|')[1]; 
+            console.log(pseudo);
+            const userJoin = document.getElementById('userJoin');
+            const li2 = document.createElement('li');
+            li2.innerHTML = pseudo;
+            userJoin.insertBefore(li2, userJoin.firstChild);
+            break;
         default:
             console.error('Type de message non pris en charge.');
     }
@@ -84,6 +93,12 @@ window.sendPiocheVisible=function(piocheVisible, csrfToken){
 
 window.sendRedirectionPartie=function(codePartie){
     const message = 'redirect,' + codePartie;
+    sendToServer(message);
+}
+
+window.sendUserJoinPartie=function(codePartie, pseudo){
+    const message = 'user_join,' + codePartie + '|' + pseudo;
+    console.log(pseudo);
     sendToServer(message);
 }
 

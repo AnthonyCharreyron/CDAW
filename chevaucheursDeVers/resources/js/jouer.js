@@ -68,6 +68,8 @@ jQuery(function($){
                     console.log(data);
                     if (data.success) {
                         window.location.href = data.redirect_url;
+
+                        sendUserJoinPartie(data.codePartie, data.pseudo);
                     } else {
                         alert("Le code fourni ne correspond pas.");
                     }
@@ -96,9 +98,6 @@ jQuery(function($){
             formData.append("partie_nbJoueurs", nbJoueurs);
             formData.append("id_user_host", hostId);
 
-
-    
-    
             $.ajax({
                 url: '/jouer/creer',
                 data: formData,

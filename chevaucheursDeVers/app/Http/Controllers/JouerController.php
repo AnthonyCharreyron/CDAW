@@ -45,7 +45,9 @@ class JouerController extends MenuController
         return response()->json([
             "success" => true,
             "message" => "OK partie créée",
-            "redirect_url" => "/jouer/lobby/" . $codePartie
+            "redirect_url" => "/jouer/lobby/" . $codePartie,
+            "codePartie" => $codePartie,
+            "pseudo" => $user->pseudo
         ]);
 
     }
@@ -53,7 +55,8 @@ class JouerController extends MenuController
     public function getLobby($codePartie){
         $url = request()->url();
         $user=Auth::user();
-        $isHost = Partie::getHostid($codePartie)==$user['id'] ? true : false;
+        $idHost = Partie::getHostid($codePartie);
+        $idPartie = Partie::verifyCode($codePartie);
 
         return view('lobby', [
             'currentPage' => 'Jouer',
@@ -61,7 +64,9 @@ class JouerController extends MenuController
             'menu' => $this->getMenu(),
             'code_partie' => $codePartie,
             'photo_profil' => $user!=null ? UserController::getUserPhoto($user['id']) : 0,
-            'isHost' => $isHost
+            'idHost' => $idHost, 
+            'userId' => $user->id,
+            "participants" => Joue::getParticipantsPseudos($idPartie)
         ]);
     }
 
@@ -70,15 +75,17 @@ class JouerController extends MenuController
         $user = Auth::user();
         $codePartie = $request->input('partie_code');
 
-        $partieExistante = Partie::verifyCode($codePartie);
+        $idPartie = Partie::verifyCode($codePartie);
+        Log::info(Joue::getParticipantsPseudos($idPartie));
         
-        if ($partieExistante != 0){
-            Joue::userJouePartie($user->id, $partieExistante);
+        if ($idPartie != 0){
+            Joue::userJouePartie($user->id, $idPartie);
             session(['participant' => $codePartie.'_'.$user->id]);           
             return response()->json([
                 "success" => true,
                 "message" => "OK partie rejointe",
-                "redirect_url" => "/jouer/lobby/" . $codePartie
+                "redirect_url" => "/jouer/lobby/" . $codePartie,
+                "pseudo" => $user->pseudo,
             ]);
         }
         return response()->json([

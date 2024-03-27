@@ -25,7 +25,7 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('riri'),
                 'est_administrateur' => true,
                 'est_bloque' => false,
-                'photo_profil' => 0,
+                'photo_profil' => 3,
                 'created_at' => now(),
                 'updated_at' => now(),
                 'commentaires' => 'Aucun'
@@ -37,7 +37,7 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('fifi'),
                 'est_administrateur' => false,
                 'est_bloque' => false,
-                'photo_profil' => 0,
+                'photo_profil' => 2,
                 'created_at' => now(),
                 'updated_at' => now(),
                 'commentaires' => '25/03 : Plaintes contre ce joueur, à suivre'
@@ -49,7 +49,7 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('test'),
                 'est_administrateur' => false,
                 'est_bloque' => false,
-                'photo_profil' => 0,
+                'photo_profil' => 1,
                 'created_at' => now(),
                 'updated_at' => now(),
                 'commentaires' => 'Aucun'

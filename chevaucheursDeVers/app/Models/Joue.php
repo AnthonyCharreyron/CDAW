@@ -30,4 +30,13 @@ class Joue extends Model
                     ->get();
     }
 
+    public static function getParticipantsPseudos($idPartie){
+        $participants = self::select('users.pseudo', 'users.id')
+                            ->leftJoin('users', 'users.id', '=', 'joue.id_user')
+                            ->where('joue.id_partie', $idPartie)
+                            ->get();
+        return $participants;
+
+    }
+
 }
