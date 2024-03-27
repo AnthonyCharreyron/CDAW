@@ -11,7 +11,9 @@
             @endforeach
         </ul>
         <br>
-        <p>En attente des joueurs restants</p>
+        @if($nb_joueurs != $nombre_joueurs_max)
+            <p class="d-inline">En attente des joueurs restants: <div class="d-inline" id="nb_joueurs">{{$nb_joueurs}}</div>/{{$nombre_joueurs_max}}</p>
+        @endif
         @if($idHost==$userId)
             <button class="launch-submit incomplet">Lancer la partie sans attendre</button>
         @endif

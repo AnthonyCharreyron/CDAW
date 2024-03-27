@@ -12,10 +12,8 @@ jQuery(function($){
                 headers: {'X-CSRF-TOKEN': csrfToken},
                 success: function(response) {
                     console.log(response);
-                    console.log('test2');
                     sendPiocheVisible(response.piocheVisibleGlobale);
-                    console.log('test3');
-                    //reloadPageForAllClients();
+                    reloadPageForAllClients();
                 },
                 error: function(xhr, status, error) {
                     console.error(xhr.responseText);

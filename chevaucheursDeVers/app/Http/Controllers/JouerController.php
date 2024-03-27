@@ -66,7 +66,9 @@ class JouerController extends MenuController
             'photo_profil' => $user!=null ? UserController::getUserPhoto($user['id']) : 0,
             'idHost' => $idHost, 
             'userId' => $user->id,
-            "participants" => Joue::getParticipantsPseudos($idPartie)
+            "participants" => Joue::getParticipantsPseudos($idPartie),
+            "nombre_joueurs_max" => Partie::getNombreJoueurs($idPartie),
+            "nb_joueurs" => Joue::countNbJoueurs($idPartie),
         ]);
     }
 
@@ -76,7 +78,6 @@ class JouerController extends MenuController
         $codePartie = $request->input('partie_code');
 
         $idPartie = Partie::verifyCode($codePartie);
-        Log::info(Joue::getParticipantsPseudos($idPartie));
         
         if ($idPartie != 0){
             Joue::userJouePartie($user->id, $idPartie);
@@ -86,6 +87,7 @@ class JouerController extends MenuController
                 "message" => "OK partie rejointe",
                 "redirect_url" => "/jouer/lobby/" . $codePartie,
                 "pseudo" => $user->pseudo,
+                "nb_joueurs" => Joue::countNbJoueurs($idPartie),
             ]);
         }
         return response()->json([

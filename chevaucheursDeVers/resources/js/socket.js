@@ -29,11 +29,15 @@ socket.onmessage = function(event) {
         case 'user_join':
             //let codePartie = content.split('|')[0]; 
             let pseudo = content.split('|')[1]; 
-            console.log(pseudo);
+            let nb_joueurs = content.split('|')[2]; 
+
             const userJoin = document.getElementById('userJoin');
             const li2 = document.createElement('li');
             li2.innerHTML = pseudo;
             userJoin.insertBefore(li2, userJoin.firstChild);
+
+            const container = document.getElementById('nb_joueurs');
+            container.innerHTML = nb_joueurs;
             break;
         default:
             console.error('Type de message non pris en charge.');
@@ -96,9 +100,8 @@ window.sendRedirectionPartie=function(codePartie){
     sendToServer(message);
 }
 
-window.sendUserJoinPartie=function(codePartie, pseudo){
-    const message = 'user_join,' + codePartie + '|' + pseudo;
-    console.log(pseudo);
+window.sendUserJoinPartie=function(codePartie, pseudo, nb_joueurs){
+    const message = 'user_join,' + codePartie + '|' + pseudo + '|' + nb_joueurs;
     sendToServer(message);
 }
 

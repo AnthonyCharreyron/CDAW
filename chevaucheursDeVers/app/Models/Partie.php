@@ -114,4 +114,10 @@ class Partie extends Model
                 'est_commencee' => 1,
             ]);
     }
+
+    public static function getNombreJoueurs($idPartie){
+        return self::select('nombre_joueurs')
+                    ->where('id_partie', '=', $idPartie)
+                    ->value('nombre_joueurs');
+    }
 }

@@ -62,14 +62,15 @@ jQuery(function($){
                 cache: false,
                 contentType: false,
                 processData: false,
+                asynch: false,
                 method: 'post',
                 headers: {'X-CSRF-TOKEN': csrfToken},
                 success: function(data){
                     console.log(data);
                     if (data.success) {
                         window.location.href = data.redirect_url;
+                        sendUserJoinPartie(data.codePartie, data.pseudo, data.nb_joueurs);
 
-                        sendUserJoinPartie(data.codePartie, data.pseudo);
                     } else {
                         alert("Le code fourni ne correspond pas.");
                     }
