@@ -85,6 +85,7 @@ function miseEnSession(piocheVisible){
     $.ajax({
         type: "POST",
         url: "/miseEnSessionCartes",
+        asynch: false,
         data: { cartes: piocheVisible },
         headers: {'X-CSRF-TOKEN': csrfToken2},
         success: function(response) {

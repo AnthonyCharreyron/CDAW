@@ -28,13 +28,14 @@ class PartieController extends Controller
         $code=$request->input('code');
         $idPartie = Partie::verifyCode($code);
         $participants = Joue::getParticipants($idPartie);
+        Log::info($participants);
 
         Partie::lancerPartie($code);
         Partie::generateCartesPiocheVisible();
         Partie::initialiserCartesEnMain(4, $idPartie, $participants);
         Partie::obtenirCartesDestination(3, $idPartie, $participants);
 
-    Log::info('Test1');
+        Log::info('Test1');
 
         return response()->json([
             "success" => true,

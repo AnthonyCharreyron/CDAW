@@ -14,8 +14,8 @@ class ListeAmi extends Migration
     public function up()
     {
         Schema::create('liste_ami', function (Blueprint $table) {
-            $table->unsignedBigInteger("id1");
-            $table->unsignedBigInteger("id2");
+            $table->integer("id1");
+            $table->integer("id2");
     
             $table->foreign("id1")->references("id")->on("users")->onDelete("cascade");
             $table->foreign("id2")->references("id")->on("users")->onDelete("cascade");

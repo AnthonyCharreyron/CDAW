@@ -7,6 +7,7 @@ jQuery(function($){
             $.ajax({
                 type: "POST",
                 url: "lancer",
+                async: false,
                 data: {code: codePartie},
                 headers: {'X-CSRF-TOKEN': csrfToken},
                 success: function(response) {
@@ -14,7 +15,7 @@ jQuery(function($){
                     console.log('test2');
                     sendPiocheVisible(response.piocheVisibleGlobale);
                     console.log('test3');
-                    setTimeout(reloadPageForAllClients(), 2000);
+                    reloadPageForAllClients();
                 },
                 error: function(xhr, status, error) {
                     console.error(xhr.responseText);
