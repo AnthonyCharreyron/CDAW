@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 
 class Partie extends Model
 {
@@ -85,20 +86,45 @@ class Partie extends Model
         
     }
 
-    public static function obtenirCartesDestination($nombreCarte, $idPartie, $participants){
-        $nomsCartes = ["Sietch Tabr-Territoire des vers","Caladan-Terre du Sud","Sihaya-Faux mur du Sud","Sietch Tabr-Plaine funèbre","Sihaya-Montagne Chin","Sihaya-Carthag","Arsunt-Observatoire","Territoire des vers-Bassin Impérial","Sietch de Tuek-Base météorologique","Sietch de Tuek-Grotte des oiseaux","Grotte des oiseaux-Pole Nord","Barrière-Base météorologique","Sietch Tabr-Réserve d'épices","Kaitain-Faux mur du Sud","Plaine funèbre-Bassin Impérial","Sietch Tabr-Sietch de Tuek","Petit Erg-Observatoire","Montagne Chin-Carthag","Grotte des oiseaux-Tsimpo","Tsimpo-Mont idaho"];
-        foreach($participants as $user){
+    public static function obtenirCartesDestination($nombreCarte, $idPartie, $participants) {
+        $nomsCartes = [
+            "Sietch Tabr-Territoire des vers" => 15,
+            "Caladan-Terre du Sud" => 17,
+            "Sihaya-Faux mur du Sud" => 11,
+            "Sietch-Tabr Plaine funèbre" => 14,
+            "Sihaya-Montagne Chin" => 8,
+            "Sihaya-Carthag" => 12,
+            "Arsunt-Observatoire" => 10,
+            "Territoire des vers-Bassin Impérial" => 9,
+            "Sietch de Tuek-Base météorologique" => 5,
+            "Sietch de Tuek-Grotte des oiseaux" => 11,
+            "Grotte des oiseaux-Pole Nord" => 12,
+            "Barrière-Base météorologique" => 13,
+            "Sietch Tabr-Réserve d'épices" => 11,
+            "Kaitain-Faux mur du Sud" => 7,
+            "Plaine funèbre-Bassin Impérial" => 9,
+            "Sietch Tabr-Sietch de Tuek" => 20,
+            "Petit Erg-Observatoire" => 11,
+            "Montagne Chin-Carthag" => 18,
+            "Grotte des oiseaux-Tsimpo" => 17,
+            "Sietch Gara Kulon-Trou dans la pierre" => 13
+        ];
+    
+        foreach ($participants as $user) {
             $cartes = [];
-
-            for($i = 0; $i < $nombreCarte; $i++){
-                $index = array_rand($nomsCartes);
-                $carte = $nomsCartes[$index];
-                array_push($cartes, $carte);
-                array_splice($nomsCartes, $index, 1);
+            $cartesRestantes = $nomsCartes;
+    
+            for ($i = 0; $i < $nombreCarte; $i++) {
+                $destination = array_rand($cartesRestantes);
+                $score = $cartesRestantes[$destination];
+                $cartes[$destination]=$score;
+                unset($cartesRestantes[$destination]);
             }
-            session(['cartesDestinationsMain_'.$user->id_user => $cartes]);
+            Log::info($cartes);
+            session(['cartesDestinationsMain_' . $user->id_user => $cartes]);
         }
     }
+    
 
     public static function estCommencee($codePartie){
         $bool = self::select('est_commencee')

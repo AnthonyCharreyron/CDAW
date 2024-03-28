@@ -13,7 +13,7 @@ jQuery(function($){
                 success: function(response) {
                     console.log(response);
                     sendPiocheVisible(response.piocheVisibleGlobale);
-                    reloadPageForAllClients();
+                    //reloadPageForAllClients();
                 },
                 error: function(xhr, status, error) {
                     console.error(xhr.responseText);

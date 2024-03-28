@@ -66,15 +66,18 @@ nav a:hover{
     transform: rotate(-90deg);
   }
 
-.card {
-    width: 10vh;
-    height: auto;
+.pioche{
     position: relative;
     z-index: 1; 
     margin-top: -3vh;
     margin-bottom: -7vh;
     margin-left: 7vh;
+}
 
+.main{
+    position: relative;
+    z-index: 2; 
+    margin-right: -7vh;
 }
 
 

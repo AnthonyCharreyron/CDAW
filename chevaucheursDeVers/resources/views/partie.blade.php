@@ -40,18 +40,43 @@
                     </div>
                     
                     <div class="col-3">
-                    @if($partie_commencee)
-                        @forelse(session()->get('piocheVisibleGlobale', []) as $carte)
-                            <div class="row">
-                                <img class="card p-0 mx-auto rotate-image" src="{{ asset('images/'.$carte.'.png') }}" alt="{{ $carte }}" style="width: 100px; height: auto;">
-                            </div>
-                        @empty
-                            <div class="row">
-                                <p>Aucune carte visible pour le moment.</p>
-                            </div>
-                        @endforelse
-                    @endif
+                        @if($partie_commencee)
+                            @forelse(session()->get('piocheVisibleGlobale', []) as $carte)
+                                <div class="row">
+                                    <img class="pioche p-0 mx-auto rotate-image" src="{{ asset('images/'.$carte.'.png') }}" alt="{{ $carte }}" style="width: 100px; height: auto;">
+                                </div>
+                            @empty
+                                <div class="row">
+                                    <p>Aucune carte visible pour le moment.</p>
+                                </div>
+                            @endforelse
+                        @endif
+                    </div>
                 </div>
+                <div class='row'>
+                    <div class='col-4'>
+                        @if($partie_commencee)
+                            <b>Mes destinations et points associés:</b>
+                            <ul>
+                                @forelse(session()->get('cartesDestinationsMain_'.$user->id, []) as $destination => $points)
+                                     <li>{{$destination}} : {{$points}}</li>
+                                @empty
+                                     <p>Aucune carte pour le moment.</p>
+                                @endforelse
+                            </ul>
+                        @endif
+                    </div>
+                    <div class='col-8'>
+                        <div class='row'>
+                            @if($partie_commencee)
+                                @forelse(session()->get('cartesEnMain_'.$user->id, []) as $carte)
+                                     <img class="main p-0 my-auto rotate-image" src="{{ asset('images/'.$carte.'.png') }}" alt="{{ $carte }}" style="width: 100px; height: auto;">
+                                @empty
+                                     <p>Aucune carte visible pour le moment.</p>
+                                @endforelse
+                            @endif
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="col-3 sidebar">
