@@ -81,6 +81,21 @@
             </div>
             <div class="col-3 sidebar">
                 <!-- TODO : bandeaux avec couleurs, nb cartes et points de chaque joueur -->
+                
+                @php
+                    $couleursVers=['bleu', 'jaune', 'rouge', 'violet', 'vert']; 
+                @endphp
+                @foreach($participants as $index => $user)
+                    <div class="row {{couleursVers[$index]}}">
+                        <b>{{$user->pseudo}}</b>
+                        @if($partie_commencee)
+                            <p>&nbsp; cartes ver en mains</p>
+                            <p>&nbsp; wagons restants</p>
+                            <p>&nbsp; points</p>
+                        @endif
+                    </div>
+                @endforeach
+                
             </div>
         </div>
 
