@@ -17,13 +17,16 @@ class MessageController extends Controller
     }
 
     public function miseEnSessionCartes(Request $request){
-        // Récupérer les cartes depuis la requête
+        $type =  $request->input('type');
         $cartes = $request->input('cartes');
-        $cartesArray = array_map('trim', explode(',', $cartes));
-        $cartesIndexees = array_values($cartesArray);
-        session(['piocheVisibleGlobale' => $cartesIndexees]);
-    
-        Log::info('test6 : ', [$cartesIndexees]);
+        if($type==='piocheVisibleGlobale'){
+            $cartesArray = array_map('trim', explode(',', $cartes));
+            $cartesIndexees = array_values($cartesArray);
+        } else {
+            $cartesIndexees = $cartes;
+        }
+        
+        session([$type => $cartesIndexees]);
     }
     
 }

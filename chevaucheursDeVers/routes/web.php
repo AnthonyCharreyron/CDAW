@@ -54,3 +54,5 @@ Route::post('/authenticate', [ConnexionController::class, 'authenticate'])->name
 Route::post('/logout', [ConnexionController::class, 'logout'])->name('connexion.logout');
 Route::post('/message', [MessageController::class, 'sendMessage'])->name('message.send');
 Route::post('/miseEnSessionCartes', [MessageController::class, 'miseEnSessionCartes']);
+Route::post('/initialiserCartesMain', [PartieController::class, 'initialiserCartesMain']);
+

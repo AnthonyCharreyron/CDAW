@@ -25,22 +25,30 @@ class PartieController extends Controller
     }
 
     public function lancerPartie(Request $request){
+        $user = Auth::user();
         $code=$request->input('code');
         $idPartie = Partie::verifyCode($code);
         $participants = Joue::getParticipants($idPartie);
-        Log::info($participants);
 
         Partie::lancerPartie($code);
         Partie::generateCartesPiocheVisible();
-        Partie::initialiserCartesEnMain(4, $idPartie, $participants);
-        Partie::obtenirCartesDestination(3, $idPartie, $participants);
-
-        Log::info('Test1');
+        Partie::initialiserCartesEnMain(4, $user->id);
+        $cartesDestinations = Partie::obtenirCartesDestination(3, $participants);
 
         return response()->json([
             "success" => true,
             "message" => "OK partie initialisée",
-            "piocheVisibleGlobale" => session()->get('piocheVisibleGlobale')
+            "piocheVisibleGlobale" => session()->get('piocheVisibleGlobale'),
+            "cartesDestinations" => $cartesDestinations,
+        ]);
+    }
+
+    public function initialiserCartesMain(Request $request){
+        $user=Auth::user();
+        Partie::initialiserCartesEnMain(4, $user->id);
+        return response()->json([
+            "success" => true,
+            "message" => "OK cartes en main initialisées"
         ]);
     }
  

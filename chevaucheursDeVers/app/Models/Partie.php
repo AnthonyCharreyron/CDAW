@@ -70,23 +70,23 @@ class Partie extends Model
         session(['piocheVisibleGlobale' => $cartes]);
     }
     
-    public static function initialiserCartesEnMain($nombreCarte, $idPartie, $participants){
+    public static function initialiserCartesEnMain($nombreCarte, $idUser){
         $nomsCartes = ['Carte ver bleu', 'Carte ver jaune', 'Carte ver multicolore', 'Carte ver rose', 'Carte ver rouge', 'Carte ver vert'];
-        foreach($participants as $user){
-            $cartes = [];
 
-            for($i=0; $i<$nombreCarte; $i++){
-                $carte = $nomsCartes[rand(0,5)]; 
-                array_push($cartes, $carte);
-            }
+        $cartes = [];
 
-            session(['cartesEnMain_'.$user->id_user => $cartes]);
+        for($i=0; $i<$nombreCarte; $i++){
+            $carte = $nomsCartes[rand(0,5)]; 
+            array_push($cartes, $carte);
         }
+
+        session(['cartesEnMain_'.$idUser => $cartes]);
+        
 
         
     }
 
-    public static function obtenirCartesDestination($nombreCarte, $idPartie, $participants) {
+    public static function obtenirCartesDestination($nombreCarte, $participants) {
         $nomsCartes = [
             "Sietch Tabr-Territoire des vers" => 15,
             "Caladan-Terre du Sud" => 17,
@@ -109,6 +109,8 @@ class Partie extends Model
             "Grotte des oiseaux-Tsimpo" => 17,
             "Sietch Gara Kulon-Trou dans la pierre" => 13
         ];
+
+        $result=[];
     
         foreach ($participants as $user) {
             $cartes = [];
@@ -120,9 +122,11 @@ class Partie extends Model
                 $cartes[$destination]=$score;
                 unset($cartesRestantes[$destination]);
             }
-            Log::info($cartes);
             session(['cartesDestinationsMain_' . $user->id_user => $cartes]);
+            $result['cartesDestinationsMain_' . $user->id_user] = $cartes;
         }
+        
+        return $result;
     }
     
 

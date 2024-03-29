@@ -20,9 +20,23 @@ socket.onmessage = function(event) {
         case 'reload':
             window.location.reload(); // Recharge la page lorsque le message 'reload' est reçu
             break;
-        case 'pioche':
-            miseEnSession(content);
+        case 'lancer_partie':
+            const [pioche, destinationsString] = content.split('|');
+            const destinations = JSON.parse(destinationsString); // Convertir la chaîne JSON en objet JavaScript
+            miseEnSession('piocheVisibleGlobale', pioche);
+        
+            for (const [key, value] of Object.entries(destinations)) {
+                const typeCarte = key;
+                const destinationsJoueur = value;
+                console.log(typeCarte);
+                console.log(destinationsJoueur);
+                miseEnSession(typeCarte, destinationsJoueur);
+            }
+
+            initialiserCartesMain();
             break;
+            
+
         case 'redirect':
             window.location.href='/jouer/partie/' + content;
             break;
@@ -90,10 +104,15 @@ window.reloadPageForAllClients=function() {
     sendToServer('reload');
 }
 
-window.sendPiocheVisible=function(piocheVisible, csrfToken){
-    const message = 'pioche,' + piocheVisible;
-    sendToServer(message);
+window.sendLancerPartie = function(piocheVisible, cartesDestinations) {
+    try {
+        const message = 'lancer_partie,' + piocheVisible + '|' + JSON.stringify(cartesDestinations);
+        sendToServer(message);
+    } catch (error) {
+        console.error('Erreur lors de la conversion en JSON :', error);
+    }
 }
+
 
 window.sendRedirectionPartie=function(codePartie){
     const message = 'redirect,' + codePartie;
@@ -105,18 +124,34 @@ window.sendUserJoinPartie=function(codePartie, pseudo, nb_joueurs){
     sendToServer(message);
 }
 
-function miseEnSession(piocheVisible){
+function miseEnSession(type, cartes){
     const csrfToken2 = $('meta[name="csrf-token"]').attr('content');
-    console.log('test5');
+
     $.ajax({
         type: "POST",
         url: "/miseEnSessionCartes",
         asynch: false,
-        data: { cartes: piocheVisible },
+        data: { type: type, cartes: cartes },
         headers: {'X-CSRF-TOKEN': csrfToken2},
         success: function(response) {
             console.log(response);
-            console.log('test7');
+        },
+        error: function(xhr, status, error) {
+            console.error(xhr.responseText);
+        }
+    });
+}
+
+function initialiserCartesMain(){
+    const csrfToken3 = $('meta[name="csrf-token"]').attr('content');
+
+    $.ajax({
+        type: "POST",
+        url: "/initialiserCartesMain",
+        asynch: false,
+        headers: {'X-CSRF-TOKEN': csrfToken3},
+        success: function(response) {
+            console.log(response);
         },
         error: function(xhr, status, error) {
             console.error(xhr.responseText);
