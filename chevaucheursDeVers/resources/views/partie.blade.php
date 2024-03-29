@@ -4,32 +4,73 @@
     <head>
         <meta charset="UTF-8">
         <meta name="csrf-token" content="{{ csrf_token() }}">
+        <link rel="stylesheet" href="{{asset('dataTables/css/dataTables.v1.13.4-custom.min.css')}}">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Kufam:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
         <title>Chevaucheurs De Vers</title>
         @vite('resources/css/app.scss')
     </head>
 
     <body style="height: 100vh">
 
+
+        <div>
+            <!-- Modal pour la suppression d'une carte destination au début -->
+            <div class="modal fade" id="modalDestination" tabindex="-1" role="dialog" aria-labelledby="modalDestLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalDestLabel">Veuillez choisir une destination à supprimer</h5>
+                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <ul>
+                                @if(session()->get('cartesDestinationsMain_'.$user->id)!==null)
+                                    @foreach(session()->get('cartesDestinationsMain_'.$user->id) as $destination => $points)
+                                        <li>{{$destination}} : {{$points}} <button class="btn btn-danger btn-sm" onclick="supprimerDestination({{$user->id}}, 'destination_{{$loop->index + 1}}')" data-bs-dismiss="modal">Supprimer</button></li>
+                                    @endforeach
+                                @endif
+                            </ul>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" onclick="supprimerDestination({{$user->id}}, null)" data-bs-dismiss="modal">Garder toutes les cartes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="row h-100">
             <div class="col-9">
-                <h1 class='text-center'>Chevaucheurs de vers</h1>
+                <h1 class='text-center kufam-font'>Chevaucheurs de vers</h1>
                 <!-- TODO : if votreTour => afficher "c'est à vous" <h3>C'est à currentPlayer de jouer</h3> -->
                 <!-- TODO : Temps restant : .... -->
                 
                 <div class='row my-3 d-flex justify-content-center'>
                     @if($partie_commencee)
-                        <div class='col-3 d-flex align-items-center justify-content-center'>
-                            <button type="button" class='btn btn-outline-secondary' data-bs-toggle="modal" data-bs-target="#exampleModalToggle">Piocher des vers</button>
-                        </div>
-                        <div class='col-3 d-flex align-items-center justify-content-center'>
-                            <button class='btn btn-outline-secondary' onclick='piocherDestination()'>Piocher des destinations</button>
-                        </div>
-                        <div class='col-3 d-flex align-items-center justify-content-center'>
-                            <button class='btn btn-outline-secondary' onclick='poserVers()'>Poser des vers</button>
-                        </div>  
+                        @if(!isset($_COOKIE['partieDebutee']))
+                            <div class='row' id="btnModalDestinationContainer">
+                                <button id="modalDestBtn" type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalDestination">Supprimer une carte destination</button>
+                            </div>
+                        @else
+                            <div id="btnPiocheVers" class='col-3 d-flex align-items-center justify-content-center'>
+                                <button class='btn btn-outline-secondary' onclick='piocherVers()'>Piocher des vers</button>
+                            </div>
+                            <div id="btnPiocheDestinations" class='col-3 d-flex align-items-center justify-content-center'>
+                                <button class='btn btn-outline-secondary' onclick='piocherDestination()'>Piocher des destinations</button>
+                            </div>
+                            <div id="btnPoserVers" class='col-3 d-flex align-items-center justify-content-center'>
+                                <button class='btn btn-outline-secondary' onclick='poserVers()'>Poser des vers</button>
+                            </div> 
+                        @endif
+                        
                     @else
                         <div class='col d-flex align-items-center justify-content-center'>
-                            <button class='btn btn-outline-secondary' onclick='lancerPartie()'>Lancer la partie</button>
+                            <button type="button" class='btn btn-outline-secondary' onclick='lancerPartie()'>Lancer la partie</button>
                         </div>
                     @endif
                 </div>
@@ -58,19 +99,19 @@
                     </div>
                 </div>
                 <div class='row'>
-                    <div class='col-4'>
+                    <div class='col'>
                         @if($partie_commencee)
                             <b>Mes destinations et points associés:</b>
                             <ul>
                                 @forelse(session()->get('cartesDestinationsMain_'.$user->id, []) as $destination => $points)
-                                     <li>{{$destination}} : {{$points}}</li>
+                                     <li id="destination_{{$loop->index + 1}}">{{$destination}} : {{$points}}</li>
                                 @empty
                                      <p>Aucune carte pour le moment.</p>
                                 @endforelse
                             </ul>
                         @endif
                     </div>
-                    <div class='col-8'>
+                    <div class='col'>
                         <div class='row'>
                             @if($partie_commencee)
                                 @forelse(session()->get('cartesEnMain_'.$user->id, []) as $carte)
@@ -85,87 +126,25 @@
             </div>
             <div class="col-3 sidebar">
                 <!-- TODO : bandeaux avec couleurs, nb cartes et points de chaque joueur -->
+                
+                @php
+                    $couleursVers = ['bleu', 'jaune', 'rouge', 'violet', 'vert']; 
+                @endphp
+                @foreach($participants as $index => $user)
+                    </br>
+                    <div class="row {{ $couleursVers[$index % count($couleursVers)] }}">
+                        <b>{{ $user->pseudo }}</b>
+                        </hr>
+                        @if($partie_commencee)
+                            <p class="my-0 mx-3"> cartes ver en mains</p>
+                            <p class="my-0 mx-3"> wagons restants</p>
+                            <p class="my-0 mx-3"> points</p>
+                        @endif
+                    </div>
+                    </br>
+                @endforeach
             </div>
         </div>
-
-
-        @if(session()->get('piocheVisibleGlobale') !== null )
-            @php 
-                $cartes = session()->get('piocheVisibleGlobale');
-            @endphp    
-        @endif
-
-        <!-- Modal -->
-
-        <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalToggleLabel">Choisir le premier ver</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        @forelse($cartes as $index => $carte)
-                            @if($index == 5)
-                                <div class="row">
-                                    <div class="col">
-                                        <label>
-                                            <input type="radio" name="carte_selectionnee" value="{{ $carte[$index] }}">
-                                            <p class="d-inline"><img class="selectedCard rotate-image" src="{{ asset('images/dos_de_carte.png') }}" alt="Ver face caché" style="width: 40px; height: auto;">&nbsp; Pioche <p>  
-                                        </label>
-                                    </div>
-                                </div>
-                            @elseif($index == 6)
-                                <div id="lastCard" class="row" style="display: none;">
-                                    <div class="col">
-                                        <label>
-                                            <input type="radio" name="carte_selectionnee" value="{{ $carte[$index] }}">
-                                            <p class="d-inline"><img class="selectedCard rotate-image" src="{{ asset('images/dos_de_carte.png') }}" alt="Ver face caché" style="width: 40px; height: auto;">&nbsp;Pioche <p>  
-                                        </label>
-                                    </div>
-                                </div>
-                            @else
-                                <div class="row">
-                                    <div class="col">
-                                        <label>
-                                            <input type="radio" name="carte_selectionnee" value="{{ $carte }}" id="carte{{ $index }}">
-                                            <img class="selectedCard rotate-image" src="{{ asset('images/'.$carte.'.png') }}" alt="{{ $carte }}" style="width: 50px; height: auto;">  
-                                        </label>
-                                    </div>
-                                </div>
-                            @endif  
-                        @empty
-                            <div class="row">
-                                <p>Aucune carte visible pour le moment.</p>
-                            </div>
-                        @endforelse
-                        <script>
-                            var radioInputs = document.querySelectorAll('input[name="carte_selectionnee"]');
-                            var selectedValue = radioInputs.checked.value;
-                            console.log(selectedValue);
-                        </script>
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal">Valider le choix du premier ver</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalToggleLabel2">Choisir le second ver</h5>
-                    </div>
-                <div class="modal-body">
-                    message blop
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-primary" data-bs-dismiss="modal" onclick=piocherVers()>Valider le second ver</button>
-                </div>
-            </div>
-        </div>
-
 
         @vite('resources/js/app.js')
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
