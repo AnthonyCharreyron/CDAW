@@ -55,4 +55,6 @@ Route::post('/logout', [ConnexionController::class, 'logout'])->name('connexion.
 Route::post('/message', [MessageController::class, 'sendMessage'])->name('message.send');
 Route::post('/miseEnSessionCartes', [MessageController::class, 'miseEnSessionCartes']);
 Route::post('/initialiserCartesMain', [PartieController::class, 'initialiserCartesMain']);
+Route::post('/supprimerCarteDestination', [PartieController::class, 'supprimerCarteDestination']);
+
 

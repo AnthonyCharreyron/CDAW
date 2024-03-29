@@ -35,8 +35,6 @@ socket.onmessage = function(event) {
 
             initialiserCartesMain();
             break;
-            
-
         case 'redirect':
             window.location.href='/jouer/partie/' + content;
             break;

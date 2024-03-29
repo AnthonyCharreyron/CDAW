@@ -56,6 +56,22 @@ class PartieController extends Controller
             "message" => "OK cartes en main initialisées"
         ]);
     }
+
+    public function supprimerCarteDestination(Request $request){
+        $idUser = $request->input('userId');
+        $destinationId = $request->input('destinationId');
+
+        $posUnderscore = strpos($destinationId, '_');
+        $id = intval(substr($destinationId, $posUnderscore + 1));
+    
+        $cartesDestinations = session()->get('cartesDestinationsMain_'.$idUser);
+        if ($cartesDestinations) {
+            array_splice($cartesDestinations, $id - 1, 1);
+            session()->put('cartesDestinationsMain_'.$idUser, $cartesDestinations);
+        }
+        
+    }
+    
  
 
 }

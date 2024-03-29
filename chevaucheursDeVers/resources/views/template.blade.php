@@ -6,12 +6,15 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>Chevaucheurs De Vers</title>
         <link rel="stylesheet" href="{{asset('dataTables/css/dataTables.v1.13.4-custom.min.css')}}">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Kufam:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
         @vite('resources/css/app.scss')
         @yield('style')
 
         @yield('head')
     </head>
-    <body>
+    <body class='kufam-font'>
         <nav class="menu">
             <ul class="row m-0">
                 @foreach($menu as $onglet)
@@ -30,7 +33,7 @@
                             <div class='col'></div>
                         @endif
                     @else
-                        <a class="col text-decoration-none text-black {{$currentPage===$onglet['menu_libelle'] ? 'active' : ''}}"  href="{{$onglet['route']}}">
+                        <a class="col kufam-font text-decoration-none text-black {{$currentPage===$onglet['menu_libelle'] ? 'active' : ''}}"  href="{{$onglet['route']}}">
                             @if($onglet['no_ordre']===1)
                                 <img src="{{asset('images/Colline-logo.png')}}" style="height: 10vh" alt="Logo Colline">
                                 <p>&nbsp;</p>

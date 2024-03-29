@@ -91,7 +91,7 @@ class Partie extends Model
             "Sietch Tabr-Territoire des vers" => 15,
             "Caladan-Terre du Sud" => 17,
             "Sihaya-Faux mur du Sud" => 11,
-            "Sietch-Tabr Plaine funèbre" => 14,
+            "Sietch Tabr-Plaine funèbre" => 14,
             "Sihaya-Montagne Chin" => 8,
             "Sihaya-Carthag" => 12,
             "Arsunt-Observatoire" => 10,
@@ -109,25 +109,27 @@ class Partie extends Model
             "Grotte des oiseaux-Tsimpo" => 17,
             "Sietch Gara Kulon-Trou dans la pierre" => 13
         ];
-
-        $result=[];
+    
+        $result = [];
     
         foreach ($participants as $user) {
             $cartes = [];
             $cartesRestantes = $nomsCartes;
-    
+            
             for ($i = 0; $i < $nombreCarte; $i++) {
                 $destination = array_rand($cartesRestantes);
                 $score = $cartesRestantes[$destination];
-                $cartes[$destination]=$score;
+                $cartes[$destination] = $score;
                 unset($cartesRestantes[$destination]);
             }
+            
             session(['cartesDestinationsMain_' . $user->id_user => $cartes]);
             $result['cartesDestinationsMain_' . $user->id_user] = $cartes;
         }
-        
+    
         return $result;
     }
+    
     
 
     public static function estCommencee($codePartie){
