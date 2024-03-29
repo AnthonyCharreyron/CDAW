@@ -16,11 +16,16 @@ class PartieController extends Controller
         $url = request()->url();
         $user = Auth::user();
 
+        $idPartie = Partie::verifyCode($code_partie);
+
+        $participants = Joue::getParticipants($idPartie);
+
         return view('partie', [
             'photo_profil' => $user!=null ? UserController::getUserPhoto($user['id']) : 0,
             'user' => $user,
             'partie_commencee' => Partie::estCommencee($code_partie),
             'code_partie' => $code_partie,
+            'participants' => $participants
         ]);
     }
 

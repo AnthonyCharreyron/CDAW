@@ -66,7 +66,7 @@ class JouerController extends MenuController
             'photo_profil' => $user!=null ? UserController::getUserPhoto($user['id']) : 0,
             'idHost' => $idHost, 
             'userId' => $user->id,
-            "participants" => Joue::getParticipantsPseudos($idPartie),
+            "participants" => Joue::getParticipants($idPartie),
             "nombre_joueurs_max" => Partie::getNombreJoueurs($idPartie),
             "nb_joueurs" => Joue::countNbJoueurs($idPartie),
         ]);
@@ -81,7 +81,6 @@ class JouerController extends MenuController
         
         if ($idPartie != 0){
             Joue::userJouePartie($user->id, $idPartie);
-            session(['participant' => $codePartie.'_'.$user->id]);           
             return response()->json([
                 "success" => true,
                 "message" => "OK partie rejointe",
