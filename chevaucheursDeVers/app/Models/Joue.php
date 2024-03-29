@@ -31,6 +31,12 @@ class Joue extends Model
                     ->get();
     }
 
+    public static function estParticipant($idPartie, $idUser){
+        return self::where('id_partie', $idPartie)
+                    ->where('id_user', $idUser)
+                    ->exists();
+    }
+
 
     public static function countNbJoueurs($idPartie){
         return self::where('id_partie', $idPartie)->count('id_user');

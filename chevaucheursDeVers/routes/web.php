@@ -12,7 +12,7 @@ use App\Http\Controllers\MonProfilController;
 use App\Http\Controllers\PartieController;
 use App\Http\Controllers\MonitorController;
 use App\Http\Middleware\AuthMiddleware;
-
+use App\Http\Middleware\JouePartieMiddleware;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -25,10 +25,10 @@ Route::post('/monProfil/modifierProfil', [MonProfilController::class, 'modifierP
 Route::get('/historique', [HistoriqueController::class, 'getClassement']);
 Route::get('/historique/{id}', [HistoriqueController::class, 'statClassement'])->name('stats');
 
-Route::get('/jouer', [JouerController::class, 'getPartie'])->middleware(AuthMiddleware::class);
+Route::get('/jouer', [JouerController::class, 'getPartie'])->middleware(AuthMiddleware::class)->name('jouer');
 Route::get('/jouer/parties', [JouerController::class, 'getInfoParties'])->middleware(AuthMiddleware::class);
-Route::get('/jouer/lobby/{code_partie}', [JouerController::class, 'getLobby'])->middleware(AuthMiddleware::class);
-Route::get('/jouer/partie/{code_partie}', [PartieController::class, 'getPartieJouee'])->middleware(AuthMiddleware::class);
+Route::get('/jouer/lobby/{code_partie}', [JouerController::class, 'getLobby'])->middleware([AuthMiddleware::class, JouePartieMiddleware::class]);
+Route::get('/jouer/partie/{code_partie}', [PartieController::class, 'getPartieJouee'])->middleware([AuthMiddleware::class, JouePartieMiddleware::class]);
 Route::post('/jouer/partie/lancer', [PartieController::class, 'lancerPartie'])->middleware(AuthMiddleware::class);
 
 Route::post('/jouer/creer', [JouerController::class, 'createPartie'])->middleware(AuthMiddleware::class);

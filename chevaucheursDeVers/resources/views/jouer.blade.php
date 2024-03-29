@@ -1,6 +1,12 @@
 @extends('template')
 
 @section('content')
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            {{ $errors->first() }}
+        </div>
+    @endif
+
     <x-chat/>
 
     <div class='row'>

@@ -7,7 +7,7 @@
         <b>Liste des joueurs présents :</b><br>
         <ul id='userJoin'>
             @foreach($participants as $user)
-                <li>{{$idHost==$user->id ? $user->pseudo.' (Host)' : $user->pseudo}}</li>
+                <li>{{$idHost==$user->id_user ? $user->pseudo.' (Host)' : $user->pseudo}}</li>
             @endforeach
         </ul>
         <br>

@@ -17,8 +17,8 @@ class MenuController extends Controller{
         $pseudo = $user==null ? 'Anonymous' : $user->pseudo;
         $isConnected = $user==null ? false : true;
 
-        Log::info($user);
-        Log::info($pseudo);
+        //Log::info($user);
+        //Log::info($pseudo);
 
         $isAdmin = User::isAdministrateur($pseudo); //TODO
         //Log::info($isAdmin);
