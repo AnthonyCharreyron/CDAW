@@ -74,10 +74,14 @@ nav a:hover{
     margin-left: 7vh;
 }
 
+.selectedCard{
+    position: relative;
+    z-index: 1; 
+    margin-left: 3vh;
+}
+
 .main{
     position: relative;
     z-index: 2; 
     margin-right: -7vh;
 }
-
-

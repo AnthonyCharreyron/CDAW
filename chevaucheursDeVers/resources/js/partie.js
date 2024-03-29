@@ -21,6 +21,12 @@ jQuery(function($){
         }
     });
 
+    window.piocherVers = function(){
+        console.log('test');
+        //document.getElementById('overlay').style.display = 'block';
+
+
+    }
  
 
 });
