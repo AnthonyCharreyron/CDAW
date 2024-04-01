@@ -44,9 +44,27 @@
 
             <div class="col">
                 <h3>Tour de jeu</h3>
+                <p>
+                    Les Chevaucheurs de vers est un jeu joué tour par tour. À son tour, le joueur doit effectuer une et une seule des trois actions suivantes :
+                </p>
+                <ol>
+                    <li>Prendre des cartes Vers : le joueur peut prendre 2 cartes Ver parmi les 5 visibles ou dans la pioche.</li>
+                    <li>Prendre possession d’un chemin : le joueur peut s’emparer d’un chemin sur le plateau en se défaussant des cartes Vers requises. Il pose ainsi un ver sur le chemin.</li>
+                    <li>Prendre des cartes Destination supplémentaires : le joueur choisit parmi 3 cartes Destination celles qu'il souhaite conserver, en gardant au moins une.</li>
+                </ol>
             </div>
-            <div class="col">
-                <h3>Carte de jeu</h3>
+
+        </div>
+        <div class="row">
+            <h3>Carte de jeu</h3>
+            @php
+                $images = ["bleu", "jaune", "rose", "multicolore", "rouge", "vert"];
+            @endphp
+                @for($i = 0; $i <= 5; $i++)
+                    <div class="col-md-2">
+                        <img src="{{ asset('images/Carte ver '.$images[$i].'.png') }}" alt="Photo {{ $i }}" style="width: 60px; height: auto;">
+                    </div>
+                @endfor
             </div>
         </div>
     </div>
