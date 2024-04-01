@@ -31,8 +31,8 @@ Route::get('/jouer/lobby/{code_partie}', [JouerController::class, 'getLobby'])->
 Route::get('/jouer/partie/{code_partie}', [PartieController::class, 'getPartieJouee'])->middleware([AuthMiddleware::class, JouePartieMiddleware::class]);
 Route::post('/jouer/partie/lancer', [PartieController::class, 'lancerPartie'])->middleware(AuthMiddleware::class);
 
-Route::post('/jouer/creer', [JouerController::class, 'createPartie'])->middleware(AuthMiddleware::class);
-Route::post('/jouer/rejoindre', [JouerController::class, 'rejoindrePartie'])->middleware(AuthMiddleware::class);
+Route::post('/jouer/creer', [JouerController::class, 'createPartie'])->middleware(AuthMiddleware::class)->name('creer_partie');
+Route::post('/jouer/rejoindre', [JouerController::class, 'rejoindrePartie'])->middleware(AuthMiddleware::class)->name('rejoindre_partie');
 
 Route::get('/monitoring', [MonitorController::class, 'getMonitor'])->middleware(AuthMiddleware::class);
 Route::get('/monitoring/users', [MonitorController::class, 'getAllUsers'])->middleware(AuthMiddleware::class);

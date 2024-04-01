@@ -29,29 +29,26 @@ class JouerController extends MenuController
     }
 
     public function createPartie(Request $request){
-
         $user = Auth::user();
 
-        $estPrivee = $request->input('partie_privee');
-        $tempsParCoup = $request->input('partie_tpsParCoup');
-        $nombreJoueurs = $request->input('partie_nbJoueurs');
-        $idHost = $request->input('id_user_host');
+        $estPrivee = $request->has('partie-privee');
+        $tempsParCoup = $request->input('temps-coup');
+        $nombreJoueurs = $request->input('nombre-joueurs');
+        $idHost = $request->input('hostId');
 
         $dateDuJour = Carbon::now();
         $date = $dateDuJour->format('Y-m-d');
         
         $codePartie = Partie::createPartie($user->id, $estPrivee, $date, $nombreJoueurs, $tempsParCoup, $idHost);
         
-        return response()->json([
+        return redirect()->to('/jouer/lobby/'.$codePartie)->with([
             "success" => true,
             "message" => "OK partie créée",
-            "redirect_url" => "/jouer/lobby/" . $codePartie,
             "codePartie" => $codePartie,
             "pseudo" => $user->pseudo
         ]);
-
     }
-    
+
     public function getLobby($codePartie){
         $url = request()->url();
         $user=Auth::user();
@@ -75,24 +72,25 @@ class JouerController extends MenuController
     
     public function rejoindrePartie(Request $request){
         $user = Auth::user();
-        $codePartie = $request->input('partie_code');
+        $codePartie = $request->input('rejoindreCode');
 
         $idPartie = Partie::verifyCode($codePartie);
         
         if ($idPartie != 0){
-            Joue::userJouePartie($user->id, $idPartie);
-            return response()->json([
+            $estParticipant = Joue::estParticipant($idPartie, $user->id);
+            if(!$estParticipant){
+                Joue::userJouePartie($user->id, $idPartie);
+            }
+            return redirect()->to('/jouer/lobby/'.$codePartie)->with([
                 "success" => true,
                 "message" => "OK partie rejointe",
-                "redirect_url" => "/jouer/lobby/" . $codePartie,
                 "pseudo" => $user->pseudo,
                 "nb_joueurs" => Joue::countNbJoueurs($idPartie),
             ]);
         }
-        return response()->json([
-            "success" => false,
-            "message" => "Le code donnée n'est pas bon"
-        ]);
+        return back()->withErrors([
+            'code' => 'Le code fourni ne convient pas.',
+        ])->onlyInput('code');
     }
 
     public function getInfoParties(){
