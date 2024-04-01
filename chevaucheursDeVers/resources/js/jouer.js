@@ -1,7 +1,6 @@
 jQuery(function($){
     $(document).ready(function() {
-        //const csrfToken = $('meta[name="csrf-token"]').attr('content');
-    
+        const csrfToken = $('meta[name="csrf-token"]').attr('content');
     
         $('#create-btn').on('click', function() {
             $('.create-form').show();
@@ -32,12 +31,12 @@ jQuery(function($){
                 }
             ],
             columns: [
-                { data: 'id_partie', name:'Numéro de partie' },
+                { data: 'code', name:'Code de la partie' },
                 { data: 'nombre_joueurs', name:'Nombre de joueurs' },
                 { data: 'temps_par_coup', name:'Temps par coup' },
                 { data: null, orderable: false, name:'Rejoindre',
                     render: function ( data, type, row ) {
-                        return '<button class="join-submit" data-code-partie="' + data.code + '">Rejoindre</button>';
+                        return '<button class="join-submit btn btn-primary" data-code-partie="' + data.code + '">Rejoindre</button>';
                     }
                 }
     
@@ -52,7 +51,6 @@ jQuery(function($){
             if(codePartie === undefined){
                 codePartie = $('#code-partie').val();
             }
-            console.log(codePartie)
             let formData = new FormData();
             formData.append("partie_code", codePartie);
     
@@ -70,9 +68,8 @@ jQuery(function($){
                     if (data.success) {
                         window.location.href = data.redirect_url;
                         sendUserJoinPartie(data.codePartie, data.pseudo, data.nb_joueurs);
-
                     } else {
-                        alert("Le code fourni ne correspond pas.");
+                        alert("Problème pour rejoindre la partie.");
                     }
                 },
                 error: function(err) {

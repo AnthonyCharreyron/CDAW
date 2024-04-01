@@ -40,6 +40,6 @@ class Joue extends Model
 
     public static function countNbJoueurs($idPartie){
         return self::where('id_partie', $idPartie)->count('id_user');
-    }    
+    }
 
 }

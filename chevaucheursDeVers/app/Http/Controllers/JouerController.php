@@ -72,25 +72,34 @@ class JouerController extends MenuController
     
     public function rejoindrePartie(Request $request){
         $user = Auth::user();
-        $codePartie = $request->input('rejoindreCode');
+        $codePartie = $request->input('partie_code');
 
         $idPartie = Partie::verifyCode($codePartie);
         
         if ($idPartie != 0){
             $estParticipant = Joue::estParticipant($idPartie, $user->id);
             if(!$estParticipant){
+                $nbJoueursMaxAtteint = Joue::countNbJoueurs($idPartie)===Partie::getNombreJoueurs($idPartie)? 1: 0;
+                if($nbJoueursMaxAtteint){
+                    return response()->json([
+                        "success" => false,
+                        "message" => "Partie complète"
+                    ]);
+                }
                 Joue::userJouePartie($user->id, $idPartie);
             }
-            return redirect()->to('/jouer/lobby/'.$codePartie)->with([
+            return response()->json([
                 "success" => true,
                 "message" => "OK partie rejointe",
+                "redirect_url" => "/jouer/lobby/" . $codePartie,
                 "pseudo" => $user->pseudo,
                 "nb_joueurs" => Joue::countNbJoueurs($idPartie),
             ]);
         }
-        return back()->withErrors([
-            'code' => 'Le code fourni ne convient pas.',
-        ])->onlyInput('code');
+        return response()->json([
+            "success" => false,
+            "message" => "Partie introuvable"
+        ]);
     }
 
     public function getInfoParties(){

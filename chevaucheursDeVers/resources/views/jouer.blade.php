@@ -52,12 +52,11 @@
 
             <div class="col-md-6 join-more" style="display: none;">
                 <b>Rejoindre la partie :</b><br>
-                <form form method="POST" action="{{ route('rejoindre_partie') }}" class="join-form">
-                    @csrf
+                <div class="join-form">
                     <label for="code-partie">En utilisant un code de partie :</label>
-                    <input type="text" id="code-partie" name="rejoindreCode" class="form-control">
-                    <button id="join-submit" type="submit" class="btn btn-primary">Valider le code</button>
-                </form>
+                    <input type="text" id="code-partie" class="form-control">
+                    <button id="join-submit" class="btn btn-primary join-submit">Valider le code</button>
+                </div>
                 <div class="join-table mt-3">
                     <table id="partiePublique" class="table">
                         <thead>
