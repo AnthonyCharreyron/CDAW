@@ -12,7 +12,7 @@
     @yield('style')
     @yield('head')
 </head>
-<body class='kufam-font'>
+<body class='kufam-font d-flex flex-column min-vh-100'>
     <nav class="menu">
         <ul class="row m-0">
             @foreach($menu as $onglet)
@@ -50,4 +50,15 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" src="{{asset('dataTables/js/dataTables.v1.13.2.min.js')}}"></script>
 </body>
+
+<footer class="footer mt-auto py-3 text-muted text-center">
+    <div class="container">
+        <span>CHEVAUCHEURS DE VERS</span>
+        <br>
+        <span>Développé par Anthony Charreyron et Anna Ruiz</span>
+        <br>
+        <span> Projet CDAW  &copy; {{ date('Y') }}</span>
+    </div>
+</footer>
+
 </html>

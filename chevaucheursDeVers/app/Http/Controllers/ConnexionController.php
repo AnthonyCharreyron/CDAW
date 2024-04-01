@@ -22,6 +22,18 @@ class ConnexionController extends MenuController
         ]);
     }
 
+    public function getInscription(){
+
+        $url = request()->url();
+        //Log::info($url);
+
+        return view('inscription', [
+            'currentPage' => $this->getCurrentPage($url),
+            'isConnected' => UserController::isConnected(),
+            'menu' => $this->getMenu(),
+        ]);
+    }
+
        /**
      * Handle an authentication attempt.
      *

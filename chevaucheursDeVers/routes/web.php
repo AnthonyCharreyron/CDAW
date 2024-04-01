@@ -41,6 +41,7 @@ Route::post('/monitoring/block', [MonitorController::class, 'blockUser'])->middl
 Route::post('/monitoring/comment', [MonitorController::class, 'updateComment'])->middleware(AuthMiddleware::class);
 
 Route::get('/connexion', [ConnexionController::class, 'getConnexion'])->name('connexion');
+Route::get('/inscription', [ConnexionController::class, 'getInscription'])->name('page-inscription');
 Route::post('/connexion/creerUser', [UserController::class, 'createUser'])->name('inscription');
 Route::get('/email/verify', function () {return view('verify-email');})->middleware(AuthMiddleware::class)->name('verification.notice');
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {

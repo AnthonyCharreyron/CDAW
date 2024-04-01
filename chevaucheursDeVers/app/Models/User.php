@@ -132,5 +132,19 @@ class User extends Authenticatable implements MustVerifyEmail
                 'commentaires' => $commentaires,
             ]);
     }
+
+    public static function pseudoAlreadyUsed($pseudo){
+        $user = self::where('pseudo', $pseudo)
+                    ->first();
+
+        return $user != null ;
+    }
+
+    public static function emailAlreadyUsed($email){
+        $user = self::where('email', $email)
+                    ->first();
+
+        return $user != null ;
+    }
     
 }
