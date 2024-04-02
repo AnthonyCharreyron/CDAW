@@ -17,6 +17,7 @@
                 </ul>
                 <br>
                 <p class="d-inline">Nombre de joueurs présents dans le lobby : <span class="d-inline" id="nb_joueurs">{{ $nb_joueurs }}</span>/{{ $nombre_joueurs_max }}</p>
+                <br>
                 @if ($idHost == $userId)
                     <button class="btn bg-dark-brown text-white launch-submit incomplet">Lancer la partie sans attendre</button>
                     <button class="btn bg-dark-brown text-white launch-submit complet" style="display: none;">Lancer la partie</button>

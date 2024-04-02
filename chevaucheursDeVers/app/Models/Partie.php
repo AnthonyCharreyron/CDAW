@@ -52,9 +52,10 @@ class Partie extends Model
                     ->where('partie.partie_privee', 0)
                     ->where('partie.est_commencee', 0)
                     ->groupBy('partie.code', 'partie.nombre_joueurs', 'partie.temps_par_coup')
+                    ->havingRaw('partie.nombre_joueurs > COUNT(joue.id_user)')
                     ->get();
         return $parties;
-    }
+    }    
 
     public static function getHostId($code){
         $hostId = self::select('id_user_host')
