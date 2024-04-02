@@ -2,18 +2,6 @@ jQuery(function($){
     $(document).ready(function() {
         const csrfToken = $('meta[name="csrf-token"]').attr('content');
     
-        $('#create-btn').on('click', function() {
-            $('.create-form').show();
-            $('#create-btn').hide();
-            $('.join-all').hide();
-        });
-    
-        $('#join-btn').on('click', function() {
-            $('.join-more').show();
-            $('.join-btn').hide();
-            $('.create-all').hide();
-        });
-    
         let table1 = $('#partiePublique').DataTable({
             ajax:{ 
                 url: '/jouer/parties',

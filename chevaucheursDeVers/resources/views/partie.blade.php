@@ -143,6 +143,8 @@
                     </div>
                     </br>
                 @endforeach
+
+                <x-chat/>
             </div>
         </div>
 

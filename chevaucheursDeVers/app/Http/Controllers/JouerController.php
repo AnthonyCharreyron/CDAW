@@ -13,13 +13,26 @@ use App\Models\Joue;
 
 class JouerController extends MenuController
 {
-    public function getPartie(){
+    public function getNouvellePartie(){
 
         $url = request()->url();
-        //Log::info($url);
         $user=Auth::user();
 
-        return view('jouer', [
+        return view('nouvellePartie', [
+            'currentPage' => $this->getCurrentPage($url),
+            'isConnected' => UserController::isConnected(),
+            'menu' => $this->getMenu(),
+            'photo_profil' => $user!=null ? UserController::getUserPhoto($user['id']) : 0,
+            'user' => $user
+        ]);
+    }
+
+    public function getRejoindrePartie(){
+
+        $url = request()->url();
+        $user=Auth::user();
+
+        return view('rejoindrePartie', [
             'currentPage' => $this->getCurrentPage($url),
             'isConnected' => UserController::isConnected(),
             'menu' => $this->getMenu(),
