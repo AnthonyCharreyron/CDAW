@@ -30,15 +30,32 @@
                     @else
                         <div class='col'></div>
                     @endif
-                @else
-                    <a class="col kufam-font text-decoration-none text-black {{$currentPage===$onglet['menu_libelle'] ? 'active' : ''}}"  href="{{$onglet['route']}}">
-                        @if($onglet['no_ordre']===1)
-                            <img src="{{asset('images/Colline-logo.png')}}" style="height: 10vh" alt="Logo Colline">
-                            <p>&nbsp;</p>
+                    @else
+                        @if($onglet['menu_libelle'] === 'Jouer') 
+
+                      
+                            <a class="col dropdown kufam-font text-decoration-none text-black {{$currentPage === $onglet['menu_libelle'] ? 'active' : ''}} dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">{{$onglet['menu_libelle']}}</a>
+                            <ul class="dropdown-menu bg-sand border-brown" style="width: 20vw; height: auto">
+                                <li><a class="dropdown-item d-flex justify-content-start" href="{{ route('nouvellePartie') }}">Créer une partie</a></li>
+                                <hr>
+                                <li><a class="dropdown-item d-flex justify-content-start" href="{{ route('rejoindrePartie') }}">Rejoindre une partie</a></li>
+                            </ul>
+         
+                    
+                           
+                        @else
+                            <a class="col kufam-font text-decoration-none text-black {{$currentPage === $onglet['menu_libelle'] ? 'active' : ''}}" href="{{$onglet['route']}}">
+                                @if($onglet['no_ordre'] === 1)
+                                    <img src="{{ asset('images/Colline-logo.png') }}" style="height: 10vh" alt="Logo Colline">
+                                    <p>&nbsp;</p>
+                                @endif
+                
+                                <p style="{{$onglet['menu_libelle'] === 'Se connecter / S\'inscrire' ? 'font-weight: bold' : ''}}">{{$onglet['menu_libelle']}}</p>
+                                
+                            </a>
                         @endif
-                        <p style="{{$onglet['menu_libelle']==='Se connecter / S\'inscrire' ? 'font-weight: bold' : ''}}">{{$onglet['menu_libelle']}}</p>
-                    </a>
-                @endif
+                    @endif
+
             @endforeach
         </ul>
     </nav>

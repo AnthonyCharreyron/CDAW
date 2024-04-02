@@ -21,6 +21,9 @@
         @endif
         <button class="launch-submit complet" style="display: none">Lancer la partie</button>
     </div>
+    <div class="col-3 sidebar">
+        <x-chat/>
+    </div>
 @endsection
 
 @section('pagescripts')

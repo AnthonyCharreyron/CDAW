@@ -1,9 +1,9 @@
 @extends('template')
 
 @section('content')
-    <div class="row">
-        <div class="col-3 text-center d-flex justify-content-center mt-2 border border-secondary rounded mx-auto">
-            <h4 class="mt-3">Bonjour {{$user==null ? 'Anonymous' : $user->pseudo}} !</h4>
+    <div class="row text-center d-flex justify-content-center fst-italic">
+        <div class="col-3 mt-2">
+            <h3 class="mt-3">Bonjour {{$user==null ? 'Anonymous' : $user->pseudo}} !</h3>
         </div>
     </div>
     <div class="containerPresentation">

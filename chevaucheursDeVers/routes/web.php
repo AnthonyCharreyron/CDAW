@@ -25,14 +25,15 @@ Route::post('/monProfil/modifierProfil', [MonProfilController::class, 'modifierP
 Route::get('/historique', [HistoriqueController::class, 'getClassement']);
 Route::get('/historique/{id}', [HistoriqueController::class, 'statClassement'])->name('stats');
 
-Route::get('/jouer', [JouerController::class, 'getPartie'])->middleware(AuthMiddleware::class)->name('jouer');
 Route::get('/jouer/parties', [JouerController::class, 'getInfoParties'])->middleware(AuthMiddleware::class);
 Route::get('/jouer/lobby/{code_partie}', [JouerController::class, 'getLobby'])->middleware([AuthMiddleware::class, JouePartieMiddleware::class]);
 Route::get('/jouer/partie/{code_partie}', [PartieController::class, 'getPartieJouee'])->middleware([AuthMiddleware::class, JouePartieMiddleware::class]);
 Route::post('/jouer/partie/lancer', [PartieController::class, 'lancerPartie'])->middleware(AuthMiddleware::class);
 
 Route::post('/jouer/creer', [JouerController::class, 'createPartie'])->middleware(AuthMiddleware::class)->name('creer_partie');
-Route::post('/jouer/rejoindre', [JouerController::class, 'rejoindrePartie'])->middleware(AuthMiddleware::class)->name('rejoindre_partie');
+Route::get('/jouer/nouvellePartie', [JouerController::class, 'getNouvellePartie'])->middleware(AuthMiddleware::class)->name('nouvellePartie');
+Route::post('/jouer', [JouerController::class, 'rejoindrePartie'])->middleware(AuthMiddleware::class)->name('rejoindre_partie');
+Route::get('/jouer', [JouerController::class, 'getRejoindrePartie'])->middleware(AuthMiddleware::class)->name('rejoindrePartie');
 
 Route::get('/monitoring', [MonitorController::class, 'getMonitor'])->middleware(AuthMiddleware::class);
 Route::get('/monitoring/users', [MonitorController::class, 'getAllUsers'])->middleware(AuthMiddleware::class);
