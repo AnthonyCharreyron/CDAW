@@ -30,7 +30,7 @@ jQuery(function($){
                 { data: 'temps_par_coup', name:'Temps par coup' },
                 { data: null, orderable: false, name:'Rejoindre',
                     render: function ( data, type, row ) {
-                        return '<button class="join-submit btn btn-primary" data-code-partie="' + data.code + '">Rejoindre</button>';
+                        return '<button class="join-submit btn bg-dark-brown text-white" data-code-partie="' + data.code + '">Rejoindre</button>';
                     }
                 }
     

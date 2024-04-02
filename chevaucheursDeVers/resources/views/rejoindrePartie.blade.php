@@ -15,7 +15,7 @@
                 <div class="join-form">
                     <label for="code-partie">En utilisant un code de partie :</label>
                     <input type="text" id="code-partie" class="form-control">
-                    <button id="join-submit" class="btn btn-primary join-submit my-2">Valider le code</button>
+                    <button id="join-submit" class="btn bg-dark-brown text-white join-submit my-2">Valider le code</button>
                 </div>
             </div>          
         </div>

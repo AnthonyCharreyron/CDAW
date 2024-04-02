@@ -40,7 +40,7 @@
                     </div>
                     <input type="hidden" id="hostId" name="hostId" value="{{$user['id']}}">
                     <br>
-                    <button type="submit" class="btn btn-primary">Créer la partie</button>
+                    <button type="submit" class="btn bg-dark-brown text-white">Créer la partie</button>
                 </form>
             </div>
         </div>

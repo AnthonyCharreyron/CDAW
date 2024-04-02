@@ -58,22 +58,22 @@
                             </div>
                         @else
                             <div id="btnPiocheVers" class='col-3 d-flex align-items-center justify-content-center'>
-                                <button class='btn btn-outline-secondary' onclick='piocherVers()'>Piocher des vers</button>
+                                <button class='btn btn-dark' onclick='piocherVers()'>Piocher des vers</button>
                             </div>
                             <div id="btnPiocheDestinations" class='col-3 d-flex align-items-center justify-content-center'>
-                                <button class='btn btn-outline-secondary' onclick='piocherDestination()'>Piocher des destinations</button>
+                                <button class='btn btn-dark' onclick='piocherDestination()'>Piocher des destinations</button>
                             </div>
                             <div id="btnPoserVers" class='col-3 d-flex align-items-center justify-content-center'>
-                                <button class='btn btn-outline-secondary' onclick='poserVers()'>Poser des vers</button>
+                                <button class='btn btn-dark' onclick='poserVers()'>Poser des vers</button>
                             </div>
                             <div id="btnFinDeTour" class='col-3 d-flex align-items-center justify-content-center d-none'>
-                                <button class='btn btn-outline-secondary' onclick="finDeTour({{ json_encode(session()->get('listeJoueurs')) }}, '{{ $user->pseudo }}')">Fin du tour</button>
+                                <button class='btn btn-dark' onclick="finDeTour({{ json_encode(session()->get('listeJoueurs')) }}, '{{ $user->pseudo }}')">Fin du tour</button>
                             </div>
                         @endif
                         
                     @else
                         <div class='col d-flex align-items-center justify-content-center'>
-                            <button type="button" class='btn btn-outline-secondary' onclick='lancerPartie()'>Lancer la partie</button>
+                            <button type="button" class='btn btn-dark' onclick='lancerPartie()'>Lancer la partie</button>
                         </div>
                     @endif
                 </div>

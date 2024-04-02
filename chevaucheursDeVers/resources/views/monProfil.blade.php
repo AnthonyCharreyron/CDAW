@@ -2,8 +2,8 @@
 
 @section('content')
     <div class="row m-1">
-        <div class="container border-brown rounded">
-            <h2 class="text-center">Profil</h2>
+        <div class="container">
+            <h2 class="text-center mt-3">Profil</h2>
         </div>
     </div>
     <div class="row m-1 border-brown rounded justify-content-center">
