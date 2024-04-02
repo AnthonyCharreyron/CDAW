@@ -20,7 +20,7 @@ class CreateJoue extends Migration
             $table->integer("id_user");
             $table->foreign("id_user")->references("id")->on("users");
 
-            $table->integer("score");
+            $table->integer("score")->nullable();
 
             $table->primary(["id_partie", "id_user"]);
 

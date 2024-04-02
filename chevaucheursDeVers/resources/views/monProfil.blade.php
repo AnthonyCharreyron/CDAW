@@ -10,6 +10,28 @@
         <div class="col-5 m-3 border-brown rounded">
             <h4 class="text-center m-3">Données de connexion</h4>
             <hr/>
+
+            <div class="container" id='images' style="display: none">
+                <div class="row">
+                    <div class="col-md-3 text-center">
+                        <img id="image1" src="{{asset('images/0.png')}}" class="img-fluid" alt="Image 1">
+                        <label for="image1">Image 1</label>
+                    </div>
+                    <div class="col-md-3 text-center">
+                        <img id="image2" src="{{asset('images/1.png')}}" class="img-fluid" alt="Image 2">
+                        <label for="image2">Image 2</label>
+                    </div>
+                    <div class="col-md-3 text-center">
+                        <img id="image3" src="{{asset('images/2.png')}}" class="img-fluid" alt="Image 3">
+                        <label for="image3">Image 3</label>
+                    </div>
+                    <div class="col-md-3 text-center">
+                        <img id="image4" src="{{asset('images/3.png')}}" class="img-fluid" alt="Image 4">
+                        <label for="image4">Image 4</label>
+                    </div>
+                </div>
+            </div>
+
             <div class="row d-flex align-items-center my-2">
                 <b class='col'>Photo de profil : </b>
                 <div class='col'>

@@ -28,7 +28,8 @@ class MonProfilController extends MenuController
         $pseudo = $request->input('pseudo');
         $password = $request->input('password');
         $email = $request->input('email');
-        User::updateUser($pseudo, $password, $email);
+        $photo_profil = $request->input('photo_profil');
+        User::updateUser($pseudo, $password, $email, $photo_profil);
 
         return response()->json([
             "success" => true,
