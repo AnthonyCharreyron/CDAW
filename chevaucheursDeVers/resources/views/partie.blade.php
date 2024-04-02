@@ -44,7 +44,7 @@
             </div>
         </div>
 
-        <div class="row h-100">
+        <div class="row h-100 m-0">
             <div class="col-9">
                 <h1 class='text-center kufam-font'>Chevaucheurs de vers</h1>
                 <!-- TODO : if votreTour => afficher "c'est à vous" <h3>C'est à currentPlayer de jouer</h3> -->
