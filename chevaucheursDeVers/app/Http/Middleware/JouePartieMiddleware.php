@@ -22,7 +22,7 @@ class JouePartieMiddleware
         $idPartie = Partie::verifyCode($codePartie);
         $estParticipant = Joue::estParticipant($idPartie, $user->id);
         if (!$estParticipant) {
-            return redirect()->route('jouer')->withErrors(['error' => 'Vous n\'êtes pas autorisé à accéder à cette partie.']);
+            return redirect()->route('rejoindrePartie')->withErrors(['error' => 'Vous n\'êtes pas autorisé à accéder à cette partie.']);
         }
         return $next($request);
     }

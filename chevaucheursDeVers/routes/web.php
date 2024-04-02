@@ -32,7 +32,7 @@ Route::post('/jouer/partie/lancer', [PartieController::class, 'lancerPartie'])->
 
 Route::post('/jouer/creer', [JouerController::class, 'createPartie'])->middleware(AuthMiddleware::class)->name('creer_partie');
 Route::get('/jouer/nouvellePartie', [JouerController::class, 'getNouvellePartie'])->middleware(AuthMiddleware::class)->name('nouvellePartie');
-Route::post('/jouer', [JouerController::class, 'rejoindrePartie'])->middleware(AuthMiddleware::class)->name('rejoindre_partie');
+Route::post('/jouer/rejoindre', [JouerController::class, 'rejoindrePartie'])->middleware(AuthMiddleware::class)->name('rejoindre_partie');
 Route::get('/jouer', [JouerController::class, 'getRejoindrePartie'])->middleware(AuthMiddleware::class)->name('rejoindrePartie');
 
 Route::get('/monitoring', [MonitorController::class, 'getMonitor'])->middleware(AuthMiddleware::class);

@@ -68,7 +68,7 @@ function sendToServer(message) {
 }
 
 // Vérifier si l'URL actuelle correspond à "/jouer"
-if (window.location.pathname === '/jouer') {
+if (window.location.pathname.includes('/jouer/partie') || window.location.pathname.includes('/jouer/lobby')) {
     document.getElementById('messageInput').addEventListener('keypress', function(event) {
         if (event.key === 'Enter') {
             const message = event.target.value.trim(); // Supprimer les espaces avant et après le message

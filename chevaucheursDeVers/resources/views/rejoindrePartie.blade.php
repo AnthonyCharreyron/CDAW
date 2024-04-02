@@ -26,7 +26,7 @@
                     <table id="partiePublique" class="hover bg-sand border-brown rounded">
                         <thead>
                             <tr>
-                                <th scope="col">Numéro de partie</th>
+                                <th scope="col">Code de la partie</th>
                                 <th scope="col">Nombre de joueurs</th>
                                 <th scope="col">Temps par coup</th>
                                 <th scope="col">Rejoindre</th>

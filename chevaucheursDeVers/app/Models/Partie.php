@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 
 class Partie extends Model
 {
@@ -45,11 +46,14 @@ class Partie extends Model
     }
 
     public static function getInfoParties(){
-        $partie = self::select('code', 'nombre_joueurs', 'temps_par_coup', 'code')
-                        ->where('partie_privee', 0)
-                        ->where('est_commencee', 0)
-                        ->get();
-        return $partie;
+        $parties = DB::table('partie')
+                    ->select('partie.code', 'partie.nombre_joueurs', 'partie.temps_par_coup', DB::raw('COUNT(joue.id_user) as nombre_utilisateurs_lobby'))
+                    ->leftJoin('joue', 'joue.id_partie', '=', 'partie.id_partie')
+                    ->where('partie.partie_privee', 0)
+                    ->where('partie.est_commencee', 0)
+                    ->groupBy('partie.code', 'partie.nombre_joueurs', 'partie.temps_par_coup')
+                    ->get();
+        return $parties;
     }
 
     public static function getHostId($code){

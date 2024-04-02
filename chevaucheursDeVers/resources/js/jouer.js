@@ -20,7 +20,13 @@ jQuery(function($){
             ],
             columns: [
                 { data: 'code', name:'Code de la partie' },
-                { data: 'nombre_joueurs', name:'Nombre de joueurs' },
+                { 
+                    data: null,
+                    name: 'Nombre de joueurs',
+                    render: function (data, type, row) {
+                        return data.nombre_utilisateurs_lobby + '/' + data.nombre_joueurs;
+                    }
+                },
                 { data: 'temps_par_coup', name:'Temps par coup' },
                 { data: null, orderable: false, name:'Rejoindre',
                     render: function ( data, type, row ) {
