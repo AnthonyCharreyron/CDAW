@@ -146,5 +146,9 @@ class User extends Authenticatable implements MustVerifyEmail
 
         return $user != null ;
     }
+
+    public static function findUser($pseudo){
+        return self::where('pseudo', $pseudo)->first();
+    }
     
 }

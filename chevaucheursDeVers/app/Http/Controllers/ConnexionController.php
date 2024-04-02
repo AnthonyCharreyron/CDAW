@@ -7,6 +7,8 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\UserController;
+use App\Models\User;
+
 
 class ConnexionController extends MenuController
 {
@@ -46,7 +48,14 @@ class ConnexionController extends MenuController
             'pseudo' => ['required', 'string'],
             'password' => ['required'],
         ]);
- 
+        
+        $user = User::findUser($request->pseudo);
+        if ($user && $user->est_bloque) {
+            return back()->withErrors([
+                'pseudo' => 'Votre compte est bloqué. Veuillez contacter l\'administrateur.',
+            ])->onlyInput('pseudo');
+        }
+    
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
             return redirect()->intended('presentation');
