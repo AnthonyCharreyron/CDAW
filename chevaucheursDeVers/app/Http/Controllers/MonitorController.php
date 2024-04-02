@@ -30,23 +30,37 @@ class MonitorController extends MenuController
 
     public function putAdmin(Request $request){
         $id_user = $request->input('id_user');
-
-        User::putAdmin($id_user);
-
+        $action = $request->input('admin_action');
+    
+        if($action === 'add') {
+            User::putAdmin($id_user);
+            $message = "Utilisateur est devenu administrateur.";
+        } elseif($action === 'remove') {
+            User::removeAdmin($id_user);
+            $message = "Droits d'administrateur retirés à l'utilisateur.";
+        }
+    
         return response()->json([
             "success" => true,
-            "message" => "Utilisateur admin",
+            "message" => $message,
         ]);
     }
 
     public function blockUser(Request $request){
         $id_user = $request->input('id_user');
-
-        User::blockUser($id_user);
-
+        $action = $request->input('block_action');
+    
+        if($action === 'block') {
+            User::blockUser($id_user);
+            $message = "Utilisateur bloqué.";
+        } elseif($action === 'unblock') {
+            User::unblockUser($id_user);
+            $message = "Utilisateur débloqué.";
+        }
+    
         return response()->json([
             "success" => true,
-            "message" => "Utilisateur bloqué",
+            "message" => $message,
         ]);
     }
 

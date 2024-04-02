@@ -119,10 +119,25 @@ class User extends Authenticatable implements MustVerifyEmail
             ]);
     }
 
+    public static function removeAdmin($idUser){
+        self::where('id', '=', $idUser)
+            ->update([
+                'est_administrateur' => 0
+            ]);
+    }
+
     public static function blockUser($idUser){
         self::where('id', '=', $idUser)
             ->update([
                 'est_bloque' => 1
+            ]);
+    }
+    
+
+    public static function unblockUser($idUser){
+        self::where('id', '=', $idUser)
+            ->update([
+                'est_bloque' => 0
             ]);
     }
 
