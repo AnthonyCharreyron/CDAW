@@ -50,6 +50,10 @@ socket.onmessage = function(event) {
 
             const container = document.getElementById('nb_joueurs');
             container.innerHTML = nb_joueurs;
+            if(nb_joueurs === nb_joueurs_max){
+                $('.incomplet').hide();
+                $('.complet').show();
+            }
             break;
         case 'fin_de_tour':
             let listePseudo = content.split('|')[0].split(',');

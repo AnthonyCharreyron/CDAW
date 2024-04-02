@@ -16,16 +16,13 @@
                     @endforeach
                 </ul>
                 <br>
-                @if($nb_joueurs != $nombre_joueurs_max)
-                    <p class="d-inline">En attente des joueurs restants: <span class="d-inline" id="nb_joueurs">{{$nb_joueurs}}</span>/{{$nombre_joueurs_max}}</p>
+                <p class="d-inline">Nombre de joueurs présents dans le lobby : <span class="d-inline" id="nb_joueurs">{{ $nb_joueurs }}</span>/{{ $nombre_joueurs_max }}</p>
+                @if ($idHost == $userId)
+                    <button class="btn bg-dark-brown text-white launch-submit incomplet">Lancer la partie sans attendre</button>
+                    <button class="btn bg-dark-brown text-white launch-submit complet" style="display: none;">Lancer la partie</button>
                 @else
                     <p>En attente de l'hôte pour lancer la partie</p>
-                @endif
-                @if($idHost==$userId)
-                    <button class="btn btn-outline-dark launch-submit incomplet">Lancer la partie sans attendre</button>
-                @endif
-                <button class="launch-submit complet" style="display: none">Lancer la partie</button>
-    
+                @endif    
             </div>  
         </div>
         <div class="col-3 vh-100 sidebar">
@@ -37,5 +34,6 @@
 @section('pagescripts')
     <script>
         const codePartie = "{{$code_partie}}";
+        var nb_joueurs_max = "{{$nombre_joueurs_max}}"
     </script>
 @endsection
