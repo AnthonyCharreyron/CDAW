@@ -16,30 +16,40 @@ jQuery(function($){
                     render: function(data) {
                         return data ? data : 0;
                     }
-                },
-                {
-                    targets: -1,
-                    
                 }
             ],
             columns: [
                 { data: 'id', name:'Identifiant' },
                 { data: 'pseudo', name:'Pseudo' },
-                { data: 'est_bloque', name:'Bloqué' },
-                { data: 'est_administrateur', name:'Administrateur' },
+                { 
+                    data: 'est_administrateur',
+                    name:'Administrateur',
+                    render: function(data) {
+                        return data == 1 ? 'Oui' : 'Non';
+                    }
+                },
+                { 
+                    data: 'est_bloque',
+                    name:'Bloqué',
+                    render: function(data) {
+                        return data == 1 ? 'Oui' : 'Non';
+                    }
+                },
                 { data: 'commentaires', name:'Commentaires' },
-                { data: null, orderable: false,
+                { 
+                    data: null, 
+                    orderable: false,
                     render: function(data, type, row) {
-                        return `<button class="btn btn-success btn-action" data-action="admin" data-id="${row.id}">Ajouter en admin</button>
-                                <button class="btn btn-danger btn-action" data-action="block" data-id="${row.id}">Bloquer</button>
-                                <button type="button" class="btn btn-primary" data-id="${row.id}" onclick="commentUser(this)">Modifier les commentaires</button>
-                                `;
+                        return `<button class="btn btn-${row.est_administrateur == 1 ? 'danger' : 'success'} btn-action" data-action="admin" data-id="${row.id}">${row.est_administrateur == 1 ? 'Retirer les droits' : 'Ajouter en admin'}</button>
+                                <button class="btn btn-${row.est_bloque == 1 ? 'success' : 'danger'} btn-action" data-action="block" data-id="${row.id}">${row.est_bloque == 1 ? 'Débloquer' : 'Bloquer'}</button>
+                                <button type="button" class="btn btn-primary" data-id="${row.id}" onclick="commentUser(this)">Modifier les commentaires</button>`;
                     }
                 } 
             ],
             lengthChange: false,
             info: false
         });
+        
     
         $('#gestionUser').on('click', '.btn-action', function() {
             let action = $(this).data('action');
@@ -50,6 +60,9 @@ jQuery(function($){
             // Exécuter les actions appropriées
             switch(action) {
                 case 'admin':
+                    let adminAction = $(this).text() == 'Ajouter en admin' ? 'add' : 'remove';
+                    console.log(adminAction);
+                    formData.append("admin_action", adminAction);
                     $.ajax({
                         url: 'monitoring/admin',
                         data: formData,
@@ -60,7 +73,7 @@ jQuery(function($){
                         headers: {'X-CSRF-TOKEN': csrfToken},
                         success: function(data){
                             console.log(data);
-                            alert("L'utilisateur est devenu admin.");
+                            alert("La modification a bien eu lieu.");
                             window.location.reload();
                         },
                         error: function(err) {
@@ -70,6 +83,8 @@ jQuery(function($){
                     });
                     break;
                 case 'block':
+                    let blockAction = $(this).text() == 'Bloquer' ? 'block' : 'unblock';
+                    formData.append("block_action", blockAction);
                     $.ajax({
                         url: 'monitoring/block',
                         data: formData,
@@ -80,7 +95,7 @@ jQuery(function($){
                         headers: {'X-CSRF-TOKEN': csrfToken},
                         success: function(data){
                             console.log(data);
-                            alert("L'utilisateur est maintenant bloqué.");
+                            alert("La modification a bien eu lieu.");
                             window.location.reload();
                         },
                         error: function(err) {

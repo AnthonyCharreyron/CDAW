@@ -11,9 +11,9 @@
                 <thead>
                     <tr>
                         <th scope="col">Identifiant</th>
-                        <th scope="col">Pseudo</th>
-                        <th scope="col">Bloqué</th>
+                        <th scope="col">Pseudo</th>                        
                         <th scope="col">Administrateur</th>
+                        <th scope="col">Bloqué</th>
                         <th scope="col">Commentaires</th>
                         <th scope="col">Actions</th>
                     </tr>
