@@ -65,7 +65,10 @@
                             </div>
                             <div id="btnPoserVers" class='col-3 d-flex align-items-center justify-content-center'>
                                 <button class='btn btn-outline-secondary' onclick='poserVers()'>Poser des vers</button>
-                            </div> 
+                            </div>
+                            <div id="btnFinDeTour" class='col-3 d-flex align-items-center justify-content-center d-none'>
+                                <button class='btn btn-outline-secondary' onclick="finDeTour({{ json_encode(session()->get('listeJoueurs')) }}, '{{ $user->pseudo }}')">Fin du tour</button>
+                            </div>
                         @endif
                         
                     @else
@@ -151,6 +154,7 @@
         <script type="text/javascript" src="{{asset('dataTables/js/dataTables.v1.13.2.min.js')}}"></script>
         <script>
             const codePartie = "{{$code_partie}}";
+            const pseudoJoueur = "{{$user->pseudo}}";
         </script>
     </body>
 

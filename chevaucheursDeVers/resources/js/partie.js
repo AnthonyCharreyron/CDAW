@@ -45,6 +45,9 @@ jQuery(function($){
             }
         }
 
+        window.finDeTour=function(listePseudo, userPseudo){
+            sendFinDeTour(listePseudo, userPseudo);
+        }
 
         // Fonction pour définir un cookie
         function setCookie(name, value, days) {
