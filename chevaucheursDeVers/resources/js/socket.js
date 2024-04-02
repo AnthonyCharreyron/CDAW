@@ -51,6 +51,12 @@ socket.onmessage = function(event) {
             const container = document.getElementById('nb_joueurs');
             container.innerHTML = nb_joueurs;
             break;
+        case 'fin_de_tour':
+            let listePseudo = content.split('|')[0].split(',');
+            let nomJoueurActuel = content.split('|')[1]; 
+            let joueur = joueursSuivants(listePseudo, nomJoueurActuel);
+            prochainTour(joueur);
+            break;
         default:
             console.error('Type de message non pris en charge.');
     }
@@ -122,6 +128,11 @@ window.sendUserJoinPartie=function(codePartie, pseudo, nb_joueurs){
     sendToServer(message);
 }
 
+window.sendFinDeTour = function (listePseudo, pseudo){
+    const message = 'fin_de_tour,' + listePseudo + '|' + pseudo;
+    sendToServer(message);
+}
+
 function miseEnSession(type, cartes){
     const csrfToken2 = $('meta[name="csrf-token"]').attr('content');
 
@@ -155,4 +166,21 @@ function initialiserCartesMain(){
             console.error(xhr.responseText);
         }
     });
+}
+
+function joueursSuivants(listePseudo, pseudoActuel) {
+    var index = listePseudo.indexOf(pseudoActuel);
+    if (index === -1) {
+        return null;
+    }
+    var indexSuivant = (index + 1) % listePseudo.length;
+    return listePseudo[indexSuivant];
+}
+
+function prochainTour(joueur){
+    console.log(joueur);
+    if(pseudoJoueur === joueur){
+        console.log('true');
+    }
+    console.log('false');
 }

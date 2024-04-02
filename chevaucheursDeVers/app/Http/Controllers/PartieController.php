@@ -19,6 +19,11 @@ class PartieController extends Controller
         $idPartie = Partie::verifyCode($code_partie);
 
         $participants = Joue::getParticipants($idPartie);
+        $listeJoueurs = [];
+        foreach ($participants as $participant) {
+            $listeJoueurs[] = $participant->pseudo;
+        }
+        session(['listeJoueurs' => $listeJoueurs]);
 
         return view('partie', [
             'photo_profil' => $user!=null ? UserController::getUserPhoto($user['id']) : 0,
