@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Cookie;
 use App\Models\Partie;
 use App\Models\Joue;
+use App\Models\User;
 
 class PartieController extends Controller
 {
@@ -25,12 +26,19 @@ class PartieController extends Controller
         }
         session(['listeJoueurs' => $listeJoueurs]);
 
+        if($request->session()->has('joueurEnCours')){
+            $joueurEnCours=session()->get('joueurEnCours');
+        } else {
+            $joueurEnCours = $participants[0]->pseudo;
+            session()->put('joueurEnCours', $joueurEnCours);
+        }
+
         return view('partie', [
             'photo_profil' => $user!=null ? UserController::getUserPhoto($user['id']) : 0,
             'user' => $user,
             'partie_commencee' => Partie::estCommencee($code_partie),
             'code_partie' => $code_partie,
-            'participants' => $participants
+            'participants' => $participants,
         ]);
     }
 
@@ -74,9 +82,24 @@ class PartieController extends Controller
             array_splice($cartesDestinations, $id - 1, 1);
             session()->put('cartesDestinationsMain_'.$idUser, $cartesDestinations);
         }
+
+        return response()->json([
+            "success" => true,
+            "message" => "OK fin de mon premier tour",
+            "listePseudosParticipants" => session()->get('listeJoueurs'),
+            "userPseudo" => User::getPseudo($idUser),
+        ]);
         
     }
-    
+
+    public function prochainJoueur(Request $request){
+        $pseudoProchainJoueur = $request->input('prochainJoueur');
+        session()->put('joueurEnCours', $pseudoProchainJoueur);
+        return response()->json([
+            "success" => true,
+            "message" => "OK prochain joueur mis en session"
+        ]);
+    }  
  
 
 }

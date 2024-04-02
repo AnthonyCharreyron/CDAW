@@ -167,4 +167,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return self::where('pseudo', $pseudo)->first();
     }
     
+    public static function getPseudo($userId){
+        return self::where('id', $userId)->value('pseudo');
+    }
 }

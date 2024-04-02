@@ -33,8 +33,7 @@ jQuery(function($){
                     success: function(response) {
                         let destinationToRemove = document.getElementById(destinationId);
                         destinationToRemove.remove();
-                        window.location.reload();
-
+                        finDeTour(response.listePseudosParticipants, response.userPseudo);
                     },
                     error: function(xhr, status, error) {
                         console.error(xhr.responseText);
@@ -45,8 +44,30 @@ jQuery(function($){
             }
         }
 
-        window.finDeTour=function(listePseudo, userPseudo){
+        function finDeTour(listePseudo, userPseudo){
+            pseudoJoueurSuivant = joueursSuivants(listePseudo, userPseudo);
             sendFinDeTour(listePseudo, userPseudo);
+            $.ajax({
+                type: "POST",
+                url: "/prochainJoueur",
+                data: {prochainJoueur: pseudoJoueurSuivant},
+                headers: {'X-CSRF-TOKEN': csrfToken},
+                success: function(response) {
+                    window.location.reload();
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
+        }
+
+        function joueursSuivants(listePseudo, pseudoActuel) {
+            var index = listePseudo.indexOf(pseudoActuel);
+            if (index === -1) {
+                return null;
+            }
+            var indexSuivant = (index + 1) % listePseudo.length;
+            return listePseudo[indexSuivant];
         }
 
         // Fonction pour définir un cookie

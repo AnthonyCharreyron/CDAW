@@ -58,5 +58,6 @@ Route::post('/message', [MessageController::class, 'sendMessage'])->name('messag
 Route::post('/miseEnSessionCartes', [MessageController::class, 'miseEnSessionCartes']);
 Route::post('/initialiserCartesMain', [PartieController::class, 'initialiserCartesMain']);
 Route::post('/supprimerCarteDestination', [PartieController::class, 'supprimerCarteDestination']);
+Route::post('/prochainJoueur', [PartieController::class, 'prochainJoueur']);
 
 

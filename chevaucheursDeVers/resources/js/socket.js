@@ -25,18 +25,19 @@ socket.onmessage = function(event) {
             const destinations = JSON.parse(destinationsString); // Convertir la chaîne JSON en objet JavaScript
             miseEnSession('piocheVisibleGlobale', pioche);
         
-            for (const [key, value] of Object.entries(destinations)) {
-                const typeCarte = key;
-                const destinationsJoueur = value;
+            for (const [cle, valeur] of Object.entries(destinations)) {
+                const typeCarte = cle;
+                const destinationsJoueur = valeur;
                 console.log(typeCarte);
                 console.log(destinationsJoueur);
                 miseEnSession(typeCarte, destinationsJoueur);
             }
 
             initialiserCartesMain();
+            deleteCookie('partieDebutee');
             break;
         case 'redirect':
-            window.location.href='/jouer/partie/' + content;
+            window.open('/jouer/partie/' + content, '_blank');
             break;
         case 'user_join':
             //let codePartie = content.split('|')[0]; 
@@ -83,13 +84,13 @@ if (window.location.pathname.includes('/jouer/partie') || window.location.pathna
     });
 }
 
-function sendMessage(message) {
+window.sendMessage=function() {
     const csrfToken = $('meta[name="csrf-token"]').attr('content');
-    const input = document.getElementById('messageInput');
+    const message = document.getElementById('messageInput');
     $.ajax({
         type: "POST",
         url: "/message",
-        data: { message: message },
+        data: { message: message.value },
         headers: {'X-CSRF-TOKEN': csrfToken},
         success: function(response) {
             console.log(response);
@@ -98,7 +99,7 @@ function sendMessage(message) {
             li.innerHTML = '<b>' + response.pseudo + '</b> : ' + response.message;
             messages.insertBefore(li, messages.firstChild); // Insérer le nouvel élément avant le premier enfant existant
             sendToServer('chat,' + '<b>' + response.pseudo + '</b> : ' + response.message);
-            input.value = '';
+            message.value = '';
         },
         error: function(xhr, status, error) {
             console.error(xhr.responseText);
@@ -183,8 +184,20 @@ function joueursSuivants(listePseudo, pseudoActuel) {
 
 function prochainTour(joueur){
     console.log(joueur);
-    if(pseudoJoueur === joueur){
-        console.log('true');
-    }
-    console.log('false');
+    $.ajax({
+        type: "POST",
+        url: "/prochainJoueur",
+        data: {prochainJoueur: joueur},
+        headers: {'X-CSRF-TOKEN': csrfToken},
+        success: function(response) {
+            window.location.reload();
+        },
+        error: function(xhr, status, error) {
+            console.error(xhr.responseText);
+        }
+    });
+}
+
+function deleteCookie(cookieName) {
+    document.cookie = cookieName + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
 }

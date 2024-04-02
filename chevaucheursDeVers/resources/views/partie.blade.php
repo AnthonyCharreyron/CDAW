@@ -46,31 +46,34 @@
 
         <div class="row h-100 m-0">
             <div class="col-9">
-                <h1 class='text-center kufam-font'>Chevaucheurs de vers</h1>
+                <h1 class='text-center kufam-font mt-3'>Chevaucheurs de vers</h1>
                 <!-- TODO : if votreTour => afficher "c'est à vous" <h3>C'est à currentPlayer de jouer</h3> -->
                 <!-- TODO : Temps restant : .... -->
                 
-                <div class='row my-3 d-flex justify-content-center'>
+                <div class='row my-2 d-flex justify-content-center'>
                     @if($partie_commencee)
-                        @if(!isset($_COOKIE['partieDebutee']))
-                            <div class='row' id="btnModalDestinationContainer">
-                                <button id="modalDestBtn" type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalDestination">Supprimer une carte destination</button>
-                            </div>
-                        @else
-                            <div id="btnPiocheVers" class='col-3 d-flex align-items-center justify-content-center'>
-                                <button type="button" class='btn btn-dark' data-bs-toggle="modal" data-bs-target="#exampleModalToggle">Piocher des vers</button>
-                            </div>
-                            <div id="btnPiocheDestinations" class='col-3 d-flex align-items-center justify-content-center'>
-                                <button class='btn btn-dark' onclick='piocherDestination()'>Piocher des destinations</button>
-                            </div>
-                            <div id="btnPoserVers" class='col-3 d-flex align-items-center justify-content-center'>
-                                <button class='btn btn-dark' onclick='poserVers()'>Poser des vers</button>
-                            </div>
-                            <div id="btnFinDeTour" class='col-3 d-flex align-items-center justify-content-center d-none'>
-                                <button class='btn btn-dark' onclick="finDeTour({{ json_encode(session()->get('listeJoueurs')) }}, '{{ $user->pseudo }}')">Fin du tour</button>
-                            </div>
+                        @if(session()->get('joueurEnCours') === $user->pseudo)
+                            @if(!isset($_COOKIE['partieDebutee']))
+                                <div class='row d-flex justify-content-center text-center' id="btnModalDestinationContainer">
+                                    <div class="col-6">
+                                        <u class='fw-bold'>Actions à réaliser</u>
+                                        <button id="modalDestBtn" type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalDestination">Veuillez cliquer pour supprimer ou garder vos destinations</button>
+                                    </div>
+                                </div>
+                            @else
+                                <div id="btnPiocheVers" class='col-3 d-flex align-items-center justify-content-center'>
+                                    <button type="button" class='btn btn-dark' data-bs-toggle="modal" data-bs-target="#exampleModalToggle">Piocher des vers</button>
+                                </div>
+                                <div id="btnPiocheDestinations" class='col-3 d-flex align-items-center justify-content-center'>
+                                    <button class='btn btn-dark' onclick='piocherDestination()'>Piocher des destinations</button>
+                                </div>
+                                <div id="btnPoserVers" class='col-3 d-flex align-items-center justify-content-center'>
+                                    <button class='btn btn-dark' onclick='poserVers()'>Poser des vers</button>
+                                </div>
+                            @endif
+                        @else 
+                            <h5 class='text-center fw-bold'>C'est à {{session()->get('joueurEnCours')}} de jouer !</h5>
                         @endif
-                        
                     @else
                         <div class='col d-flex align-items-center justify-content-center'>
                             <button type="button" class='btn btn-dark' onclick='lancerPartie()'>Lancer la partie</button>
@@ -139,8 +142,8 @@
                         <b>{{ $user->pseudo }}</b>
                         </hr>
                         @if($partie_commencee)
-                            <p class="my-0 mx-3"> cartes ver en mains</p>
-                            <p class="my-0 mx-3"> wagons restants</p>
+                            <p class="my-0 mx-3"> cartes Vers en mains</p>
+                            <p class="my-0 mx-3"> vers restants</p>
                             <p class="my-0 mx-3"> points</p>
                         @endif
                     </div>
@@ -202,9 +205,9 @@
                             @endforelse
                         @endif
                         <script>
-                            var radioInputs = document.querySelectorAll('input[name="carte_selectionnee"]');
-                            var selectedValue = radioInputs.checked.value;
-                            console.log(selectedValue);
+                            //var radioInputs = document.querySelectorAll('input[name="carte_selectionnee"]');
+                            //var selectedValue = radioInputs.checked.value;
+                            //console.log(selectedValue);
                         </script>
                     </div>
                     <div class="modal-footer">
