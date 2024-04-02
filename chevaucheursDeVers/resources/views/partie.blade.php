@@ -58,7 +58,7 @@
                             </div>
                         @else
                             <div id="btnPiocheVers" class='col-3 d-flex align-items-center justify-content-center'>
-                                <button class='btn btn-dark' onclick='piocherVers()'>Piocher des vers</button>
+                                <button type="button" class='btn btn-dark' data-bs-toggle="modal" data-bs-target="#exampleModalToggle">Piocher des vers</button>
                             </div>
                             <div id="btnPiocheDestinations" class='col-3 d-flex align-items-center justify-content-center'>
                                 <button class='btn btn-dark' onclick='piocherDestination()'>Piocher des destinations</button>
@@ -148,6 +148,83 @@
                 @endforeach
 
                 <x-chat/>
+            </div>
+        </div>
+
+        @php 
+            $cartes = session()->get('piocheVisibleGlobale');
+        @endphp
+
+        <!-- Modal -->
+
+        <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalToggleLabel">Choisir le premier ver</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        @if($cartes != null)
+                            @forelse($cartes as $index => $carte)
+                                @if($index == 5)
+                                    <div class="row">
+                                        <div class="col">
+                                            <label>
+                                                <input type="radio" name="carte_selectionnee" value="{{ $carte[$index] }}">
+                                                <p class="d-inline"><img class="selectedCard rotate-image" src="{{ asset('images/dos_de_carte.png') }}" alt="Ver face caché" style="width: 40px; height: auto;">&nbsp; Pioche <p>  
+                                            </label>
+                                        </div>
+                                    </div>
+                                @elseif($index == 6)
+                                    <div id="lastCard" class="row" style="display: none;">
+                                        <div class="col">
+                                            <label>
+                                                <input type="radio" name="carte_selectionnee" value="{{ $carte[$index] }}">
+                                                <p class="d-inline"><img class="selectedCard rotate-image" src="{{ asset('images/dos_de_carte.png') }}" alt="Ver face caché" style="width: 40px; height: auto;">&nbsp;Pioche <p>  
+                                            </label>
+                                        </div>
+                                    </div>
+                                @else
+                                    <div class="row">
+                                        <div class="col">
+                                            <label>
+                                                <input type="radio" name="carte_selectionnee" value="{{ $carte }}" id="carte{{ $index }}">
+                                                <img class="selectedCard rotate-image" src="{{ asset('images/'.$carte.'.png') }}" alt="{{ $carte }}" style="width: 50px; height: auto;">  
+                                            </label>
+                                        </div>
+                                    </div>
+                                @endif  
+                            @empty
+                                <div class="row">
+                                    <p>Aucune carte visible pour le moment.</p>
+                                </div>
+                            @endforelse
+                        @endif
+                        <script>
+                            var radioInputs = document.querySelectorAll('input[name="carte_selectionnee"]');
+                            var selectedValue = radioInputs.checked.value;
+                            console.log(selectedValue);
+                        </script>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal">Valider le choix du premier ver</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalToggleLabel2">Choisir le second ver</h5>
+                    </div>
+                <div class="modal-body">
+                    message blop
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" data-bs-dismiss="modal" onclick=piocherVers()>Valider le second ver</button>
+                </div>
             </div>
         </div>
 
