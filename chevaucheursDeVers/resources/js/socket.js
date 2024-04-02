@@ -18,7 +18,9 @@ socket.onmessage = function(event) {
             messages.insertBefore(li, messages.firstChild); // Insérer le nouvel élément avant le premier enfant existant
             break;
         case 'reload':
-            window.location.reload(); // Recharge la page lorsque le message 'reload' est reçu
+            setTimeout(function() {
+                window.location.reload();
+            }, 500); // Recharge la page lorsque le message 'reload' est reçu
             break;
         case 'lancer_partie':
             const [pioche, destinationsString] = content.split('|');
@@ -37,7 +39,7 @@ socket.onmessage = function(event) {
             deleteCookie('partieDebutee');
             break;
         case 'redirect':
-            window.open('/jouer/partie/' + content, '_blank');
+            window.location.href = '/jouer/partie/' + content;
             break;
         case 'user_join':
             //let codePartie = content.split('|')[0]; 
@@ -58,7 +60,7 @@ socket.onmessage = function(event) {
             break;
         case 'fin_de_tour':
             let listePseudo = content.split('|')[0].split(',');
-            let nomJoueurActuel = content.split('|')[1]; 
+            let nomJoueurActuel = content.split('|')[1];
             let joueur = joueursSuivants(listePseudo, nomJoueurActuel);
             prochainTour(joueur);
             break;
@@ -184,11 +186,12 @@ function joueursSuivants(listePseudo, pseudoActuel) {
 
 function prochainTour(joueur){
     console.log(joueur);
+    const csrfToken4 = $('meta[name="csrf-token"]').attr('content');
     $.ajax({
         type: "POST",
         url: "/prochainJoueur",
         data: {prochainJoueur: joueur},
-        headers: {'X-CSRF-TOKEN': csrfToken},
+        headers: {'X-CSRF-TOKEN': csrfToken4},
         success: function(response) {
             window.location.reload();
         },

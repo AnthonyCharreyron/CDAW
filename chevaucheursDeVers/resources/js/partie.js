@@ -45,7 +45,7 @@ jQuery(function($){
         }
 
         function finDeTour(listePseudo, userPseudo){
-            pseudoJoueurSuivant = joueursSuivants(listePseudo, userPseudo);
+            let pseudoJoueurSuivant = joueursSuivants(listePseudo, userPseudo);
             sendFinDeTour(listePseudo, userPseudo);
             $.ajax({
                 type: "POST",
@@ -67,6 +67,7 @@ jQuery(function($){
                 return null;
             }
             var indexSuivant = (index + 1) % listePseudo.length;
+            console.log(listePseudo[indexSuivant]);
             return listePseudo[indexSuivant];
         }
 
