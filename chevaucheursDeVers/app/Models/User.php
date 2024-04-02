@@ -98,11 +98,12 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     //TODO : traiter cas où il y a déjà un compte avec ce pseudo
-    public static function updateUser($pseudo, $password, $email){
+    public static function updateUser($pseudo, $password, $email, $photo_profil){
         self::where('email', '=', $email)
             ->update([
                 'pseudo' => $pseudo,
                 'password' => Hash::make($password),
+                'photo_profil' => $photo_profil
             ]);
     }
 
