@@ -8,6 +8,7 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 
 use App\Models\User;
+use App\Models\ListeAmi;
 
 class MonProfilController extends MenuController
 {
@@ -35,5 +36,11 @@ class MonProfilController extends MenuController
             "success" => true,
             "message" => "OK profil modifié"
         ]);
+    }
+
+    public function listeAmi(){
+        $user=Auth::user();
+        $data = ListeAmi::getListeAmis($user);
+        echo json_encode(array("data" => $data));
     }
 }

@@ -19,6 +19,9 @@ class ListeAmi extends Migration
     
             $table->foreign("id1")->references("id")->on("users")->onDelete("cascade");
             $table->foreign("id2")->references("id")->on("users")->onDelete("cascade");
+
+            $table->boolean("est_accepte")->default(false);
+            $table->integer("id_demandeur");
     
             $table->primary(["id1", "id2"]);
         });
