@@ -23,9 +23,11 @@ socket.onmessage = function(event) {
             }, 500); // Recharge la page lorsque le message 'reload' est reçu
             break;
         case 'lancer_partie':
-            const [pioche, destinationsString] = content.split('|');
+            const [pioche, destinationsString, destinationsRestantesString] = content.split('|');
             const destinations = JSON.parse(destinationsString); // Convertir la chaîne JSON en objet JavaScript
+            const destinationsRestantes = JSON.parse(destinationsRestantesString); // Convertir la chaîne JSON en objet JavaScript
             miseEnSession('piocheVisibleGlobale', pioche);
+            miseEnSession('cartesDestinationsRestantes', destinationsRestantes);
         
             for (const [cle, valeur] of Object.entries(destinations)) {
                 const typeCarte = cle;
@@ -63,6 +65,9 @@ socket.onmessage = function(event) {
             let nomJoueurActuel = content.split('|')[1];
             let joueur = joueursSuivants(listePseudo, nomJoueurActuel);
             prochainTour(joueur);
+            break;
+        case 'pioche_vers':
+            miseEnSession('piocheVisibleGlobale', content);
             break;
         default:
             console.error('Type de message non pris en charge.');
@@ -115,9 +120,9 @@ window.reloadPageForAllClients=function() {
     sendToServer('reload');
 }
 
-window.sendLancerPartie = function(piocheVisible, cartesDestinations) {
+window.sendLancerPartie = function(piocheVisible, cartesDestinations, cartesDestinationsRestantes) {
     try {
-        const message = 'lancer_partie,' + piocheVisible + '|' + JSON.stringify(cartesDestinations);
+        const message = 'lancer_partie,' + piocheVisible + '|' + JSON.stringify(cartesDestinations) + '|' + JSON.stringify(cartesDestinationsRestantes);
         sendToServer(message);
     } catch (error) {
         console.error('Erreur lors de la conversion en JSON :', error);
@@ -137,6 +142,11 @@ window.sendUserJoinPartie=function(codePartie, pseudo, nb_joueurs){
 
 window.sendFinDeTour = function (listePseudo, pseudo){
     const message = 'fin_de_tour,' + listePseudo + '|' + pseudo;
+    sendToServer(message);
+}
+
+window.sendPiocherVers = function(piocheVisible){
+    const message = 'pioche_vers,' + piocheVisible;
     sendToServer(message);
 }
 

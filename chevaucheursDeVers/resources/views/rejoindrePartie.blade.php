@@ -22,7 +22,7 @@
         <div class="row d-flex justify-content-center align-items-center">
              <div class="col-md-6 join-more my-3">
                 <div class="join-table my-3">
-                    <label for="partiePublique">En cliquant sur "Rejoindre" dans le tableau suivant :</label>
+                    <p>En cliquant sur "Rejoindre" dans le tableau suivant :</p>
                     <table id="partiePublique" class="hover bg-sand border-brown rounded">
                         <thead>
                             <tr>

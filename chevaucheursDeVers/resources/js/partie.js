@@ -11,7 +11,7 @@ jQuery(function($){
                 headers: {'X-CSRF-TOKEN': csrfToken},
                 success: function(response) {
                     console.log(response);
-                    sendLancerPartie(response.piocheVisibleGlobale, response.cartesDestinations);
+                    sendLancerPartie(response.piocheVisibleGlobale, response.cartesDestinations, response.cartesDestinationsRestantes);
                     reloadPageForAllClients();
                     deleteCookie('partieDebutee');
                 },
@@ -23,25 +23,24 @@ jQuery(function($){
 
         window.supprimerDestination=function(userId, destinationId){
             setCookie("partieDebutee", "true", 30);
-            if(destinationId!=null){
-                $.ajax({
-                    type: "POST",
-                    url: "/supprimerCarteDestination",
-                    async: false,
-                    data: {userId: userId, destinationId: destinationId},
-                    headers: {'X-CSRF-TOKEN': csrfToken},
-                    success: function(response) {
+            $.ajax({
+                type: "POST",
+                url: "/supprimerCarteDestination",
+                async: false,
+                data: {userId: userId, destinationId: destinationId},
+                headers: {'X-CSRF-TOKEN': csrfToken},
+                success: function(response) {
+                    if(destinationId!=null){
                         let destinationToRemove = document.getElementById(destinationId);
                         destinationToRemove.remove();
-                        finDeTour(response.listePseudosParticipants, response.userPseudo);
-                    },
-                    error: function(xhr, status, error) {
-                        console.error(xhr.responseText);
                     }
-                });
-            } else {
-                window.location.reload();
-            }
+                    //finDeTour(response.listePseudosParticipants, response.userPseudo);
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
+   
         }
 
         function finDeTour(listePseudo, userPseudo){
@@ -86,14 +85,44 @@ jQuery(function($){
             document.cookie = cookieName + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
         }
 
+        window.piocherVers = function(numTourPioche){
+            var indexSelectedCarte = document.querySelector('input[name="carte_selectionnee"]:checked');
+            if(indexSelectedCarte){
+                var indexCarte = indexSelectedCarte.value;
+    
+                $.ajax({
+                    type: "POST",
+                    url: "/piocherVer",
+                    async: false,
+                    data: {carteVer: indexCarte},
+                    headers: {'X-CSRF-TOKEN': csrfToken},
+                    success: function(response) {
+                        if(numTourPioche==1){
+                            if(indexCarte!='pioche'){
+                                var nouvelleCarte = response.nouvelleCarte;
+                                var img = document.getElementById('carte_' + indexCarte);
+
+                                img.setAttribute('src', response.baseURLimg + '/' + nouvelleCarte + '.png');
+                                img.setAttribute('alt', nouvelleCarte);
+                            }
+                            $('#message-deuxieme-pioche').toggle();
+                            var btn = document.getElementById('btn-pioche-ver');
+                            btn.setAttribute('data-bs-dismiss', 'modal');
+                            btn.setAttribute('onclick', 'piocherVers(2)');
+                        } else {
+                            sendPiocherVers(response.piocheVisible);
+                            finDeTour(response.listePseudosParticipants, response.userPseudo);
+                        }
+                        
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
+            }
+        }
+
     });
-
-    window.piocherVers = function(){
-        console.log('test');
-        //document.getElementById('overlay').style.display = 'block';
-
-
-    }
  
 
 });

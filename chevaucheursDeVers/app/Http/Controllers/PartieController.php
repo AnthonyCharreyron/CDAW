@@ -58,6 +58,7 @@ class PartieController extends Controller
             "message" => "OK partie initialisée",
             "piocheVisibleGlobale" => session()->get('piocheVisibleGlobale'),
             "cartesDestinations" => $cartesDestinations,
+            "cartesDestinationsRestantes" => session()->get('cartesDestinationsRestantes')
         ]);
     }
 
@@ -71,16 +72,18 @@ class PartieController extends Controller
     }
 
     public function supprimerCarteDestination(Request $request){
+
         $idUser = $request->input('userId');
         $destinationId = $request->input('destinationId');
-
-        $posUnderscore = strpos($destinationId, '_');
-        $id = intval(substr($destinationId, $posUnderscore + 1));
-    
-        $cartesDestinations = session()->get('cartesDestinationsMain_'.$idUser);
-        if ($cartesDestinations) {
-            array_splice($cartesDestinations, $id - 1, 1);
-            session()->put('cartesDestinationsMain_'.$idUser, $cartesDestinations);
+        if($destinationId!=null){
+            $posUnderscore = strpos($destinationId, '_');
+            $id = intval(substr($destinationId, $posUnderscore + 1));
+        
+            $cartesDestinations = session()->get('cartesDestinationsMain_'.$idUser);
+            if ($cartesDestinations) {
+                array_splice($cartesDestinations, $id - 1, 1);
+                session()->put('cartesDestinationsMain_'.$idUser, $cartesDestinations);
+            }
         }
 
         return response()->json([
@@ -100,6 +103,37 @@ class PartieController extends Controller
             "message" => "OK prochain joueur mis en session"
         ]);
     }  
+
+    public function piocherVer(Request $request){
+        $user = Auth::user();
+        $indexCarteSelectionnee = $request->input('carteVer');
+        $nouvelleCarte = Partie::genererNouvelleCarte();
+        $main = session()->get('cartesEnMain_'.$user->id);
+
+        if($indexCarteSelectionnee !== 'pioche'){
+            $currentPioche = session()->get('piocheVisibleGlobale');
+
+            array_push($main, $currentPioche[$indexCarteSelectionnee]);
+            session()->put('cartesEnMain_'.$user->id, $main);
+
+            $currentPioche[$indexCarteSelectionnee] = $nouvelleCarte;
+            session()->put('piocheVisibleGlobale', $currentPioche);
+            
+        } else {  
+            array_push($main, $nouvelleCarte);
+            session()->put('cartesEnMain_'.$user->id, $main);
+        }
+
+        return response()->json([
+            "success" => true,
+            "message" => "OK fin de mon premier tour",
+            "listePseudosParticipants" => session()->get('listeJoueurs'),
+            "userPseudo" => User::getPseudo($user->id),
+            'nouvelleCarte' => $nouvelleCarte,
+            'baseURLimg' => asset('images/'),
+            'piocheVisible' => session()->get('piocheVisibleGlobale')
+        ]);
+    }
  
 
 }

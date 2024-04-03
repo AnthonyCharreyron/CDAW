@@ -68,7 +68,7 @@ class Partie extends Model
         $nomsCartes = ['Carte ver bleu', 'Carte ver jaune', 'Carte ver multicolore', 'Carte ver rose', 'Carte ver rouge', 'Carte ver vert'];
         $cartes = [];
 
-        for($i=0; $i<7; $i++){
+        for($i=0; $i<5; $i++){
             $carte = $nomsCartes[rand(0,5)]; 
             array_push($cartes, $carte);
         }
@@ -116,10 +116,10 @@ class Partie extends Model
         ];
     
         $result = [];
+        $cartesRestantes = $nomsCartes;
     
         foreach ($participants as $user) {
             $cartes = [];
-            $cartesRestantes = $nomsCartes;
             
             for ($i = 0; $i < $nombreCarte; $i++) {
                 $destination = array_rand($cartesRestantes);
@@ -127,10 +127,12 @@ class Partie extends Model
                 $cartes[$destination] = $score;
                 unset($cartesRestantes[$destination]);
             }
-            
+        
             session(['cartesDestinationsMain_' . $user->id_user => $cartes]);
             $result['cartesDestinationsMain_' . $user->id_user] = $cartes;
         }
+
+        session(['cartesDestinationsRestantes' => $cartesRestantes]);
     
         return $result;
     }
@@ -156,5 +158,13 @@ class Partie extends Model
         return self::select('nombre_joueurs')
                     ->where('id_partie', '=', $idPartie)
                     ->value('nombre_joueurs');
+    }
+
+    public static function genererNouvelleCarte(){
+        $nomsCartes = ['Carte ver bleu', 'Carte ver jaune', 'Carte ver multicolore', 'Carte ver rose', 'Carte ver rouge', 'Carte ver vert'];
+ 
+        $carte = $nomsCartes[rand(0,5)]; 
+        
+        return $carte;
     }
 }

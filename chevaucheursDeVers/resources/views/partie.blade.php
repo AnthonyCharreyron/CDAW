@@ -86,12 +86,12 @@
                         <x-carte-jeu/>
                     </div>
                     
-                    <div class="col-3">
+                    <div class="col-3 text-center">
                         @if($partie_commencee)
                             @php
-                                $cartes = array_slice(session()->get('piocheVisibleGlobale', []), 0, 5);
+                                $cartes = session()->get('piocheVisibleGlobale', [], 5);
                             @endphp
-
+                            <u>Pioche :</u>
                             @forelse($cartes as $carte)
                                 <div class="row">
                                     <img class="pioche p-0 mx-auto rotate-image" src="{{ asset('images/'.$carte.'.png') }}" alt="{{ $carte }}" style="width: 100px; height: auto;">
@@ -120,6 +120,7 @@
                     <div class='col'>
                         <div class='row'>
                             @if($partie_commencee)
+                                <u>Mes cartes :</u>
                                 @forelse(session()->get('cartesEnMain_'.$user->id, []) as $carte)
                                      <img class="main p-0 my-auto rotate-image" src="{{ asset('images/'.$carte.'.png') }}" alt="{{ $carte }}" style="width: 100px; height: auto;">
                                 @empty
@@ -154,68 +155,47 @@
             </div>
         </div>
 
-        @php 
-            $cartes = session()->get('piocheVisibleGlobale');
-        @endphp
-
         <!-- Modal -->
 
         <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalToggleLabel">Choisir le premier ver</h5>
+                        <h5 class="modal-title" id="exampleModalToggleLabel">Choisir un ver</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        @if($cartes != null)
-                            @forelse($cartes as $index => $carte)
-                                @if($index == 5)
-                                    <div class="row">
-                                        <div class="col">
-                                            <label>
-                                                <input type="radio" name="carte_selectionnee" value="{{ $carte[$index] }}">
-                                                <p class="d-inline"><img class="selectedCard rotate-image" src="{{ asset('images/dos_de_carte.png') }}" alt="Ver face caché" style="width: 40px; height: auto;">&nbsp; Pioche <p>  
-                                            </label>
-                                        </div>
-                                    </div>
-                                @elseif($index == 6)
-                                    <div id="lastCard" class="row" style="display: none;">
-                                        <div class="col">
-                                            <label>
-                                                <input type="radio" name="carte_selectionnee" value="{{ $carte[$index] }}">
-                                                <p class="d-inline"><img class="selectedCard rotate-image" src="{{ asset('images/dos_de_carte.png') }}" alt="Ver face caché" style="width: 40px; height: auto;">&nbsp;Pioche <p>  
-                                            </label>
-                                        </div>
-                                    </div>
-                                @else
-                                    <div class="row">
-                                        <div class="col">
-                                            <label>
-                                                <input type="radio" name="carte_selectionnee" value="{{ $carte }}" id="carte{{ $index }}">
-                                                <img class="selectedCard rotate-image" src="{{ asset('images/'.$carte.'.png') }}" alt="{{ $carte }}" style="width: 50px; height: auto;">  
-                                            </label>
-                                        </div>
-                                    </div>
-                                @endif  
-                            @empty
+                        <b id="message-deuxieme-pioche" style="display:none">Veuillez choisir une deuxième carte</b>
+                        @if(isset($cartes) && $cartes != null)
+                            @foreach($cartes as $index => $carte)                              
                                 <div class="row">
-                                    <p>Aucune carte visible pour le moment.</p>
-                                </div>
-                            @endforelse
+                                    <div class="col">
+                                        <label>
+                                            <input type="radio" name="carte_selectionnee" value="{{ $index }}">
+                                            <img id='carte_{{$index}}' class="selectedCard rotate-image" src="{{ asset('images/'.$carte.'.png') }}" alt="{{ $carte }}" style="width: 50px; height: auto;">  
+                                        </label>
+                                    </div>
+                                </div>                      
+                            @endforeach
                         @endif
-                        <script>
-                            //var radioInputs = document.querySelectorAll('input[name="carte_selectionnee"]');
-                            //var selectedValue = radioInputs.checked.value;
-                            //console.log(selectedValue);
-                        </script>
+                        <div class="row">
+                            <div class="col">
+                                <label>
+                                    <input type="radio" name="carte_selectionnee" value="pioche">
+                                    <p class="d-inline"><img id='carte_pioche' class="selectedCard rotate-image" src="{{ asset('images/dos_de_carte.png') }}" alt="Ver face caché" style="width: 50px; height: auto;">&nbsp; Pioche <p>  
+                                </label>
+                            </div>
+                        </div>
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal">Valider le choix du premier ver</button>
+                        <button id='btn-pioche-ver' class="btn btn-primary" onclick="piocherVers(1, {{ json_encode(session()->get('piocheVisibleGlobale')) }})">Valider</button>
                     </div>
                 </div>
             </div>
         </div>
+
+
+
         <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
@@ -223,7 +203,7 @@
                         <h5 class="modal-title" id="exampleModalToggleLabel2">Choisir le second ver</h5>
                     </div>
                 <div class="modal-body">
-                    message blop
+                   
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-primary" data-bs-dismiss="modal" onclick=piocherVers()>Valider le second ver</button>
