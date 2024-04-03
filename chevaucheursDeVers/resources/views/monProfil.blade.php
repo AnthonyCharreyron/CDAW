@@ -15,19 +15,19 @@
                 <div class="row">
                     <div class="col-md-3 text-center">
                         <img id="image1" src="{{asset('images/0.png')}}" class="img-fluid" alt="Image 1">
-                        <label for="image1">Image 1</label>
+                        <p for="image1">Image 1</p>
                     </div>
                     <div class="col-md-3 text-center">
                         <img id="image2" src="{{asset('images/1.png')}}" class="img-fluid" alt="Image 2">
-                        <label for="image2">Image 2</label>
+                        <p for="image2">Image 2</p>
                     </div>
                     <div class="col-md-3 text-center">
                         <img id="image3" src="{{asset('images/2.png')}}" class="img-fluid" alt="Image 3">
-                        <label for="image3">Image 3</label>
+                        <p for="image3">Image 3</p>
                     </div>
                     <div class="col-md-3 text-center">
                         <img id="image4" src="{{asset('images/3.png')}}" class="img-fluid" alt="Image 4">
-                        <label for="image4">Image 4</label>
+                        <p for="image4">Image 4</p>
                     </div>
                 </div>
             </div>
@@ -58,6 +58,18 @@
             </div>
         </div>
         <div class="col-5 m-3 border-brown rounded">
+            <h4 class="text-center m-3">Liste d'amis</h4>
+            <hr/>
+
+            <table id="liste-amis" class="hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Profil</th>
+                        <th scope="col">Pseudo</th>
+                        <th scope="col">Statut de la demande</th>
+                    </tr>
+                </thead>
+            </table>
         </div>
     </div>
 

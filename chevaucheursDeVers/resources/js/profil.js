@@ -76,6 +76,44 @@ jQuery(function($) {
             });
         }
 
+        let liste_amis = $('#liste-amis').DataTable({
+            "info": false,
+            "searching": false,
+            ajax:{ 
+                url: '/listeAmi',
+                type: 'GET',
+                error: function(xhr, error, thrown) {
+                    console.log('Erreur:', error);
+                }
+            },
+            columnDefs: [
+                {
+                    targets: '_all',
+                    render: function(data) {
+                        return data ? data : 0;
+                    },
+                    className: 'dt-center'
+                }
+            ],
+            columns: [
+                { 
+                    data: null, 
+                    name: 'Profil',
+                    render: function(data) {
+                        return data == 1 ? 'Accepté' : 'Demande en attente';
+                    }
+                }, 
+                { data: 'pseudo', name: 'Pseudo' },
+                { 
+                    data: 'est_accepte',
+                    name: 'Statut de la demande',
+                    render: function(data) {
+                        return data == 1 ? 'Accepté' : 'Demande en attente';
+                    }
+                }
+            ]
+        });
+
     });
     
 })
