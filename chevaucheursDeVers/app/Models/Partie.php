@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Arr;
 
 class Partie extends Model
 {
@@ -166,5 +167,21 @@ class Partie extends Model
         $carte = $nomsCartes[rand(0,5)]; 
         
         return $carte;
+    }
+
+    public static function genererPiocheDestinations($cartesDestinationsRestantes){
+        $cles = array_keys($cartesDestinationsRestantes);
+        $valeurs = array_values($cartesDestinationsRestantes);
+        $indicesAleatoires = array_rand($cles, 3);
+
+        $destinationsAleatoires = [];
+
+        foreach ($indicesAleatoires as $indice) {
+            $cle = $cles[$indice];
+            $valeur = $valeurs[$indice];
+            $destinationsAleatoires[$cle] = $valeur;
+        }
+        Log::info($destinationsAleatoires);
+        session(['piocheDestinations' => $destinationsAleatoires]);
     }
 }

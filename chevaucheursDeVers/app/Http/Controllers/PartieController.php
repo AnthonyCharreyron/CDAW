@@ -52,13 +52,17 @@ class PartieController extends Controller
         Partie::generateCartesPiocheVisible();
         Partie::initialiserCartesEnMain(4, $user->id);
         $cartesDestinations = Partie::obtenirCartesDestination(3, $participants);
+        $cartesDestinationsRestantes = session()->get('cartesDestinationsRestantes');
+
+        Partie::genererPiocheDestinations($cartesDestinationsRestantes);
 
         return response()->json([
             "success" => true,
             "message" => "OK partie initialisée",
             "piocheVisibleGlobale" => session()->get('piocheVisibleGlobale'),
             "cartesDestinations" => $cartesDestinations,
-            "cartesDestinationsRestantes" => session()->get('cartesDestinationsRestantes')
+            "cartesDestinationsRestantes" => $cartesDestinationsRestantes,
+            "piocheDestinations" => session()->get('piocheDestinations')
         ]);
     }
 
@@ -135,12 +139,38 @@ class PartieController extends Controller
 
         return response()->json([
             "success" => true,
-            "message" => "OK fin de mon premier tour",
+            "message" => "OK ver pioché",
             "listePseudosParticipants" => session()->get('listeJoueurs'),
             "userPseudo" => User::getPseudo($user->id),
             'nouvelleCarte' => $nouvelleCarte,
             'baseURLimg' => asset('images/'),
             'piocheVisible' => session()->get('piocheVisibleGlobale')
+        ]);
+    }
+
+    public function piocherDestinations(Request $request){
+        $user = Auth::user();
+        $destinationsAAjouter = $request->input('cartesDestinations');
+        Log::info($destinationsAAjouter);
+        $destinationsMain = session()->get('cartesDestinationsMain_'.$user->id);
+
+        $nouvelleMain = array_merge($destinationsMain,$destinationsAAjouter);
+        session()->put('cartesDestinationsMain_'.$user->id, $nouvelleMain);
+
+        $cartesDestinationsRestantes = session()->get('cartesDestinationsRestantes');
+        $clesAAjouter = array_keys($destinationsAAjouter);
+        $cartesDestinationsRestantes = array_diff_key($cartesDestinationsRestantes, array_flip($clesAAjouter));
+        session()->put('cartesDestinationsRestantes', $cartesDestinationsRestantes);
+
+        Partie::genererPiocheDestinations($cartesDestinationsRestantes);
+
+        return response()->json([
+            "success" => true,
+            "message" => "OK fin de mon premier tour",
+            "listePseudosParticipants" => session()->get('listeJoueurs'),
+            "userPseudo" => User::getPseudo($user->id),
+            'cartesDestinationsRestantes' => $cartesDestinationsRestantes,
+            "piocheDestinations" => session()->get('piocheDestinations')
         ]);
     }
  

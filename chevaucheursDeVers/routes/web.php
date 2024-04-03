@@ -59,7 +59,5 @@ Route::post('/miseEnSessionCartes', [MessageController::class, 'miseEnSessionCar
 Route::post('/initialiserCartesMain', [PartieController::class, 'initialiserCartesMain']);
 Route::post('/supprimerCarteDestination', [PartieController::class, 'supprimerCarteDestination']);
 Route::post('/piocherVer', [PartieController::class, 'piocherVer']);
+Route::post('/piocherDestinations', [PartieController::class, 'piocherDestinations']);
 Route::post('/prochainJoueur', [PartieController::class, 'prochainJoueur']);
-
-
-

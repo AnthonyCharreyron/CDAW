@@ -23,17 +23,19 @@ socket.onmessage = function(event) {
             }, 500); // Recharge la page lorsque le message 'reload' est reçu
             break;
         case 'lancer_partie':
-            const [pioche, destinationsString, destinationsRestantesString] = content.split('|');
+            const [pioche, destinationsString, destinationsRestantesString, piocheDestinationsString] = content.split('|');
             const destinations = JSON.parse(destinationsString); // Convertir la chaîne JSON en objet JavaScript
             const destinationsRestantes = JSON.parse(destinationsRestantesString); // Convertir la chaîne JSON en objet JavaScript
+            const piocheDestinations = JSON.parse(piocheDestinationsString); // Convertir la chaîne JSON en objet JavaScript
             miseEnSession('piocheVisibleGlobale', pioche);
             miseEnSession('cartesDestinationsRestantes', destinationsRestantes);
+            miseEnSession('piocheDestinations', piocheDestinations);
         
             for (const [cle, valeur] of Object.entries(destinations)) {
                 const typeCarte = cle;
                 const destinationsJoueur = valeur;
-                console.log(typeCarte);
-                console.log(destinationsJoueur);
+                //console.log(typeCarte);
+                //console.log(destinationsJoueur);
                 miseEnSession(typeCarte, destinationsJoueur);
             }
 
@@ -71,6 +73,12 @@ socket.onmessage = function(event) {
             break;
         case 'cartes_destinations_restantes':
             miseEnSession('cartesDestinationsRestantes', JSON.parse(content));
+            break;
+        case 'piocher_destinations':
+            let nouvellePiocheDestinations = content.split('|')[0].split(',');
+            let cartesDestinationsRestantes = content.split('|')[1];
+            miseEnSession('piocheDestinations', JSON.parse(nouvellePiocheDestinations));
+            miseEnSession('cartesDestinationsRestantes', JSON.parse(cartesDestinationsRestantes));
             break;
         default:
             console.error('Type de message non pris en charge.');
@@ -123,9 +131,9 @@ window.reloadPageForAllClients=function() {
     sendToServer('reload');
 }
 
-window.sendLancerPartie = function(piocheVisible, cartesDestinations, cartesDestinationsRestantes) {
+window.sendLancerPartie = function(piocheVisible, cartesDestinations, cartesDestinationsRestantes, piocheDestinations) {
     try {
-        const message = 'lancer_partie,' + piocheVisible + '|' + JSON.stringify(cartesDestinations) + '|' + JSON.stringify(cartesDestinationsRestantes);
+        const message = 'lancer_partie,' + piocheVisible + '|' + JSON.stringify(cartesDestinations) + '|' + JSON.stringify(cartesDestinationsRestantes) + '|' + JSON.stringify(piocheDestinations);
         sendToServer(message);
     } catch (error) {
         console.error('Erreur lors de la conversion en JSON :', error);
@@ -157,6 +165,11 @@ window.sendCartesDestinationsRestantes = function(cartes){
     const message = 'cartes_destinations_restantes,' + JSON.stringify(cartes);
     sendToServer(message);
 }
+
+window.sendPiocherDestinations=function(piocheDestinations, cartesDestinationsRestantes){
+    const message = 'piocher_destinations,' + JSON.stringify(piocheDestinations) + '|' + JSON.stringify(cartesDestinationsRestantes) ;
+    sendToServer(message);
+};
 
 
 

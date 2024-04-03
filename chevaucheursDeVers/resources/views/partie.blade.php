@@ -14,7 +14,6 @@
 
     <body style="height: 100vh">
 
-
         <div>
             <!-- Modal pour la suppression d'une carte destination au début -->
             <div class="modal fade" id="modalDestination" tabindex="-1" role="dialog" aria-labelledby="modalDestLabel" aria-hidden="true">
@@ -62,10 +61,10 @@
                                 </div>
                             @else
                                 <div id="btnPiocheVers" class='col-3 d-flex align-items-center justify-content-center'>
-                                    <button type="button" class='btn btn-dark' data-bs-toggle="modal" data-bs-target="#exampleModalToggle">Piocher des vers</button>
+                                    <button type="button" class='btn btn-dark' data-bs-toggle="modal" data-bs-target="#piocherVersModal">Piocher des vers</button>
                                 </div>
                                 <div id="btnPiocheDestinations" class='col-3 d-flex align-items-center justify-content-center'>
-                                    <button class='btn btn-dark' onclick='piocherDestination()'>Piocher des destinations</button>
+                                    <button type="button" class='btn btn-dark' data-bs-toggle="modal" data-bs-target="#piocherDestinationsModal">Piocher des destinations</button>
                                 </div>
                                 <div id="btnPoserVers" class='col-3 d-flex align-items-center justify-content-center'>
                                     <button class='btn btn-dark' onclick='poserVers()'>Poser des vers</button>
@@ -155,13 +154,12 @@
             </div>
         </div>
 
-        <!-- Modal -->
-
-        <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+        <!-- Modal piocher vers-->
+        <div class="modal fade" id="piocherVersModal" aria-hidden="true" aria-labelledby="piocherVersModalLabel" tabindex="-1">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalToggleLabel">Choisir un ver</h5>
+                        <h5 class="modal-title" id="piocherVersModalLabel">Choisir un ver</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -194,19 +192,29 @@
             </div>
         </div>
 
-
-
-        <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+                <!-- Modal piocher destinations -->
+        <div class="modal fade" id="piocherDestinationsModal" aria-hidden="true" aria-labelledby="piocherDestinationsModalLabel" tabindex="-1">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalToggleLabel2">Choisir le second ver</h5>
+                        <h5 class="modal-title" id="piocherDestinationsModalLabel">Choisir une ou plusieurs destinations</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                <div class="modal-body">
-                   
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-primary" data-bs-dismiss="modal" onclick=piocherVers()>Valider le second ver</button>
+                    <div class="modal-body">
+                        <p id='piocher_destination_alert' class='alert' style='display:none'></p>
+                        <form>
+                            @if(session()->has('piocheDestinations'))
+                                @foreach(session()->get('piocheDestinations') as $destination => $score)
+                                    <input type="checkbox" id="option_{{$loop->index + 1}}" name="destinations" value="{{$destination}}_{{$score}}">
+                                    <label for="option_{{$loop->index + 1}}">{{$destination}} : {{$score}}</label>
+                                    <br>
+                                @endforeach
+                            @endif
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button id='btn-pioche-destination' class="btn btn-primary" onclick="piocherDestinations()">Gardez ces destinations</button>
+                    </div>
                 </div>
             </div>
         </div>

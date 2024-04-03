@@ -11,7 +11,7 @@ jQuery(function($){
                 headers: {'X-CSRF-TOKEN': csrfToken},
                 success: function(response) {
                     console.log(response);
-                    sendLancerPartie(response.piocheVisibleGlobale, response.cartesDestinations, response.cartesDestinationsRestantes);
+                    sendLancerPartie(response.piocheVisibleGlobale, response.cartesDestinations, response.cartesDestinationsRestantes, response.piocheDestinations);
                     reloadPageForAllClients();
                     deleteCookie('partieDebutee');
                 },
@@ -121,6 +121,48 @@ jQuery(function($){
                     }
                 });
             }
+        }
+
+        window.piocherDestinations=function(){
+
+            var checkboxes = document.getElementsByName('destinations');
+            var isChecked = false;
+            var destinationsAGarder = [];
+
+            for (var i = 0; i < checkboxes.length; i++) {
+                if (checkboxes[i].checked) {
+                    isChecked = true;
+                    var valeur = checkboxes[i].value;
+                    var elements = valeur.split('_');
+                    var destination = elements[0];
+                    var score = elements[1];
+
+                    destinationsAGarder[destination]=score;
+                }
+            }
+            console.log(JSON.stringify(destinationsAGarder));
+
+            if (!isChecked) {
+                $('#piocher_destination_alert').toggle();
+                return;
+            } else {
+                $.ajax({
+                    type: "POST",
+                    url: "/piocherDestinations",
+                    async: false,
+                    data: {cartesDestinations: destinationsAGarder},
+                    headers: {'X-CSRF-TOKEN': csrfToken},
+                    success: function(response) {
+                        sendPiocherDestinations(response.piocheDestinations, response.cartesDestinationsRestantes);
+                        finDeTour(response.listePseudosParticipants, response.userPseudo);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
+
+            }
+
         }
 
     });
