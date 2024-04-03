@@ -69,6 +69,9 @@ socket.onmessage = function(event) {
         case 'pioche_vers':
             miseEnSession('piocheVisibleGlobale', content);
             break;
+        case 'cartes_destinations_restantes':
+            miseEnSession('cartesDestinationsRestantes', JSON.parse(content));
+            break;
         default:
             console.error('Type de message non pris en charge.');
     }
@@ -149,6 +152,13 @@ window.sendPiocherVers = function(piocheVisible){
     const message = 'pioche_vers,' + piocheVisible;
     sendToServer(message);
 }
+
+window.sendCartesDestinationsRestantes = function(cartes){
+    const message = 'cartes_destinations_restantes,' + JSON.stringify(cartes);
+    sendToServer(message);
+}
+
+
 
 function miseEnSession(type, cartes){
     const csrfToken2 = $('meta[name="csrf-token"]').attr('content');

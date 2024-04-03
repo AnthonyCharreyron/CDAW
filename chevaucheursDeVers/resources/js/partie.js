@@ -33,8 +33,9 @@ jQuery(function($){
                     if(destinationId!=null){
                         let destinationToRemove = document.getElementById(destinationId);
                         destinationToRemove.remove();
+                        sendCartesDestinationsRestantes(response.cartesDestinationsRestantes);
                     }
-                    //finDeTour(response.listePseudosParticipants, response.userPseudo);
+                    finDeTour(response.listePseudosParticipants, response.userPseudo);
                 },
                 error: function(xhr, status, error) {
                     console.error(xhr.responseText);

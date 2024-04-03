@@ -81,6 +81,14 @@ class PartieController extends Controller
         
             $cartesDestinations = session()->get('cartesDestinationsMain_'.$idUser);
             if ($cartesDestinations) {
+                $valeurs = array_values($cartesDestinations);
+                $cles = array_keys($cartesDestinations);
+                Log::info($cles[$id-1]);
+
+                $cartesDestinationsRestantes = session()->get('cartesDestinationsRestantes');
+                $cartesDestinationsRestantes[$cles[$id-1]]=$valeurs[$id-1];
+                session()->put('cartesDestinationsRestantes', $cartesDestinationsRestantes);
+
                 array_splice($cartesDestinations, $id - 1, 1);
                 session()->put('cartesDestinationsMain_'.$idUser, $cartesDestinations);
             }
@@ -91,6 +99,7 @@ class PartieController extends Controller
             "message" => "OK fin de mon premier tour",
             "listePseudosParticipants" => session()->get('listeJoueurs'),
             "userPseudo" => User::getPseudo($idUser),
+            "cartesDestinationsRestantes" => session()->get('cartesDestinationsRestantes')
         ]);
         
     }
