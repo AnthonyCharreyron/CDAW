@@ -144,7 +144,47 @@ jQuery(function($) {
                 }
             ]
         });
+        
+                // Gestion de l'ouverture du modal au survol du bouton
+                $('.img-voir-profil').hover(function() {
+                    var idAmi = $(this).data('id-ami');
+                    loadAmiInfo(idAmi); 
+                    //$('.btn-voir-profil').click(); 
+                    $('#modalProfilAmi').modal('show'); // Ouvrir le modal
+                });
+        
+                // Fermeture du modal lorsque vous cliquez en dehors de celui-ci ou sortez la souris du modal
+                $(document).on('click', function(event) {
+                    if (!$(event.target).closest('.modal-content').length && !$(event.target).closest('.btn-voir-profil').length) {
+                        $('#modalProfilAmi').removeClass('show'); // Supprimer la classe 'show' pour fermer le modal
+                    }
+                });
+        
+                // Détection de l'ouverture du modal
+                $('#modalProfilAmi').on('show.bs.modal', function (event) {
+                    // Extraction des informations de l'ami depuis les attributs data de l'élément déclencheur
+                    var button = $(event.relatedTarget);
+                    var pseudo = button.data('pseudo');
+                    var photoProfil = button.data('photo-profil');
+                    var partiesJouees = button.data('parties-jouees');
+                    var partiesGagnees = button.data('parties-gagnees');
+                    var meilleurScore = button.data('meilleur-score');
+        
+                    // Mise à jour des éléments du modal avec les informations de l'ami
+                    var modal = $(this);
+                    modal.find('#amiPseudo').text(pseudo);
+                    modal.find('#amiPseudoModal').text(pseudo);
+                    modal.find('#amiPhotoProfil').attr('src', photoProfil);
+                    modal.find('#amiPartiesJouees').text(partiesJouees);
+                    modal.find('#amiPartiesGagnees').text(partiesGagnees);
+                    modal.find('#amiMeilleurScore').text(meilleurScore);
+                });
 
     });
+
+    function loadAmiInfo(idAmi) {
+        // Appel AJAX pour charger les informations de l'ami et les afficher dans le modal
+        // Vous devrez implémenter cette fonction pour charger les informations de l'ami à partir de son ID
+    }
     
 })
