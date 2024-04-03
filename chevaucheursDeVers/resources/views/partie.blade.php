@@ -201,7 +201,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <p id='piocher_destination_alert' class='alert' style='display:none'></p>
+                        <p id='piocher_destination_alert' class='alert-danger alert' style='display:none'>Veuillez sélectionner au moins une destination.</p>
                         <form>
                             @if(session()->has('piocheDestinations'))
                                 @foreach(session()->get('piocheDestinations') as $destination => $score)

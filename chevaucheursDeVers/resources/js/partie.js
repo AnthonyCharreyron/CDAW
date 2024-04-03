@@ -127,7 +127,7 @@ jQuery(function($){
 
             var checkboxes = document.getElementsByName('destinations');
             var isChecked = false;
-            var destinationsAGarder = [];
+            var destinationsAGarder = {};
 
             for (var i = 0; i < checkboxes.length; i++) {
                 if (checkboxes[i].checked) {
@@ -143,7 +143,7 @@ jQuery(function($){
             console.log(JSON.stringify(destinationsAGarder));
 
             if (!isChecked) {
-                $('#piocher_destination_alert').toggle();
+                $('#piocher_destination_alert').show();
                 return;
             } else {
                 $.ajax({
