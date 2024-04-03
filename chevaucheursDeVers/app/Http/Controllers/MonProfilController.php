@@ -43,4 +43,10 @@ class MonProfilController extends MenuController
         $data = ListeAmi::getListeAmis($user);
         echo json_encode(array("data" => $data));
     }
+
+    public function demandesPourMoi(){
+        $user=Auth::user();
+        $data = ListeAmi::getDemandePourMoi($user);
+        echo json_encode(array("data" => $data));
+    }
 }

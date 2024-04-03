@@ -96,19 +96,50 @@ jQuery(function($) {
                 }
             ],
             columns: [
-                { 
+                {
                     data: null, 
                     name: 'Profil',
+                    render: function(row) {
+                        return `<img src="images/`+ row.photo_profil +`.png" style="height: 5vh;"  alt="Voir le profil" class="img-voir-profil" data-id-ami="`+ row.id +`">`;
+                    }
+                }, 
+                { data: 'pseudo', name: 'Pseudo' }
+            ]
+        });
+
+        let demande_pour_moi = $('#demande-pour-moi').DataTable({
+            "info": false,
+            "searching": false,
+            ajax:{ 
+                url: '/demandePourMoi',
+                type: 'GET',
+                error: function(xhr, error, thrown) {
+                    console.log('Erreur:', error);
+                }
+            },
+            columnDefs: [
+                {
+                    targets: '_all',
                     render: function(data) {
-                        return data == 1 ? 'Accepté' : 'Demande en attente';
+                        return data ? data : 0;
+                    },
+                    className: 'dt-center'
+                }
+            ],
+            columns: [
+                {
+                    data: null, 
+                    name: 'Profil',
+                    render: function(row) {
+                        return `<img src="images/`+ row.photo_profil +`.png" style="height: 5vh;"  alt="Voir le profil" class="img-voir-profil" data-id-ami="`+ row.id +`">`;
                     }
                 }, 
                 { data: 'pseudo', name: 'Pseudo' },
                 { 
-                    data: 'est_accepte',
-                    name: 'Statut de la demande',
-                    render: function(data) {
-                        return data == 1 ? 'Accepté' : 'Demande en attente';
+                    data: null, 
+                    orderable: false,
+                    render: function(data, type, row) {
+                        return `<button class="btn btn-succes">Test</button>`;
                     }
                 }
             ]

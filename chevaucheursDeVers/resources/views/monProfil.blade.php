@@ -66,13 +66,25 @@
                     <tr>
                         <th scope="col">Profil</th>
                         <th scope="col">Pseudo</th>
-                        <th scope="col">Statut de la demande</th>
+                    </tr>
+                </thead>
+            </table>
+            <table id="demande-pour-moi" class="hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Profil</th>
+                        <th scope="col">Pseudo</th>
+                        <th scope="col">Action</th>
                     </tr>
                 </thead>
             </table>
         </div>
     </div>
 
-    
+@endsection
 
+@section('pagescripts')
+    <script>
+        const idUser = "{{$user->id}}";
+    </script>
 @endsection

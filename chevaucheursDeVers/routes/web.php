@@ -22,7 +22,8 @@ Route::get('/presentation', [PresentationController::class, 'getPresentation'])-
 
 Route::get('/monProfil', [MonProfilController::class, 'getProfil'])->middleware(AuthMiddleware::class);
 Route::post('/monProfil/modifierProfil', [MonProfilController::class, 'modifierProfil'])->name('modifier_profil');
-Route::get('/listeAmi', [MonProfilController::class, 'listeAmi']);
+Route::get('/listeAmi', [MonProfilController::class, 'listeAmi'])->middleware(AuthMiddleware::class);
+Route::get('/demandePourMoi', [MonProfilController::class, 'demandesPourMoi'])->middleware(AuthMiddleware::class);
 
 
 Route::get('/historique', [HistoriqueController::class, 'getClassement']);
