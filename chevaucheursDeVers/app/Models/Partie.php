@@ -212,7 +212,7 @@ class Partie extends Model
     }
 
     public static function updatePartieTerminee($idPartie, $id_user_gagnant){
-        self::where('id_partie', $id_partie)
+        self::where('id_partie', $idPartie)
             ->update([
                 'est_terminee' => 1,
                 'id_user_gagnant' => $id_user_gagnant

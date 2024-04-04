@@ -218,15 +218,15 @@ class PartieController extends Controller
     public function terminerPartie(Request $request){
         $user=Auth::user();
         $code_partie=$request->input('code_partie');
-        $scoresJoueurs=$request->input('scoresJoueurs');
+        $scoresJoueurs=session()->get('scoresJoueurs');
         $id_partie = Partie::verifyCode($code_partie);
 
         Joue::scoreFinal($id_partie, $scoresJoueurs);
         
         $id_user_gagnant = User::idUserGagnant($scoresJoueurs);
-        Partie::updatePartieTerminee($idPartie, $id_user_gagnant);
+        Partie::updatePartieTerminee($id_partie, $id_user_gagnant);
 
-        fermerSessions();
+        self::fermerSessions($request);
         foreach ($scoresJoueurs as $pseudo => $score) {
             if($pseudo!==$user->pseudo){
                 $id=(User::findUser($pseudo))->id;
@@ -240,7 +240,7 @@ class PartieController extends Controller
         ]);
     }
 
-    public function fermerSessions(){
+    public function fermerSessions(Request $request){
         $user=Auth::user();
 
         $request->session()->forget('participant');

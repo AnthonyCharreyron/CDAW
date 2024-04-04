@@ -200,16 +200,16 @@ jQuery(function($){
             });
         };
 
-        window.terminerPartie=function(codePartie, scoresJoueurs){
+        window.terminerPartie=function(codePartie){
             $.ajax({
                 type: "POST",
                 url: "/terminerPartie",
                 async: false,
-                data: {code_partie: codePartie, scoresJoueurs: scoresJoueurs},
+                data: {code_partie: codePartie},
                 headers: {'X-CSRF-TOKEN': csrfToken},
                 success: function(response) {
                     sendTerminerPartie(codePartie);
-                    window.location.href='/jouer/resultat/'+codePartie;
+                    window.location.href='/jouer/resultats/'+codePartie;
                 },
                 error: function(xhr, status, error) {
                     console.error(xhr.responseText);

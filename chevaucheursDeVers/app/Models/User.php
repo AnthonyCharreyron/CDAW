@@ -210,7 +210,7 @@ class User extends Authenticatable implements MustVerifyEmail
         $meilleurScore = max($scoresJoueurs);
         $meilleurPseudo = array_search($meilleurScore, $scoresJoueurs);
         $userGagnant = self::findUser($meilleurPseudo);
-        if($UserGagnant){
+        if($userGagnant){
             $idUserGagnant = $userGagnant->id;
             return $idUserGagnant;
         } else {

@@ -48,7 +48,7 @@
                 <div class='row'>
                     @if($idHost == $user->id && $partie_commencee)
                         <div class='col-2'>
-                            <button type="button" class="btn btn-danger" onclick="terminerPartie('{{ $code_partie }}', '{{ json_encode(session()->get('scoresJoueurs')) }}')">Terminer la partie</button>
+                            <button type="button" class="btn btn-danger" onclick="terminerPartie('{{ $code_partie }}')">Terminer la partie</button>
                         </div>
                     @endif
                     <div class='col'>

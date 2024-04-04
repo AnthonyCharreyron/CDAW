@@ -122,4 +122,17 @@ class JouerController extends MenuController
         echo json_encode(array("data" => $parties_infos));
     }
 
+    public function getPartieFinie(){
+        $url = request()->url();
+        $user=Auth::user();
+
+        return view('resultats', [
+            'currentPage' => $this->getCurrentPage($url),
+            'isConnected' => UserController::isConnected(),
+            'menu' => $this->getMenu(),
+            'photo_profil' => $user!=null ? UserController::getUserPhoto($user['id']) : 0,
+            'user' => $user
+        ]);
+    }
+
 }
