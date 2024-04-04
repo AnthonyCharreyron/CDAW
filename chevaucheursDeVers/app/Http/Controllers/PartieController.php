@@ -227,12 +227,6 @@ class PartieController extends Controller
         Partie::updatePartieTerminee($id_partie, $id_user_gagnant);
 
         self::fermerSessions($request);
-        foreach ($scoresJoueurs as $pseudo => $score) {
-            if($pseudo!==$user->pseudo){
-                $id=(User::findUser($pseudo))->id;
-                $request->session()->forget('cartesDestinationsMain_'.$id);
-            }     
-        }
 
         return response()->json([
             "success" => true,
@@ -242,6 +236,7 @@ class PartieController extends Controller
 
     public function fermerSessions(Request $request){
         $user=Auth::user();
+        $scoresJoueurs=session()->get('scoresJoueurs');
 
         $request->session()->forget('participant');
         $request->session()->forget('listeJoueurs');
@@ -254,7 +249,10 @@ class PartieController extends Controller
         $request->session()->forget('scoresJoueurs');
         $request->session()->forget('versRestants');
         $request->session()->forget('cartesEnMain_'.$user->id);
-        $request->session()->forget('cartesDestinationsMain_'.$user->id);
+        foreach ($scoresJoueurs as $pseudo => $score) {
+            $id=(User::findUser($pseudo))->id;
+            $request->session()->forget('cartesDestinationsMain_'.$id);    
+        }
 
         return response()->json([
             "success" => true,
