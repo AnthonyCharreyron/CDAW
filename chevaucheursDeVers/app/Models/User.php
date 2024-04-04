@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 
+use App\Models\ListeAmi;
+
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory, Notifiable;
@@ -184,7 +186,31 @@ class User extends Authenticatable implements MustVerifyEmail
             ->get();
         Log::info($data);
         return $data;
+    }
 
+    public static function getUsersNonAmis($userId){
+
+        $first = ListeAmi::select('id1')
+            ->where('id2', $userId);
+
+        $second = ListeAmi::select('id2')
+            ->where('id1', $userId);
+
+        $users = self::select('id','pseudo', 'photo_profil')
+            ->whereNotIn('id', $first)
+            ->whereNotIn('id', $second)
+            ->where('id', '!=', $userId)
+            ->get();
+
+        return $users;
+
+        
+
+    
+
+    
 
     }
+    
+    
 }

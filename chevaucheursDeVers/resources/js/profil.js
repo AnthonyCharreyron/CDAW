@@ -46,7 +46,7 @@ jQuery(function($) {
             $('#images').show();
 
             // Remplace le bouton "Modifier" par un bouton "Enregistrer"
-            userAccountInfo.find("button:contains('Modifier')").replaceWith(`<button type="button" class="btn btn-success ml-auto" onclick="saveUserAccount(this)">Enregistrer</button>`); // Remplace le bouton "Modifier" par un bouton "Enregistrer" en utilisant la fonction replaceWith
+            userAccountInfo.find("button:contains('Modifier')").replaceWith(`<button type="button" class="btn btn-success ml-auto" onclick="saveUserAccount(this)">Enregistrer</button>`);
         }
 
         function replaceElementWithNewOne(oldElement, newElement) {
@@ -211,7 +211,49 @@ jQuery(function($) {
 
         $('#btn-voir-demande-amis').on('click', function() {
             $('#demande-pour-moi').toggle();
-        })
+        });
+
+        $('#btn-rechercher-amis').on('click', function() {
+            $('#container-recherche-amis').toggle();
+        });
+        
+
+        let demander_nouveaux_amis = $('#demander-nouveaux-amis').DataTable({
+            lengthMenu: [[5, 10, 20], [5, 10, 20] ],
+            ajax:{ 
+                url: '/demandeNouveauxAmis',
+                type: 'GET',
+                error: function(xhr, error, thrown) {
+                    console.log('Erreur:', error);
+                }
+            },
+            columnDefs: [
+                {
+                    targets: '_all',
+                    render: function(data) {
+                        return data ? data : 0;
+                    },
+                    className: 'dt-center'
+                }
+            ],
+            columns: [
+                {
+                    data: null, 
+                    name: 'Profil',
+                    render: function(row) {
+                        return `<img src="images/`+ row.photo_profil +`.png" style="height: 5vh;"  alt="Voir le profil" class="img-voir-profil" data-id-ami="`+ row.id +`">`;
+                    }
+                }, 
+                { data: 'pseudo', name: 'Pseudo' },
+                { 
+                    data: null, 
+                    orderable: false,
+                    render: function(data, type, row) {
+                        return `<button class="btn btn-success btn-action" data-id="${row.id}">Demander</button>`;
+                    }
+                }
+            ]
+        });
 
 
 

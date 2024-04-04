@@ -97,7 +97,12 @@ class MonProfilController extends MenuController
                 "message" => "Aucune donnée trouvée pour cet ami.",
             ]);
         }
-        
-        
+    }
+
+    public function demandeNouveauxAmis(){
+        $user=Auth::user();
+        $data = User::getUsersNonAmis($user->id);
+        Log::info($data);
+        echo json_encode(array("data" => $data));
     }
 }
