@@ -122,7 +122,7 @@ class JouerController extends MenuController
         echo json_encode(array("data" => $parties_infos));
     }
 
-    public function getPartieFinie(){
+    public function getPartieFinie($codePartie){
         $url = request()->url();
         $user=Auth::user();
 
@@ -131,8 +131,15 @@ class JouerController extends MenuController
             'isConnected' => UserController::isConnected(),
             'menu' => $this->getMenu(),
             'photo_profil' => $user!=null ? UserController::getUserPhoto($user['id']) : 0,
-            'user' => $user
+            'user' => $user,
+            'code_partie' => $codePartie
         ]);
+    }
+
+    public function getStatsPartie($codePartie){
+        $idPartie = Partie::verifyCode($codePartie);
+        $data = Joue::statPartie($idPartie);
+        echo json_encode(array("data" => $data));
     }
 
 }

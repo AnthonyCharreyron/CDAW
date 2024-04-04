@@ -58,6 +58,13 @@ class Joue extends Model
             }
         } 
     }
+
+    public static function statPartie($id_partie){
+        return self::select('users.pseudo', 'joue.score')
+                    ->leftJoin('users', 'users.id', '=', 'joue.id_user')
+                    ->where('id_partie', '=', $id_partie)
+                    ->get();
+    }
     
 
 }

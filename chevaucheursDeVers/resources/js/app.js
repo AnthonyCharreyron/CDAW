@@ -8,6 +8,7 @@ import './profil';
 import './lobby';
 import './gestionUser';
 import './partie';
+import './resultats';
 
 
 jQuery(function($){
