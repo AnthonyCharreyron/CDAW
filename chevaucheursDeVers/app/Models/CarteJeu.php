@@ -12,7 +12,7 @@ class CarteJeu extends Model
 
     protected $table = 'carte_jeu';
 
-    public static function droitZone($user, $idZone, $zonesPrises) {
+    public static function droitZone($user, $idZone, $zonesPrises, $scoresJoueurs, $versRestants) {
         if (!array_key_exists($idZone, $zonesPrises)) {
             $infoChemin = self::infoChemin($idZone)->first();
             $cartesEnMain = session()->get('cartesEnMain_'.$user->id);
@@ -30,12 +30,16 @@ class CarteJeu extends Model
                     if ($infoChemin->nombre_de_pas <= $occurrence) {
                         self::retirerCarteEnMain($carte, $infoChemin->nombre_de_pas, $user);
                         self::ajouterZonePrise($user, $idZone, $zonesPrises);
+                        self::ajouterScore($user, $scoresJoueurs, $infoChemin->score);
+                        self::soustraireVers($user, $versRestants, $infoChemin->nombre_de_pas);
                         return true;
                     }
                 } elseif (strpos($carte, $infoChemin->couleur) !== false) {
                     if ($infoChemin->nombre_de_pas <= $occurrence) {
                         self::retirerCarteEnMain($carte, $infoChemin->nombre_de_pas, $user);
                         self::ajouterZonePrise($user, $idZone, $zonesPrises);
+                        self::ajouterScore($user, $scoresJoueurs, $infoChemin->score);
+                        self::soustraireVers($user, $versRestants, $infoChemin->nombre_de_pas);
                         return true;
                     }
                 }
@@ -46,12 +50,16 @@ class CarteJeu extends Model
                     if ($infoChemin->nombre_de_pas <= $occurrence + $occurrenceMulticolore) {
                         self::retirerCarteEnMainAvecMulticolore($carte, $infoChemin->nombre_de_pas, $occurrence, $user);
                         self::ajouterZonePrise($user, $idZone, $zonesPrises);
+                        self::ajouterScore($user, $scoresJoueurs, $infoChemin->score);
+                        self::soustraireVers($user, $versRestants, $infoChemin->nombre_de_pas);
                         return true;
                     }
                 } elseif (strpos($carte, $infoChemin->couleur) !== false) {
                     if ($infoChemin->nombre_de_pas <= $occurrence + $occurrenceMulticolore) {
                         self::retirerCarteEnMainAvecMulticolore($carte, $infoChemin->nombre_de_pas, $occurrence, $user);
                         self::ajouterZonePrise($user, $idZone, $zonesPrises);
+                        self::ajouterScore($user, $scoresJoueurs, $infoChemin->score);
+                        self::soustraireVers($user, $versRestants, $infoChemin->nombre_de_pas);
                         return true;
                     }
                 }
@@ -95,4 +103,15 @@ class CarteJeu extends Model
         $zonesPrises[$idZone] = $user->pseudo;
         session(['zonesPrises' => $zonesPrises]);
     }
+
+    public static function ajouterScore($user, $scoresJoueurs, $score){
+        $scoresJoueurs[$user->pseudo]+=$score;
+        session(['scoresJoueurs' => $scoresJoueurs]);
+    }
+
+    public static function soustraireVers($user, $versRestants, $nombre_de_pas){
+        $versRestants[$user->pseudo]-=$nombre_de_pas;
+        session(['versRestants' => $versRestants]);
+    }
+
 }

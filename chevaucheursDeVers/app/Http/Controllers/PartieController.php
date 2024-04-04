@@ -65,6 +65,7 @@ class PartieController extends Controller
         session(['zonesPrises' => []]);
 
         Partie::initialiserLesScores($participants);
+        Partie::initialiserLesVersAPoser($participants);
 
         return response()->json([
             "success" => true,
@@ -74,7 +75,8 @@ class PartieController extends Controller
             "cartesDestinationsRestantes" => $cartesDestinationsRestantes,
             "piocheDestinations" => session()->get('piocheDestinations'),
             "couleursJoueurs" => session()->get('couleursJoueurs'),
-            "scoresJoueurs" => session()->get('scoresJoueurs')
+            "scoresJoueurs" => session()->get('scoresJoueurs'),
+            "versRestants" => session()->get('versRestants')
         ]);
     }
 
@@ -191,15 +193,19 @@ class PartieController extends Controller
         $idZone = $request->input('zode_id');
 
         $zonesPrises = session()->get('zonesPrises')==null ? array() : session()->get('zonesPrises');
+        $scoresJoueurs = session()->get('scoresJoueurs');
+        $versRestants = session()->get('versRestants');
 
-        $droitDePrendreZone = CarteJeu::droitZone($user, $idZone, $zonesPrises);
+        $droitDePrendreZone = CarteJeu::droitZone($user, $idZone, $zonesPrises, $scoresJoueurs, $versRestants);
         if($droitDePrendreZone){
             return response()->json([
                 "success" => true,
                 "message" => "OK ver posé",
                 "listePseudosParticipants" => session()->get('listeJoueurs'),
                 "userPseudo" => User::getPseudo($user->id),
-                "zonesPrises" => session()->get('zonesPrises')
+                "zonesPrises" => session()->get('zonesPrises'),
+                "scoresJoueurs" => session()->get('scoresJoueurs'),
+                "versRestants" => session()->get('versRestants')
             ]);
         } else {
             return response()->json([

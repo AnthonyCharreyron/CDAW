@@ -201,4 +201,13 @@ class Partie extends Model
 
         session(['scoresJoueurs' => $score]);
     }
+
+    public static function initialiserLesVersAPoser($participants){
+        $versRestants = [];
+        foreach($participants as $participant){
+            $versRestants[$participant->pseudo]=35;
+        }
+
+        session(['versRestants' => $versRestants]);
+    }
 }

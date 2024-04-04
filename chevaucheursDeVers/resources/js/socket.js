@@ -23,12 +23,13 @@ socket.onmessage = function(event) {
             }, 500); // Recharge la page lorsque le message 'reload' est reçu
             break;
         case 'lancer_partie':
-            const [pioche, destinationsString, destinationsRestantesString, piocheDestinationsString, couleursJoueursString, scoresJoueursString] = content.split('|');
+            const [pioche, destinationsString, destinationsRestantesString, piocheDestinationsString, couleursJoueursString, scoresJoueursString, versRestantsString] = content.split('|');
             const destinations = JSON.parse(destinationsString); // Convertir la chaîne JSON en objet JavaScript
             const destinationsRestantes = JSON.parse(destinationsRestantesString); // Convertir la chaîne JSON en objet JavaScript
             const piocheDestinations = JSON.parse(piocheDestinationsString); // Convertir la chaîne JSON en objet JavaScript
             const couleursJoueurs = JSON.parse(couleursJoueursString); // Convertir la chaîne JSON en objet JavaScript
             const scoresJoueurs = JSON.parse(scoresJoueursString); // Convertir la chaîne JSON en objet JavaScript
+            const versRestants = JSON.parse(versRestantsString); // Convertir la chaîne JSON en objet JavaScript
             miseEnSession('piocheVisibleGlobale', pioche);
             miseEnSession('cartesDestinationsRestantes', destinationsRestantes);
             miseEnSession('piocheDestinations', piocheDestinations);
@@ -36,6 +37,8 @@ socket.onmessage = function(event) {
             var zonesPrises=[];
             miseEnSession('zonesPrises', zonesPrises );
             miseEnSession('scoresJoueurs', scoresJoueurs);
+            miseEnSession('versRestants', versRestants);
+
         
             for (const [cle, valeur] of Object.entries(destinations)) {
                 const typeCarte = cle;
@@ -86,13 +89,18 @@ socket.onmessage = function(event) {
             miseEnSession('piocheDestinations', JSON.parse(nouvellePiocheDestinations));
             miseEnSession('cartesDestinationsRestantes', JSON.parse(cartesDestinationsRestantes));
             break;
-        case 'poser_ver':
+        case 'colorier_zone':
             let zoneId = content.split('|')[0];
             let couleur = content.split('|')[1];
             afficherZone(zoneId, couleur);
             break;
-        case 'zones_prises':
-            miseEnSession('zonesPrises', JSON.parse(content));
+        case 'poser_ver':
+            let zonesPrisesMAJ = JSON.parse(content.split('|')[0]);
+            let scoresJoueursMAJ = JSON.parse(content.split('|')[1]);
+            let versRestantsMAJ = JSON.parse(content.split('|')[2]);
+            miseEnSession('zonesPrises', zonesPrisesMAJ);
+            miseEnSession('scoresJoueurs', scoresJoueursMAJ);
+            miseEnSession('versRestants', versRestantsMAJ);
             break;
         default:
             console.error('Type de message non pris en charge.');
@@ -145,7 +153,7 @@ window.reloadPageForAllClients=function() {
     sendToServer('reload');
 }
 
-window.sendLancerPartie = function(piocheVisible, cartesDestinations, cartesDestinationsRestantes, piocheDestinations, couleursJoueurs, scoresJoueurs) {
+window.sendLancerPartie = function(piocheVisible, cartesDestinations, cartesDestinationsRestantes, piocheDestinations, couleursJoueurs, scoresJoueurs, versRestants ) {
     try {
         const message = 'lancer_partie,' + 
                         piocheVisible + '|' + 
@@ -153,7 +161,8 @@ window.sendLancerPartie = function(piocheVisible, cartesDestinations, cartesDest
                         JSON.stringify(cartesDestinationsRestantes) + '|' + 
                         JSON.stringify(piocheDestinations) + '|' + 
                         JSON.stringify(couleursJoueurs)+ '|' + 
-                        JSON.stringify(scoresJoueurs);
+                        JSON.stringify(scoresJoueurs)+ '|' +
+                        JSON.stringify(versRestants);
                         
         sendToServer(message);
     } catch (error) {
@@ -193,12 +202,12 @@ window.sendPiocherDestinations=function(piocheDestinations, cartesDestinationsRe
 };
 
 window.sendZoneAColorer=function(zoneId, couleur){
-    const message = 'poser_ver,' + zoneId + '|' + couleur ;
+    const message = 'colorier_zone,' + zoneId + '|' + couleur ;
     sendToServer(message);
 }
 
-window.sendZonesPrises=function(zonesPrises){
-    const message = 'zones_prises,' + JSON.stringify(zonesPrises);
+window.sendPoserVer=function(zonesPrises, scoresJoueurs, versRestants){
+    const message = 'poser_ver,' + JSON.stringify(zonesPrises) + '|' + JSON.stringify(scoresJoueurs) + '|' + JSON.stringify(versRestants);
     sendToServer(message);
 }
 

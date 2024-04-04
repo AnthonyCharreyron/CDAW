@@ -45,10 +45,17 @@
 
         <div class="row h-100 m-0">
             <div class="col-9">
-                <h1 class='text-center kufam-font mt-3'>Chevaucheurs de vers</h1>
-                <!-- TODO : if votreTour => afficher "c'est à vous" <h3>C'est à currentPlayer de jouer</h3> -->
-                <!-- TODO : Temps restant : .... -->
-                
+                <div class='row'>
+                    @if($idHost == $user->id && $partie_commencee)
+                        <div class='col-2'>
+                            <button type="button" class='btn btn-danger' onclick='terminerPartie({{$code_partie}})'>Terminer la partie</button>
+                        </div>
+                    @endif
+                    <div class='col'>
+                        <h1 class='kufam-font mt-3' style='margin-left: 15vh'>Chevaucheurs de vers</h1>
+                    </div>
+                    <!-- TODO : Temps restant : .... -->
+                </div>
                 <div class='row my-2 d-flex justify-content-center'>
                     @if($partie_commencee)
                         @if(session()->get('joueurEnCours') === $user->pseudo)
@@ -74,15 +81,24 @@
                             <h5 class='text-center fw-bold'>C'est à {{session()->get('joueurEnCours')}} de jouer !</h5>
                         @endif
                     @else
-                        <div class='col d-flex align-items-center justify-content-center'>
-                            <button type="button" class='btn btn-dark' onclick='lancerPartie()'>Lancer la partie</button>
-                        </div>
+                        @if($idHost == $user->id)
+                            <div class='col d-flex align-items-center justify-content-center'>
+                                <button type="button" class='btn btn-dark' onclick='lancerPartie()'>Lancer la partie</button>
+                            </div>
+                        @else
+                            <div class='col d-flex align-items-center justify-content-center'>
+                                <b>En attente de l'hôte pour démarrer la partie</b>
+                            </div>
+                        @endif
                     @endif
                 </div>
 
                 <div class='row'>
                     <div id="consigne-poser-ver" style='display:none'>
                         <b class='text-danger'>Veuillez cliquer sur un chemin sur la carte</b>
+                    </div>
+                    <div id="alerte-poser-ver" style='display:none'>
+                        <p class='alert alert-danger'>Impossible de choisir ce chemin, veuillez choisir un autre chemin</p>
                     </div>
                     <div class='col-9'>
                         <x-carte-jeu :$user/>
@@ -142,8 +158,8 @@
                             <b>{{ $user->pseudo }}</b>
                             </hr>
                             <p class="my-0 mx-3"> cartes Vers en mains</p>
-                            <p class="my-0 mx-3"> vers restants</p>
-                            <p class="my-0 mx-3"> points</p>
+                            <p class="my-0 mx-3"> {{session()->get('versRestants')[$user->pseudo]}} vers restants</p>
+                            <p class="my-0 mx-3"> {{session()->get('scoresJoueurs')[$user->pseudo]}} points</p>
                         </div>
                         </br>
                     @endforeach

@@ -17,7 +17,8 @@ jQuery(function($){
                         response.cartesDestinationsRestantes, 
                         response.piocheDestinations, 
                         response.couleursJoueurs,
-                        response.scoresJoueurs
+                        response.scoresJoueurs,
+                        response.versRestants
                         );
                     reloadPageForAllClients();
                     deleteCookie('partieDebutee');
@@ -185,10 +186,11 @@ jQuery(function($){
                     if (response.success) {
                         zone.style.fill = couleur;
                         sendZoneAColorer(zoneId, couleur);
-                        sendZonesPrises(response.zonesPrises);
+                        sendPoserVer(response.zonesPrises, response.scoresJoueur, response.versRestants);
                         finDeTour(response.listePseudosParticipants, response.userPseudo);
                     } else {
                         console.log(response.message);
+                        $('#alerte-poser-ver').toggle();
                         document.getElementById('btn-placer-ver').click();
                     }
                 },
