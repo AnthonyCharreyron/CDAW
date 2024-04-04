@@ -150,6 +150,7 @@ jQuery(function($) {
 
         $('#demande-pour-moi').on('click', '.btn-action', function() {
             let userId = $(this).data('id');
+            let button = $(this);
             let formData = new FormData();
             formData.append("id_user_friend", userId);
             let friendAction = $(this).text() == `Accepter` ? 'accepte' : 'refuse';
@@ -165,7 +166,7 @@ jQuery(function($) {
                 headers: {'X-CSRF-TOKEN': csrfToken},
                 success: function(data){
                     console.log(data);
-                    alert("Demande traitée");
+                    button.closest('tr').remove();
                 },
                 error: function(err) {
                     console.log("Erreur");
@@ -257,6 +258,7 @@ jQuery(function($) {
 
         $('#demander-nouveaux-amis').on('click', '.btn-action-demander-ami', function(){
             let userId = $(this).data('id');
+            let button = $(this);
             $.ajax({
                 type: "POST",
                 url: "/faireDemandeAmi",
@@ -264,7 +266,7 @@ jQuery(function($) {
                 headers: {'X-CSRF-TOKEN': csrfToken},
                 success: function(response) {
                     console.log(response);
-                    alert('Demande effectuée')
+                    button.closest('tr').remove();
                 },
                 error: function(xhr, status, error) {
                     console.error(xhr.responseText);
