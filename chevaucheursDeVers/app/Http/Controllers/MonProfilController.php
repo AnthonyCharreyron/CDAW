@@ -49,4 +49,30 @@ class MonProfilController extends MenuController
         $data = ListeAmi::getDemandePourMoi($user);
         echo json_encode(array("data" => $data));
     }
+
+    public function infosAmi(Request $request){
+        $id_user_ami = $request->input('id_user');
+        Log::info($id_user_ami);
+        $data = User::getInfosAmi($id_user_ami);
+
+        if (!empty($data)) {
+            return response()->json([
+                "success" => true,
+                "message" => "OK informations de l'ami récupérées",
+                "pseudo" => $data[0]['pseudo'],
+                "photoProfil" => asset('images/'.$data[0]['photo_profil'].'.png'),
+                "partiesJouees" => $data[0]['nombre_parties_jouees'],
+                "partiesGagnees" => $data[0]['nombre_parties_gagnees'],
+                "meilleurScore" => $data[0]['meilleur_score'],
+            ]);
+            
+        } else {
+            return response()->json([
+                "success" => false,
+                "message" => "Aucune donnée trouvée pour cet ami.",
+            ]);
+        }
+        
+        
+    }
 }

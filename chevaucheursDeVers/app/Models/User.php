@@ -170,4 +170,21 @@ class User extends Authenticatable implements MustVerifyEmail
     public static function getPseudo($userId){
         return self::where('id', $userId)->value('pseudo');
     }
+
+    public static function getInfosAmi($id_user_ami){
+
+        $data = self::select('users.pseudo', 'users.photo_profil',
+                     DB::raw('MAX(joue.score) AS meilleur_score'),  
+                     DB::raw('COUNT(DISTINCT joue.id_partie) AS nombre_parties_jouees'), 
+                     DB::raw('COUNT(DISTINCT partie.id_partie) AS nombre_parties_gagnees'))
+            ->leftJoin('joue', 'users.id', '=', 'joue.id_user')
+            ->leftJoin('partie', 'users.id', '=', 'partie.id_user_gagnant')
+            ->groupBy('users.id', 'users.pseudo')
+            ->where('users.id', '=', $id_user_ami)
+            ->get();
+        Log::info($data);
+        return $data;
+
+
+    }
 }

@@ -24,7 +24,7 @@ Route::get('/monProfil', [MonProfilController::class, 'getProfil'])->middleware(
 Route::post('/monProfil/modifierProfil', [MonProfilController::class, 'modifierProfil'])->name('modifier_profil');
 Route::get('/listeAmi', [MonProfilController::class, 'listeAmi'])->middleware(AuthMiddleware::class);
 Route::get('/demandePourMoi', [MonProfilController::class, 'demandesPourMoi'])->middleware(AuthMiddleware::class);
-
+Route::get('/infosAmi/{idUserAmi}', [monProfilController::class, 'infosAmi']);
 
 Route::get('/historique', [HistoriqueController::class, 'getClassement']);
 Route::get('/historique/{id}', [HistoriqueController::class, 'statClassement'])->name('stats');
@@ -54,8 +54,6 @@ Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $requ
     return redirect('/presentation');
 })->middleware([AuthMiddleware::class, 'signed'])->name('verification.verify');
 
-
-
 Route::post('/authenticate', [ConnexionController::class, 'authenticate'])->name('connexion.authenticate');
 Route::post('/logout', [ConnexionController::class, 'logout'])->name('connexion.logout');
 Route::post('/message', [MessageController::class, 'sendMessage'])->name('message.send');
@@ -65,3 +63,4 @@ Route::post('/supprimerCarteDestination', [PartieController::class, 'supprimerCa
 Route::post('/piocherVer', [PartieController::class, 'piocherVer']);
 Route::post('/piocherDestinations', [PartieController::class, 'piocherDestinations']);
 Route::post('/prochainJoueur', [PartieController::class, 'prochainJoueur']);
+
