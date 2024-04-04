@@ -10,9 +10,7 @@ jQuery(function($){
                     var couleur = $(this).data('couleur');
                     couleur = convertColor(couleur)
                     var zoneId = this.getAttribute('id');
-
-                    poserVer(zoneId, couleur);
-                    this.style.fill = couleur;
+                    poserVer(this, zoneId, couleur);
                 });
             });
         }

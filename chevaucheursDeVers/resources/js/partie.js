@@ -11,7 +11,14 @@ jQuery(function($){
                 headers: {'X-CSRF-TOKEN': csrfToken},
                 success: function(response) {
                     console.log(response);
-                    sendLancerPartie(response.piocheVisibleGlobale, response.cartesDestinations, response.cartesDestinationsRestantes, response.piocheDestinations, response.couleursJoueurs);
+                    sendLancerPartie(
+                        response.piocheVisibleGlobale, 
+                        response.cartesDestinations, 
+                        response.cartesDestinationsRestantes, 
+                        response.piocheDestinations, 
+                        response.couleursJoueurs,
+                        response.scoresJoueurs
+                        );
                     reloadPageForAllClients();
                     deleteCookie('partieDebutee');
                 },
@@ -166,7 +173,8 @@ jQuery(function($){
         }
 
 
-        window.poserVer = function(zoneId, couleur) {
+        window.poserVer = function(zone, zoneId, couleur) {
+            zoneId = parseInt(zoneId.split('_')[1]);
             $.ajax({
                 type: "POST",
                 url: "/poserVers",
@@ -175,6 +183,7 @@ jQuery(function($){
                 headers: {'X-CSRF-TOKEN': csrfToken},
                 success: function(response) {
                     if (response.success) {
+                        zone.style.fill = couleur;
                         sendZoneAColorer(zoneId, couleur);
                         finDeTour(response.listePseudosParticipants, response.userPseudo);
                     } else {

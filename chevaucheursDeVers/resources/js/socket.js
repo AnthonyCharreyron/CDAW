@@ -23,15 +23,19 @@ socket.onmessage = function(event) {
             }, 500); // Recharge la page lorsque le message 'reload' est reçu
             break;
         case 'lancer_partie':
-            const [pioche, destinationsString, destinationsRestantesString, piocheDestinationsString, couleursJoueursString] = content.split('|');
+            const [pioche, destinationsString, destinationsRestantesString, piocheDestinationsString, couleursJoueursString, scoresJoueursString] = content.split('|');
             const destinations = JSON.parse(destinationsString); // Convertir la chaîne JSON en objet JavaScript
             const destinationsRestantes = JSON.parse(destinationsRestantesString); // Convertir la chaîne JSON en objet JavaScript
             const piocheDestinations = JSON.parse(piocheDestinationsString); // Convertir la chaîne JSON en objet JavaScript
             const couleursJoueurs = JSON.parse(couleursJoueursString); // Convertir la chaîne JSON en objet JavaScript
+            const scoresJoueurs = JSON.parse(scoresJoueursString); // Convertir la chaîne JSON en objet JavaScript
             miseEnSession('piocheVisibleGlobale', pioche);
             miseEnSession('cartesDestinationsRestantes', destinationsRestantes);
             miseEnSession('piocheDestinations', piocheDestinations);
             miseEnSession('couleursJoueurs', couleursJoueurs);
+            var zonesPrises=[];
+            miseEnSession('zonesPrises', zonesPrises );
+            miseEnSession('scoresJoueurs', scoresJoueurs);
         
             for (const [cle, valeur] of Object.entries(destinations)) {
                 const typeCarte = cle;
@@ -138,9 +142,16 @@ window.reloadPageForAllClients=function() {
     sendToServer('reload');
 }
 
-window.sendLancerPartie = function(piocheVisible, cartesDestinations, cartesDestinationsRestantes, piocheDestinations, couleursJoueurs) {
+window.sendLancerPartie = function(piocheVisible, cartesDestinations, cartesDestinationsRestantes, piocheDestinations, couleursJoueurs, scoresJoueurs) {
     try {
-        const message = 'lancer_partie,' + piocheVisible + '|' + JSON.stringify(cartesDestinations) + '|' + JSON.stringify(cartesDestinationsRestantes) + '|' + JSON.stringify(piocheDestinations) + '|' + JSON.stringify(couleursJoueurs);
+        const message = 'lancer_partie,' + 
+                        piocheVisible + '|' + 
+                        JSON.stringify(cartesDestinations) + '|' + 
+                        JSON.stringify(cartesDestinationsRestantes) + '|' + 
+                        JSON.stringify(piocheDestinations) + '|' + 
+                        JSON.stringify(couleursJoueurs)+ '|' + 
+                        JSON.stringify(scoresJoueurs);
+                        
         sendToServer(message);
     } catch (error) {
         console.error('Erreur lors de la conversion en JSON :', error);

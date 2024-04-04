@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Cookie;
 use App\Models\Partie;
 use App\Models\Joue;
 use App\Models\User;
+use App\Models\CarteJeu;
 
 class PartieController extends Controller
 {
@@ -58,6 +59,10 @@ class PartieController extends Controller
 
         Partie::genererCouleurs($participants);
 
+        session(['zonesPrises' => []]);
+
+        Partie::initialiserLesScores($participants);
+
         return response()->json([
             "success" => true,
             "message" => "OK partie initialisée",
@@ -65,7 +70,8 @@ class PartieController extends Controller
             "cartesDestinations" => $cartesDestinations,
             "cartesDestinationsRestantes" => $cartesDestinationsRestantes,
             "piocheDestinations" => session()->get('piocheDestinations'),
-            "couleursJoueurs" => session()->get('couleursJoueurs')
+            "couleursJoueurs" => session()->get('couleursJoueurs'),
+            "scoresJoueurs" => session()->get('scoresJoueurs')
         ]);
     }
 
@@ -181,7 +187,7 @@ class PartieController extends Controller
         $user=Auth::user();
         $idZone = $request->input('zode_id');
 
-        $zonesPrises = session()->get('zonesPrises');
+        $zonesPrises = session()->get('zonesPrises')==null ? [] : session()->get('zonesPrises');
 
         $droitDePrendreZone = CarteJeu::droitZone($user, $idZone, $zonesPrises);
         if($droitDePrendreZone){

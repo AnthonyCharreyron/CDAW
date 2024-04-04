@@ -17,13 +17,10 @@ class MenuController extends Controller{
         $pseudo = $user==null ? 'Anonymous' : $user->pseudo;
         $isConnected = $user==null ? false : true;
 
-        //Log::info($user);
-        //Log::info($pseudo);
+        $isAdmin = User::isAdministrateur($pseudo);
 
-        $isAdmin = User::isAdministrateur($pseudo); //TODO
-        //Log::info($isAdmin);
         $menu=Menu::getMenu($isAdmin, $isConnected);
-        //Log::info($menu);
+
 
         return $menu;
     }

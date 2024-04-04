@@ -87,9 +87,7 @@ class Partie extends Model
         }
 
         session(['cartesEnMain_'.$idUser => $cartes]);
-        
-
-        
+   
     }
 
     public static function obtenirCartesDestination($nombreCarte, $participants) {
@@ -181,7 +179,6 @@ class Partie extends Model
             $valeur = $valeurs[$indice];
             $destinationsAleatoires[$cle] = $valeur;
         }
-        Log::info($destinationsAleatoires);
         session(['piocheDestinations' => $destinationsAleatoires]);
     }
 
@@ -193,7 +190,15 @@ class Partie extends Model
         foreach($participants as $index => $participant){
             $couleursJoueurs[$participant->pseudo]=$couleursVers[$index];
         }
-        Log::info($couleursJoueurs);
         session(['couleursJoueurs' => $couleursJoueurs]);
+    }
+
+    public static function initialiserLesScores($participants){
+        $score = [];
+        foreach($participants as $participant){
+            $score[$participant->pseudo]=0;
+        }
+
+        session(['scoresJoueurs' => $score]);
     }
 }
