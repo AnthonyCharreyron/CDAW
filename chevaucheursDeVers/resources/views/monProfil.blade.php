@@ -66,6 +66,7 @@
                     <tr>
                         <th scope="col">Profil</th>
                         <th scope="col">Pseudo</th>
+                        <th scope="col">Supprimer</th>
                     </tr>
                 </thead>
             </table>

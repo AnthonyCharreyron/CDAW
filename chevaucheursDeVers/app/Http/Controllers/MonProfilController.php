@@ -102,10 +102,8 @@ class MonProfilController extends MenuController
     public function demandeNouveauxAmis(){
         $user=Auth::user();
         $data = User::getUsersNonAmis($user->id);
-        Log::info($data);
         echo json_encode(array("data" => $data));
     }
-
     public function faireDemandeAmi(Request $request){
         $user=Auth::user();
         $id_user_friend = $request->input('id_user_for_friend');
@@ -115,5 +113,23 @@ class MonProfilController extends MenuController
             "success" => true,
             "message" => 'Demande effectuée',
         ]);
+    }
+
+    public function supprimerAmi(Request $request) {
+        $user=Auth::user();
+        $amiId = $request->input('id_user_ami');
+        $suppressionReussie = ListeAmi::supprimerAmi($user->id, $amiId);
+    
+        if ($suppressionReussie==1) {
+            return response()->json([
+                "success" => true,
+                "message" => "L'ami a été supprimé avec succès.",
+            ]);
+        } else {
+            return response()->json([
+                "success" => false,
+                "message" => "Une erreur s'est produite lors de la suppression de l'ami.",
+            ]);
+        }
     }
 }

@@ -103,7 +103,14 @@ jQuery(function($) {
                         return `<img src="images/`+ row.photo_profil +`.png" style="height: 5vh;"  alt="Voir le profil" class="img-voir-profil" data-id-ami="`+ row.ami_id +`">`;
                     }
                 }, 
-                { data: 'pseudo', name: 'Pseudo' }
+                { data: 'pseudo', name: 'Pseudo' },
+                {
+                    data: null, 
+                    name: 'Supprimer',
+                    render: function(row) {
+                        return `<button class='btn btn-danger btn-supprimer-ami' data-id-ami='`+ row.ami_id +`')>Supprimer</button>`;
+                    }
+                }
             ]
         });
 
@@ -182,7 +189,6 @@ jQuery(function($) {
             $.ajax({
                 type: "GET",
                 url: "/infosAmi/"+idAmi,
-                async: false,
                 data: {id_user: idAmi},
                 headers: {'X-CSRF-TOKEN': csrfToken},
                 success: function(response) {
@@ -255,6 +261,27 @@ jQuery(function($) {
                 }
             ]
         });
+
+        $(document).on('click', '.btn-supprimer-ami', function() {
+            let button = $(this);
+            var id_ami = button.data('id-ami');
+            console.log(id_ami);
+
+            $.ajax({
+                type: "POST",
+                url: "/supprimerAmi",
+                data: {id_user_ami: id_ami},
+                headers: {'X-CSRF-TOKEN': csrfToken},
+                success: function() {
+                    console.log("Ami supprimé");
+                    button.closest('tr').remove();
+
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
+        })
 
         $('#demander-nouveaux-amis').on('click', '.btn-action-demander-ami', function(){
             let userId = $(this).data('id');
