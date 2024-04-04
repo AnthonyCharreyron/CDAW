@@ -27,7 +27,7 @@ Route::get('/demandePourMoi', [MonProfilController::class, 'demandesPourMoi'])->
 Route::get('/infosAmi/{idUserAmi}', [monProfilController::class, 'infosAmi']);
 Route::post('/gestionDemandeAmi', [MonProfilController::class, 'gestionDemandeAmi']);
 Route::get('/demandeNouveauxAmis', [MonProfilController::class, 'demandeNouveauxAmis']);
-
+Route::post('/faireDemandeAmi', [MonProfilController::class, 'faireDemandeAmi']);
 
 
 Route::get('/historique', [HistoriqueController::class, 'getClassement']);

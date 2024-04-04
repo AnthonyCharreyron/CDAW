@@ -67,4 +67,15 @@ class ListeAmi extends Model
             ->delete();
     }
 
+    public static function newRelation($idUser,$idUserFriend){
+        self::insert(
+            [
+                'id1' => $idUser,
+                'id2' => $idUserFriend,
+                'est_accepte' => 0,
+                'id_demandeur' => $idUser
+            ]
+        );
+    }
+
 }

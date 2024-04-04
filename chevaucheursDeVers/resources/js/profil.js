@@ -249,13 +249,28 @@ jQuery(function($) {
                     data: null, 
                     orderable: false,
                     render: function(data, type, row) {
-                        return `<button class="btn btn-success btn-action" data-id="${row.id}">Demander</button>`;
+                        return `<button class="btn btn-success btn-action-demander-ami" data-id="${row.id}">Demander</button>`;
                     }
                 }
             ]
         });
 
-
+        $('#demander-nouveaux-amis').on('click', '.btn-action-demander-ami', function(){
+            let userId = $(this).data('id');
+            $.ajax({
+                type: "POST",
+                url: "/faireDemandeAmi",
+                data: {id_user_for_friend: userId },
+                headers: {'X-CSRF-TOKEN': csrfToken},
+                success: function(response) {
+                    console.log(response);
+                    alert('Demande effectuée')
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
+        });
 
     });
     
