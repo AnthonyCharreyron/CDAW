@@ -18,7 +18,7 @@
                     @csrf
                     <div>
                         <label for="partie-privee" class="form-label">Privée :</label>
-                        <input type="checkbox" id="partie-privee" class="form-check-input">
+                        <input type="checkbox" id="partie-privee" name="partie-privee" class="form-check-input">
                     </div>
                     <div class="mb-3">
                         <label for="temps-coup" class="form-label">Temps par coup :</label>

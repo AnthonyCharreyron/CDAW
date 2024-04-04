@@ -44,7 +44,11 @@ class JouerController extends MenuController
     public function createPartie(Request $request){
         $user = Auth::user();
 
-        $estPrivee = $request->has('partie-privee');
+        if ($request->has('partie-privee')) {
+            $estPrivee = true;
+        } else {
+            $estPrivee = false;
+        }
         $tempsParCoup = $request->input('temps-coup');
         $nombreJoueurs = $request->input('nombre-joueurs');
         $idHost = $request->input('hostId');
