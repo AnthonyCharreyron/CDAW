@@ -186,7 +186,7 @@ jQuery(function($){
                     if (response.success) {
                         zone.style.fill = couleur;
                         sendZoneAColorer(zoneId, couleur);
-                        sendPoserVer(response.zonesPrises, response.scoresJoueur, response.versRestants);
+                        sendPoserVer(response.zonesPrises, response.scoresJoueurs, response.versRestants);
                         finDeTour(response.listePseudosParticipants, response.userPseudo);
                     } else {
                         console.log(response.message);
