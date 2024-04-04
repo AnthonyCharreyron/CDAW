@@ -1,8 +1,6 @@
 jQuery(function($) {
 
     let meilleur_score = $('#meilleurScore').DataTable({
-        lengthMenu: [[10]],
-        "paging":   false,
         "ordering": false,
         "info":     false,
         "searching": false,
@@ -42,8 +40,6 @@ jQuery(function($) {
     
 
     let nbPartie = $('#nbParties').DataTable({
-        lengthMenu: [[10]],
-        "paging":   false,
         "ordering": false,
         "info":     false,
         "searching": false,

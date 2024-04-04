@@ -1,7 +1,6 @@
 jQuery(function($) {
 
     let meilleur_score = $('#resultatPartie').DataTable({
-        lengthMenu: [[10]],
         "paging":   false,
         "ordering": false,
         "info":     false,
