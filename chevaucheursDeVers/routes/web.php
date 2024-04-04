@@ -26,6 +26,8 @@ Route::get('/listeAmi', [MonProfilController::class, 'listeAmi'])->middleware(Au
 Route::get('/demandePourMoi', [MonProfilController::class, 'demandesPourMoi'])->middleware(AuthMiddleware::class);
 Route::get('/infosAmi/{idUserAmi}', [monProfilController::class, 'infosAmi']);
 Route::post('/gestionDemandeAmi', [MonProfilController::class, 'gestionDemandeAmi']);
+Route::get('/demandeNouveauxAmis', [MonProfilController::class, 'demandeNouveauxAmis']);
+
 
 
 Route::get('/historique', [HistoriqueController::class, 'getClassement']);

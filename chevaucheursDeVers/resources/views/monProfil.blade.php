@@ -53,7 +53,7 @@
             </div>
             <div class="row justify-content-end m-3">
                 <div class="col-3"> 
-                    <button type="button" class="btn btn-primary" onclick="modifyUserAccount(this)">Modifier</button>
+                    <button type="button" class="btn bg-dark-brown text-white" onclick="modifyUserAccount(this)">Modifier</button>
                 </div>
             </div>
         </div>
@@ -69,7 +69,10 @@
                     </tr>
                 </thead>
             </table>
-            <table id="demande-pour-moi" class="hover">
+            <div class='d-flex justify-content-center mb-2'>
+                <button class='btn bg-dark-brown text-white' id="btn-voir-demande-amis">Demandes d'amis en attente</button>
+            </div>
+            <table id="demande-pour-moi" class="hover" style="display:none">
                 <thead>
                     <tr>
                         <th scope="col">Profil</th>
@@ -78,37 +81,34 @@
                     </tr>
                 </thead>
             </table>
-            <!-- Bouton pour voir le profil -->
-            <!-- <button type="button" class="btn btn-primary btn-voir-profil" data-id-ami="ID_AMI_AFFICHÉ"  data-bs-toggle="modal" data-bs-target="#modalProfilAmi">Voir le profil</button> -->
-            <!-- <img src="{{asset('images/1.png')}}" style="height: 5vh;"  alt="Voir le profil" class="img-voir-profil" data-id-ami="ID_AMI_AFFICHÉ"> -->
-            <!-- Modal pour afficher les informations de l'ami -->
+            
 
-            <div class="modal fade" id="modalProfilAmi" tabindex="-1" aria-labelledby="modalProfilAmiLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="modalProfilAmiLabel">Profil de <span id="amiPseudo"></span></h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <img id="amiPhotoProfil" src="{{asset('images/1.png')}}" alt="Photo de profil" class="img-fluid rounded">
-                                </div>
-                                <div class="col-md-8">
-                                    <p><strong>Pseudo :</strong> <span id="amiPseudoModal"></span></p>
-                                    <p><strong>Parties jouées :</strong> <span id="amiPartiesJouees"></span></p>
-                                    <p><strong>Parties gagnées :</strong> <span id="amiPartiesGagnees"></span></p>
-                                    <p><strong>Meilleur score :</strong> <span id="amiMeilleurScore"></span></p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <!-- Modal pour afficher les informations de l'ami -->
+            <x-profil/>
 
         </div>
     </div>
+
+    <div class="row">
+        <div class="container-fluid d-flex justify-content-center mt-3">
+            <button class="btn bg-dark-brown text-white" id="btn-rechercher-amis">Rechercher des amis à ajouter</button>
+        </div>
+
+        <div class="col d-flex justify-content-center mt-3" >
+            <div id="container-recherche-amis" style="display:none;">
+                <table id="demander-nouveaux-amis" class="hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Profil</th>
+                            <th scope="col">Pseudo</th>
+                            <th scope="col">Demander</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+
 
 @endsection
 
