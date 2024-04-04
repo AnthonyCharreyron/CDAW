@@ -1,5 +1,6 @@
 import './bootstrap';
 
+import './carte';
 import './classement';
 import './jouer';
 import './socket';
@@ -7,7 +8,7 @@ import './profil';
 import './lobby';
 import './gestionUser';
 import './partie';
-import './carte';
+
 
 jQuery(function($){
     $(document).ready(function() {

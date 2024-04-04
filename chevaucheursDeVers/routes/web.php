@@ -68,5 +68,6 @@ Route::post('/initialiserCartesMain', [PartieController::class, 'initialiserCart
 Route::post('/supprimerCarteDestination', [PartieController::class, 'supprimerCarteDestination']);
 Route::post('/piocherVer', [PartieController::class, 'piocherVer']);
 Route::post('/piocherDestinations', [PartieController::class, 'piocherDestinations']);
+Route::post('/poserVers', [PartieController::class, 'poserVers']);
 Route::post('/prochainJoueur', [PartieController::class, 'prochainJoueur']);
 

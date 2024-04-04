@@ -176,6 +176,30 @@ class PartieController extends Controller
             "piocheDestinations" => session()->get('piocheDestinations')
         ]);
     }
+
+    public function poserVers(Request $request){
+        $user=Auth::user();
+        $idZone = $request->input('zode_id');
+
+        $zonesPrises = session()->get('zonesPrises');
+
+        $droitDePrendreZone = CarteJeu::droitZone($user, $idZone, $zonesPrises);
+        if($droitDePrendreZone){
+            //mise en session de la zone session()->put('zonesPrise')
+            return response()->json([
+                "success" => true,
+                "message" => "OK ver posé",
+                "listePseudosParticipants" => session()->get('listeJoueurs'),
+                "userPseudo" => User::getPseudo($user->id),
+                //envoi de la mise en session
+            ]);
+        } else {
+            return response()->json([
+                "success" => false,
+                "message" => "Chemin invalide",
+            ]);
+        }
+    }
  
 
 }

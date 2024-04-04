@@ -67,7 +67,7 @@
                                     <button type="button" class='btn btn-dark' data-bs-toggle="modal" data-bs-target="#piocherDestinationsModal">Piocher des destinations</button>
                                 </div>
                                 <div id="btnPoserVers" class='col-3 d-flex align-items-center justify-content-center'>
-                                    <button class='btn btn-dark' onclick='poserVers()'>Poser des vers</button>
+                                    <button class='btn btn-dark' onclick='placerVer()'>Poser des vers</button>
                                 </div>
                             @endif
                         @else 

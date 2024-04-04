@@ -165,6 +165,28 @@ jQuery(function($){
 
         }
 
+
+        window.poserVer = function(zoneId, couleur) {
+            $.ajax({
+                type: "POST",
+                url: "/poserVers",
+                async: false,
+                data: {zode_id: zoneId},
+                headers: {'X-CSRF-TOKEN': csrfToken},
+                success: function(response) {
+                    if (response.success) {
+                        sendZoneAColorer(zoneId, couleur);
+                        finDeTour(response.listePseudosParticipants, response.userPseudo);
+                    } else {
+                        placerVer();
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
+        };
+        
     });
  
 

@@ -65,7 +65,7 @@ socket.onmessage = function(event) {
             }
             break;
         case 'fin_de_tour':
-            let listePseudo = content.split('|')[0];
+            let listePseudo = content.split('|')[0]
             let nomJoueurActuel = content.split('|')[1];
             let joueur = joueursSuivants(listePseudo, nomJoueurActuel);
             prochainTour(joueur);
@@ -221,16 +221,18 @@ function initialiserCartesMain(){
 }
 
 function joueursSuivants(listePseudo, pseudoActuel) {
-    var index = listePseudo.indexOf(pseudoActuel);
+    var listePseudosArray = listePseudo.split(',');
+    var index = listePseudosArray.indexOf(pseudoActuel);
+
     if (index === -1) {
         return null;
     }
-    var indexSuivant = (index + 1) % listePseudo.length;
-    return listePseudo[indexSuivant];
+    var indexSuivant = (index + 1) % listePseudosArray.length;
+    return listePseudosArray[indexSuivant];
 }
 
+
 function prochainTour(joueur){
-    console.log(joueur);
     const csrfToken4 = $('meta[name="csrf-token"]').attr('content');
     $.ajax({
         type: "POST",
