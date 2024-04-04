@@ -67,4 +67,21 @@ class ListeAmi extends Model
             ->delete();
     }
 
+    public static function supprimerAmi($amiId, $userId) {
+        $suppressionReussie = self::where(function($query) use ($amiId, $userId) {
+                                    $query->where('id1', $amiId)
+                                        ->where('id2', $userId);
+                                })
+                                ->orWhere(function($query) use ($amiId, $userId) {
+                                    $query->where('id1', $userId)
+                                        ->where('id2', $amiId);
+                                })
+                                ->delete();
+    
+        return $suppressionReussie;
+    }
+    
+    
+    
+
 }
