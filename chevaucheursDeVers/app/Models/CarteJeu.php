@@ -14,74 +14,72 @@ class CarteJeu extends Model
 
     public static function droitZone($user, $idZone, $zonesPrises) {
         if (!array_key_exists($idZone, $zonesPrises)) {
-            $infoChemin = self::infoChemin($idZone);
+            $infoChemin = self::infoChemin($idZone)->first();
             $cartesEnMain = session()->get('cartesEnMain_'.$user->id);
             $occurrences = array_count_values($cartesEnMain);
-
+    
             if (isset($occurrences['Carte ver multicolore'])) {
                 $occurrenceMulticolore = $occurrences['Carte ver multicolore'];
                 unset($occurrences['Carte ver multicolore']);
             } else {
                 $occurrenceMulticolore = 0;
             }
-            Log::info($occurrences);
-            Log::info($infoChemin[0]->couleur);
-            
-            //foreach cartes normales 
+    
             foreach ($occurrences as $carte => $occurrence) {
-                if ($infoChemin[0]->couleur == 'noir') {
+                if ($infoChemin->couleur == 'noir') {
                     if ($infoChemin->nombre_de_pas <= $occurrence) {
-                        self::retirerCarteEnMain($carte, $infoChemin[0]->nombre_de_pas, $user);
+                        self::retirerCarteEnMain($carte, $infoChemin->nombre_de_pas, $user);
                         self::ajouterZonePrise($user, $idZone, $zonesPrises);
                         return true;
                     }
-                } elseif (strpos($carte, $infoChemin[0]->couleur) === true) {
-                    Log::info('test');
-                    if ($infoChemin[0]->nombre_de_pas <= $occurrence) {
-                        self::retirerCarteEnMain($carte, $infoChemin[0]->nombre_de_pas, $user);
+                } elseif (strpos($carte, $infoChemin->couleur) !== false) {
+                    if ($infoChemin->nombre_de_pas <= $occurrence) {
+                        self::retirerCarteEnMain($carte, $infoChemin->nombre_de_pas, $user);
                         self::ajouterZonePrise($user, $idZone, $zonesPrises);
                         return true;
                     }
                 }
             }
-            //foreach cartes normales + multicolore
+    
             foreach ($occurrences as $carte => $occurrence) {
-                if ($infoChemin[0]->couleur == 'noir') {
-                    if ($infoChemin[0]->nombre_de_pas <= $occurrence + $occurrenceMulticolore) {
-                        self::retirerCarteEnMainAvecMulticolore($carte, $infoChemin[0]->nombre_de_pas, $occurence, $user);
+                if ($infoChemin->couleur == 'noir') {
+                    if ($infoChemin->nombre_de_pas <= $occurrence + $occurrenceMulticolore) {
+                        self::retirerCarteEnMainAvecMulticolore($carte, $infoChemin->nombre_de_pas, $occurrence, $user);
                         self::ajouterZonePrise($user, $idZone, $zonesPrises);
                         return true;
                     }
-                } elseif (strpos($carte, $infoChemin[0]->couleur) === true) {
-                    if ($infoChemin[0]->nombre_de_pas <= $occurrence + $occurrenceMulticolore) {
-                        self::retirerCarteEnMainAvecMulticolore($carte, $infoChemin[0]->nombre_de_pas, $occurence, $user);
+                } elseif (strpos($carte, $infoChemin->couleur) !== false) {
+                    if ($infoChemin->nombre_de_pas <= $occurrence + $occurrenceMulticolore) {
+                        self::retirerCarteEnMainAvecMulticolore($carte, $infoChemin->nombre_de_pas, $occurrence, $user);
                         self::ajouterZonePrise($user, $idZone, $zonesPrises);
                         return true;
                     }
                 }
             }
+    
             return false;
         } else {
             return false;
         }
     }
     
-
-    public static function infoChemin($idZone){
+    public static function infoChemin($idZone) {
         return self::select('nombre_de_pas', 'couleur', 'score')
                     ->where('id_chemin', '=', $idZone)
                     ->get();
     }
-
-    public static function retirerCarteEnMain($carte, $nbrPas, $user){
+    
+    public static function retirerCarteEnMain($carte, $nbrPas, $user) {
+        $cartesEnMain = session()->get('cartesEnMain_'.$user->id);
         for ($i = 0; $i < $nbrPas; $i++) {
             $index = array_search($carte, $cartesEnMain);
             array_splice($cartesEnMain, $index, 1);
         }
         session(['cartesEnMain_'.$user->id => $cartesEnMain]);
     }
-
-    public static function retirerCarteEnMainAvecMulticolore($carte, $nbrPas, $occurence, $user){
+    
+    public static function retirerCarteEnMainAvecMulticolore($carte, $nbrPas, $occurence, $user) {
+        $cartesEnMain = session()->get('cartesEnMain_'.$user->id);
         for ($i = 0; $i < $occurence; $i++) {
             $index = array_search($carte, $cartesEnMain);
             array_splice($cartesEnMain, $index, 1);
@@ -92,9 +90,9 @@ class CarteJeu extends Model
         }
         session(['cartesEnMain_'.$user->id => $cartesEnMain]);
     }
-
-    public static function ajouterZonePrise($user, $idZone, $zonesPrises){
-        $zonesPrises[$idZone]=$user->pseudo;
+    
+    public static function ajouterZonePrise($user, $idZone, $zonesPrises) {
+        $zonesPrises[$idZone] = $user->pseudo;
         session(['zonesPrises' => $zonesPrises]);
     }
 }

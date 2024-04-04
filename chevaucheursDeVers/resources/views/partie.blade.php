@@ -67,7 +67,7 @@
                                     <button type="button" class='btn btn-dark' data-bs-toggle="modal" data-bs-target="#piocherDestinationsModal">Piocher des destinations</button>
                                 </div>
                                 <div id="btnPoserVers" class='col-3 d-flex align-items-center justify-content-center'>
-                                    <button class='btn btn-dark' onclick='placerVer()'>Poser des vers</button>
+                                    <button  id='btn-placer-ver' class='btn btn-dark' onclick='placerVer()'>Poser des vers</button>
                                 </div>
                             @endif
                         @else 
@@ -81,6 +81,9 @@
                 </div>
 
                 <div class='row'>
+                    <div id="consigne-poser-ver" style='display:none'>
+                        <b class='text-danger'>Veuillez cliquer sur un chemin sur la carte</b>
+                    </div>
                     <div class='col-9'>
                         <x-carte-jeu :$user/>
                     </div>

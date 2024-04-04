@@ -91,6 +91,9 @@ socket.onmessage = function(event) {
             let couleur = content.split('|')[1];
             afficherZone(zoneId, couleur);
             break;
+        case 'zones_prises':
+            miseEnSession('zonesPrises', JSON.parse(content));
+            break;
         default:
             console.error('Type de message non pris en charge.');
     }
@@ -193,6 +196,12 @@ window.sendZoneAColorer=function(zoneId, couleur){
     const message = 'poser_ver,' + zoneId + '|' + couleur ;
     sendToServer(message);
 }
+
+window.sendZonesPrises=function(zonesPrises){
+    const message = 'zones_prises,' + JSON.stringify(zonesPrises);
+    sendToServer(message);
+}
+
 
 
 

@@ -185,9 +185,11 @@ jQuery(function($){
                     if (response.success) {
                         zone.style.fill = couleur;
                         sendZoneAColorer(zoneId, couleur);
+                        sendZonesPrises(response.zonesPrises);
                         finDeTour(response.listePseudosParticipants, response.userPseudo);
                     } else {
-                        placerVer();
+                        console.log(response.message);
+                        document.getElementById('btn-placer-ver').click();
                     }
                 },
                 error: function(xhr, status, error) {

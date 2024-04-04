@@ -34,12 +34,15 @@ class PartieController extends Controller
             session()->put('joueurEnCours', $joueurEnCours);
         }
 
+        $idHost = Partie::getHostid($code_partie);
+
         return view('partie', [
             'photo_profil' => $user!=null ? UserController::getUserPhoto($user['id']) : 0,
             'user' => $user,
             'partie_commencee' => Partie::estCommencee($code_partie),
             'code_partie' => $code_partie,
             'participants' => $participants,
+            'idHost' => $idHost
         ]);
     }
 
@@ -187,17 +190,16 @@ class PartieController extends Controller
         $user=Auth::user();
         $idZone = $request->input('zode_id');
 
-        $zonesPrises = session()->get('zonesPrises')==null ? [] : session()->get('zonesPrises');
+        $zonesPrises = session()->get('zonesPrises')==null ? array() : session()->get('zonesPrises');
 
         $droitDePrendreZone = CarteJeu::droitZone($user, $idZone, $zonesPrises);
         if($droitDePrendreZone){
-            //mise en session de la zone session()->put('zonesPrise')
             return response()->json([
                 "success" => true,
                 "message" => "OK ver posé",
                 "listePseudosParticipants" => session()->get('listeJoueurs'),
                 "userPseudo" => User::getPseudo($user->id),
-                //envoi de la mise en session
+                "zonesPrises" => session()->get('zonesPrises')
             ]);
         } else {
             return response()->json([

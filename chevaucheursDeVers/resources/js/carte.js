@@ -3,6 +3,7 @@
 jQuery(function($){
     $(document).ready(function() {
         window.placerVer = function(){
+            $('#consigne-poser-ver').toggle();
             var zones = document.querySelectorAll('.rectangle');
 
             zones.forEach(function(zone) {
