@@ -184,4 +184,16 @@ class Partie extends Model
         Log::info($destinationsAleatoires);
         session(['piocheDestinations' => $destinationsAleatoires]);
     }
+
+    public static function genererCouleurs($participants){
+        $couleursVers = ['bleu', 'jaune', 'rouge', 'violet', 'vert'];
+
+        $couleursJoueurs=[];
+
+        foreach($participants as $index => $participant){
+            $couleursJoueurs[$participant->pseudo]=$couleursVers[$index];
+        }
+        Log::info($couleursJoueurs);
+        session(['couleursJoueurs' => $couleursJoueurs]);
+    }
 }

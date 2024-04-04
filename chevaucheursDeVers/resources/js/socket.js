@@ -23,13 +23,15 @@ socket.onmessage = function(event) {
             }, 500); // Recharge la page lorsque le message 'reload' est reçu
             break;
         case 'lancer_partie':
-            const [pioche, destinationsString, destinationsRestantesString, piocheDestinationsString] = content.split('|');
+            const [pioche, destinationsString, destinationsRestantesString, piocheDestinationsString, couleursJoueursString] = content.split('|');
             const destinations = JSON.parse(destinationsString); // Convertir la chaîne JSON en objet JavaScript
             const destinationsRestantes = JSON.parse(destinationsRestantesString); // Convertir la chaîne JSON en objet JavaScript
             const piocheDestinations = JSON.parse(piocheDestinationsString); // Convertir la chaîne JSON en objet JavaScript
+            const couleursJoueurs = JSON.parse(couleursJoueursString); // Convertir la chaîne JSON en objet JavaScript
             miseEnSession('piocheVisibleGlobale', pioche);
             miseEnSession('cartesDestinationsRestantes', destinationsRestantes);
             miseEnSession('piocheDestinations', piocheDestinations);
+            miseEnSession('couleursJoueurs', couleursJoueurs);
         
             for (const [cle, valeur] of Object.entries(destinations)) {
                 const typeCarte = cle;
@@ -63,7 +65,7 @@ socket.onmessage = function(event) {
             }
             break;
         case 'fin_de_tour':
-            let listePseudo = content.split('|')[0].split(',');
+            let listePseudo = content.split('|')[0];
             let nomJoueurActuel = content.split('|')[1];
             let joueur = joueursSuivants(listePseudo, nomJoueurActuel);
             prochainTour(joueur);
@@ -75,10 +77,15 @@ socket.onmessage = function(event) {
             miseEnSession('cartesDestinationsRestantes', JSON.parse(content));
             break;
         case 'piocher_destinations':
-            let nouvellePiocheDestinations = content.split('|')[0].split(',');
+            let nouvellePiocheDestinations = content.split('|')[0];
             let cartesDestinationsRestantes = content.split('|')[1];
             miseEnSession('piocheDestinations', JSON.parse(nouvellePiocheDestinations));
             miseEnSession('cartesDestinationsRestantes', JSON.parse(cartesDestinationsRestantes));
+            break;
+        case 'poser_ver':
+            let zoneId = content.split('|')[0];
+            let couleur = content.split('|')[1];
+            afficherZone(zoneId, couleur);
             break;
         default:
             console.error('Type de message non pris en charge.');
@@ -131,9 +138,9 @@ window.reloadPageForAllClients=function() {
     sendToServer('reload');
 }
 
-window.sendLancerPartie = function(piocheVisible, cartesDestinations, cartesDestinationsRestantes, piocheDestinations) {
+window.sendLancerPartie = function(piocheVisible, cartesDestinations, cartesDestinationsRestantes, piocheDestinations, couleursJoueurs) {
     try {
-        const message = 'lancer_partie,' + piocheVisible + '|' + JSON.stringify(cartesDestinations) + '|' + JSON.stringify(cartesDestinationsRestantes) + '|' + JSON.stringify(piocheDestinations);
+        const message = 'lancer_partie,' + piocheVisible + '|' + JSON.stringify(cartesDestinations) + '|' + JSON.stringify(cartesDestinationsRestantes) + '|' + JSON.stringify(piocheDestinations) + '|' + JSON.stringify(couleursJoueurs);
         sendToServer(message);
     } catch (error) {
         console.error('Erreur lors de la conversion en JSON :', error);
@@ -170,6 +177,11 @@ window.sendPiocherDestinations=function(piocheDestinations, cartesDestinationsRe
     const message = 'piocher_destinations,' + JSON.stringify(piocheDestinations) + '|' + JSON.stringify(cartesDestinationsRestantes) ;
     sendToServer(message);
 };
+
+window.sendZoneAColorer=function(zoneId, couleur){
+    const message = 'poser_ver,' + zoneId + '|' + couleur ;
+    sendToServer(message);
+}
 
 
 
@@ -236,4 +248,9 @@ function prochainTour(joueur){
 
 function deleteCookie(cookieName) {
     document.cookie = cookieName + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+}
+
+function afficherZone(zoneId, couleur){
+    var zone = document.getElementById(zoneId);
+    zone.style.fill = couleur;
 }

@@ -11,7 +11,7 @@ jQuery(function($){
                 headers: {'X-CSRF-TOKEN': csrfToken},
                 success: function(response) {
                     console.log(response);
-                    sendLancerPartie(response.piocheVisibleGlobale, response.cartesDestinations, response.cartesDestinationsRestantes, response.piocheDestinations);
+                    sendLancerPartie(response.piocheVisibleGlobale, response.cartesDestinations, response.cartesDestinationsRestantes, response.piocheDestinations, response.couleursJoueurs);
                     reloadPageForAllClients();
                     deleteCookie('partieDebutee');
                 },

@@ -56,13 +56,16 @@ class PartieController extends Controller
 
         Partie::genererPiocheDestinations($cartesDestinationsRestantes);
 
+        Partie::genererCouleurs($participants);
+
         return response()->json([
             "success" => true,
             "message" => "OK partie initialisée",
             "piocheVisibleGlobale" => session()->get('piocheVisibleGlobale'),
             "cartesDestinations" => $cartesDestinations,
             "cartesDestinationsRestantes" => $cartesDestinationsRestantes,
-            "piocheDestinations" => session()->get('piocheDestinations')
+            "piocheDestinations" => session()->get('piocheDestinations'),
+            "couleursJoueurs" => session()->get('couleursJoueurs')
         ]);
     }
 

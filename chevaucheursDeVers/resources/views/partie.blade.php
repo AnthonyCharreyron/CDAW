@@ -82,7 +82,7 @@
 
                 <div class='row'>
                     <div class='col-9'>
-                        <x-carte-jeu/>
+                        <x-carte-jeu :$user/>
                     </div>
                     
                     <div class="col-3 text-center">
@@ -132,23 +132,19 @@
             </div>
             <div class="col-3 sidebar">
                 <!-- TODO : bandeaux avec couleurs, nb cartes et points de chaque joueur -->
-                
-                @php
-                    $couleursVers = ['bleu', 'jaune', 'rouge', 'violet', 'vert']; 
-                @endphp
-                @foreach($participants as $index => $user)
-                    </br>
-                    <div class="row {{ $couleursVers[$index % count($couleursVers)] }}">
-                        <b>{{ $user->pseudo }}</b>
-                        </hr>
-                        @if($partie_commencee)
+                @if($partie_commencee)
+                    @foreach($participants as $index => $user)
+                        </br>
+                        <div class="row {{session()->get('couleursJoueurs')[$user->pseudo]}}">
+                            <b>{{ $user->pseudo }}</b>
+                            </hr>
                             <p class="my-0 mx-3"> cartes Vers en mains</p>
                             <p class="my-0 mx-3"> vers restants</p>
                             <p class="my-0 mx-3"> points</p>
-                        @endif
-                    </div>
-                    </br>
-                @endforeach
+                        </div>
+                        </br>
+                    @endforeach
+                @endif
 
                 <x-chat/>
             </div>
