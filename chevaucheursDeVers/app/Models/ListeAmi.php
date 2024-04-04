@@ -13,9 +13,9 @@ class ListeAmi extends Model
     public $timestamps = false;
 
     public static function getListeAmis($user) {
-        return self::select('users.id', 'users.pseudo', 'users.photo_profil')
+        return self::select(\DB::raw('IF(id1 = '.$user->id.', id2, id1) AS ami_id'), 'users.pseudo', 'users.photo_profil')
                     ->leftJoin('users', function($join) use ($user) {
-                        $join->on('users.id', '=', \DB::raw(($user->id == 'liste_ami.id1') ? 'liste_ami.id1' : 'liste_ami.id2'));
+                        $join->on('users.id', '=', \DB::raw('IF(liste_ami.id1 = '.$user->id.', liste_ami.id2, liste_ami.id1)'));
                     })
                     ->where(function($query) use ($user) {
                         $query->where('id1', '=', $user->id)
@@ -27,9 +27,10 @@ class ListeAmi extends Model
     
 
     public static function getDemandePourMoi($user){
-        return self::select('user1.id as id', 'user1.pseudo', 'user1.photo_profil')
-                    ->leftJoin('users as user1', 'user1.id', '=', 'liste_ami.id1')
-                    ->leftJoin('users as user2', 'user2.id', '=', 'liste_ami.id2')
+        return self::select('users.id as id', 'users.pseudo', 'users.photo_profil')
+                    ->leftJoin('users', function($join) use ($user) {
+                        $join->on('users.id', '=', \DB::raw('IF(liste_ami.id1 = '.$user->id.', liste_ami.id2, liste_ami.id1)'));
+                    })
                     ->where(function ($query) use ($user) {
                         $query->where('liste_ami.id1', $user->id)
                               ->orWhere('liste_ami.id2', $user->id);
@@ -37,7 +38,8 @@ class ListeAmi extends Model
                     ->where('liste_ami.est_accepte', 0)
                     ->where('liste_ami.id_demandeur', '!=', $user->id)
                     ->get();
-    }    
+    }
+      
 
     public static function accepterDemande($idUser, $id_user_friend){
         self::where(function($query) use ($idUser, $id_user_friend) {

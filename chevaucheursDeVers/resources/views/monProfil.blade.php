@@ -69,7 +69,10 @@
                     </tr>
                 </thead>
             </table>
-            <table id="demande-pour-moi" class="hover">
+            <div class='d-flex justify-content-center'>
+                <button class='btn bg-dark-brown text-white' id="btn-voir-demande-amis">Demandes d'amis en attente</button>
+            </div>
+            <table id="demande-pour-moi" class="hover" style="display:none">
                 <thead>
                     <tr>
                         <th scope="col">Profil</th>
@@ -78,6 +81,7 @@
                     </tr>
                 </thead>
             </table>
+            
             <!-- Bouton pour voir le profil -->
             <!-- <button type="button" class="btn btn-primary btn-voir-profil" data-id-ami="ID_AMI_AFFICHÉ"  data-bs-toggle="modal" data-bs-target="#modalProfilAmi">Voir le profil</button> -->
             <!-- <img src="{{asset('images/1.png')}}" style="height: 5vh;"  alt="Voir le profil" class="img-voir-profil" data-id-ami="ID_AMI_AFFICHÉ"> -->

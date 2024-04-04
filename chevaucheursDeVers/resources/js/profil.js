@@ -100,7 +100,7 @@ jQuery(function($) {
                     data: null, 
                     name: 'Profil',
                     render: function(row) {
-                        return `<img src="images/`+ row.photo_profil +`.png" style="height: 5vh;"  alt="Voir le profil" class="img-voir-profil" data-id-ami="`+ row.id +`">`;
+                        return `<img src="images/`+ row.photo_profil +`.png" style="height: 5vh;"  alt="Voir le profil" class="img-voir-profil" data-id-ami="`+ row.ami_id +`">`;
                     }
                 }, 
                 { data: 'pseudo', name: 'Pseudo' }
@@ -110,6 +110,8 @@ jQuery(function($) {
         let demande_pour_moi = $('#demande-pour-moi').DataTable({
             "info": false,
             "searching": false,
+            "paging": false,
+            "ordering": false,
             ajax:{ 
                 url: '/demandePourMoi',
                 type: 'GET',
@@ -139,8 +141,8 @@ jQuery(function($) {
                     data: null, 
                     orderable: false,
                     render: function(data, type, row) {
-                        return `<button class="btn btn-success btn-action" data-id="${row.id}">Accepter la demande d'ami</button>
-                        <button class="btn btn-danger btn-action" data-id="${row.id}">Refuser la demande</button>`;
+                        return `<button class="btn btn-success btn-action" data-id="${row.id}">Accepter</button>
+                        <button class="btn btn-danger btn-action" data-id="${row.id}">Refuser</button>`;
                     }
                 }
             ]
@@ -150,7 +152,7 @@ jQuery(function($) {
             let userId = $(this).data('id');
             let formData = new FormData();
             formData.append("id_user_friend", userId);
-            let friendAction = $(this).text() == `Accepter la demande d'ami` ? 'accepte' : 'refuse';
+            let friendAction = $(this).text() == `Accepter` ? 'accepte' : 'refuse';
             console.log(friendAction);
             formData.append("demande_action", friendAction);
             $.ajax({
@@ -206,6 +208,10 @@ jQuery(function($) {
                 $('#modalProfilAmi').removeClass('show'); 
             }
         });
+
+        $('#btn-voir-demande-amis').on('click', function() {
+            $('#demande-pour-moi').toggle();
+        })
 
 
 
