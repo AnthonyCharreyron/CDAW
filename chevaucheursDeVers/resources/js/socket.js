@@ -102,6 +102,9 @@ socket.onmessage = function(event) {
             miseEnSession('scoresJoueurs', scoresJoueursMAJ);
             miseEnSession('versRestants', versRestantsMAJ);
             break;
+        case 'fin_partie':
+            destroySessions(content);
+            break;
         default:
             console.error('Type de message non pris en charge.');
     }
@@ -211,6 +214,11 @@ window.sendPoserVer=function(zonesPrises, scoresJoueurs, versRestants){
     sendToServer(message);
 }
 
+window.sendTerminerPartie=function(codePartie){
+    const message = 'fin_partie,' + codePartie;
+    sendToServer(message);
+}
+
 
 
 
@@ -284,4 +292,20 @@ function deleteCookie(cookieName) {
 function afficherZone(zoneId, couleur){
     var zone = document.getElementById(zoneId);
     zone.style.fill = couleur;
+}
+
+function destroySessions(codePartie){
+    const csrfToken5 = $('meta[name="csrf-token"]').attr('content');
+    $.ajax({
+        type: "POST",
+        url: "/fermerSessions",
+        data: {},
+        headers: {'X-CSRF-TOKEN': csrfToken5},
+        success: function(response) {
+            window.location.href='/jouer/resultats/'+codePartie;
+        },
+        error: function(xhr, status, error) {
+            console.error(xhr.responseText);
+        }
+    });
 }

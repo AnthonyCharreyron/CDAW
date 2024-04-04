@@ -210,4 +210,12 @@ class Partie extends Model
 
         session(['versRestants' => $versRestants]);
     }
+
+    public static function updatePartieTerminee($idPartie, $id_user_gagnant){
+        self::where('id_partie', $id_partie)
+            ->update([
+                'est_terminee' => 1,
+                'id_user_gagnant' => $id_user_gagnant
+            ]);
+    }
 }

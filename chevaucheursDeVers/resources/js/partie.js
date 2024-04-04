@@ -199,6 +199,23 @@ jQuery(function($){
                 }
             });
         };
+
+        window.terminerPartie=function(codePartie, scoresJoueurs){
+            $.ajax({
+                type: "POST",
+                url: "/terminerPartie",
+                async: false,
+                data: {code_partie: codePartie, scoresJoueurs: scoresJoueurs},
+                headers: {'X-CSRF-TOKEN': csrfToken},
+                success: function(response) {
+                    sendTerminerPartie(codePartie);
+                    window.location.href='/jouer/resultat/'+codePartie;
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
+        }
         
     });
  

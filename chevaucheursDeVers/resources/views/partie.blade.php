@@ -48,7 +48,7 @@
                 <div class='row'>
                     @if($idHost == $user->id && $partie_commencee)
                         <div class='col-2'>
-                            <button type="button" class='btn btn-danger' onclick='terminerPartie({{$code_partie}})'>Terminer la partie</button>
+                            <button type="button" class="btn btn-danger" onclick="terminerPartie('{{ $code_partie }}', '{{ json_encode(session()->get('scoresJoueurs')) }}')">Terminer la partie</button>
                         </div>
                     @endif
                     <div class='col'>
@@ -157,7 +157,6 @@
                         <div class="row {{session()->get('couleursJoueurs')[$user->pseudo]}}">
                             <b>{{ $user->pseudo }}</b>
                             </hr>
-                            <p class="my-0 mx-3"> cartes Vers en mains</p>
                             <p class="my-0 mx-3"> {{session()->get('versRestants')[$user->pseudo]}} vers restants</p>
                             <p class="my-0 mx-3"> {{session()->get('scoresJoueurs')[$user->pseudo]}} points</p>
                         </div>

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Traits\HasCompositePrimaryKey;
 
+use App\Models\User;
 
 class Joue extends Model
 {
@@ -13,6 +14,7 @@ class Joue extends Model
 
     protected $table = 'joue';
     //protected $primaryKey = ['id_partie', 'id_user'];
+    public $timestamps = false;
 
     public static function userJouePartie($idUser, $idPartie){
         self::insert(
@@ -41,5 +43,21 @@ class Joue extends Model
     public static function countNbJoueurs($idPartie){
         return self::where('id_partie', $idPartie)->count('id_user');
     }
+
+    public static function scoreFinal($id_partie, $scoresJoueurs){
+        foreach($scoresJoueurs as $pseudo => $score){
+            $user = User::findUser($pseudo);
+            if($user){
+                $id_user = $user->id;
+                self::where('id_user', $id_user)
+                    ->where('id_partie', $id_partie)
+                    ->update(['score' => $score]);
+            } else {
+                // Gérer le cas où l'utilisateur n'est pas trouvé
+                Log::info("Utilisateur introuvable pour le pseudo : $pseudo");
+            }
+        } 
+    }
+    
 
 }

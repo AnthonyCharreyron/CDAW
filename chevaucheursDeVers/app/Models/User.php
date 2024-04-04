@@ -204,12 +204,18 @@ class User extends Authenticatable implements MustVerifyEmail
 
         return $users;
 
-        
+    }
 
-    
-
-    
-
+    public static function idUserGagnant($scoresJoueurs){
+        $meilleurScore = max($scoresJoueurs);
+        $meilleurPseudo = array_search($meilleurScore, $scoresJoueurs);
+        $userGagnant = self::findUser($meilleurPseudo);
+        if($UserGagnant){
+            $idUserGagnant = $userGagnant->id;
+            return $idUserGagnant;
+        } else {
+            return 0;
+        }
     }
     
     

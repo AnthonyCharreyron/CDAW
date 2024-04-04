@@ -30,8 +30,6 @@ Route::get('/demandeNouveauxAmis', [MonProfilController::class, 'demandeNouveaux
 Route::post('/faireDemandeAmi', [MonProfilController::class, 'faireDemandeAmi']);
 Route::post('/supprimerAmi', [MonProfilController::class, 'supprimerAmi']);
 
-
-
 Route::get('/historique', [HistoriqueController::class, 'getClassement']);
 Route::get('/historique/{id}', [HistoriqueController::class, 'statClassement'])->name('stats');
 
@@ -54,14 +52,10 @@ Route::post('/monitoring/comment', [MonitorController::class, 'updateComment'])-
 Route::get('/connexion', [ConnexionController::class, 'getConnexion'])->name('connexion');
 Route::get('/inscription', [ConnexionController::class, 'getInscription'])->name('page-inscription');
 Route::post('/connexion/creerUser', [UserController::class, 'createUser'])->name('inscription');
-Route::get('/email/verify', function () {return view('verify-email');})->middleware(AuthMiddleware::class)->name('verification.notice');
-Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-    $request->fulfill();
-    return redirect('/presentation');
-})->middleware([AuthMiddleware::class, 'signed'])->name('verification.verify');
 
 Route::post('/authenticate', [ConnexionController::class, 'authenticate'])->name('connexion.authenticate');
 Route::post('/logout', [ConnexionController::class, 'logout'])->name('connexion.logout');
+
 Route::post('/message', [MessageController::class, 'sendMessage'])->name('message.send');
 Route::post('/miseEnSessionCartes', [MessageController::class, 'miseEnSessionCartes']);
 Route::post('/initialiserCartesMain', [PartieController::class, 'initialiserCartesMain']);
@@ -70,4 +64,6 @@ Route::post('/piocherVer', [PartieController::class, 'piocherVer']);
 Route::post('/piocherDestinations', [PartieController::class, 'piocherDestinations']);
 Route::post('/poserVers', [PartieController::class, 'poserVers']);
 Route::post('/prochainJoueur', [PartieController::class, 'prochainJoueur']);
+Route::post('/terminerPartie', [PartieController::class, 'terminerPartie']);
+Route::post('/fermerSessions', [PartieController::class, 'fermerSessions']);
 

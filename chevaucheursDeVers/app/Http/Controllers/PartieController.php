@@ -214,6 +214,53 @@ class PartieController extends Controller
             ]);
         }
     }
+
+    public function terminerPartie(Request $request){
+        $user=Auth::user();
+        $code_partie=$request->input('code_partie');
+        $scoresJoueurs=$request->input('scoresJoueurs');
+        $id_partie = Partie::verifyCode($code_partie);
+
+        Joue::scoreFinal($id_partie, $scoresJoueurs);
+        
+        $id_user_gagnant = User::idUserGagnant($scoresJoueurs);
+        Partie::updatePartieTerminee($idPartie, $id_user_gagnant);
+
+        fermerSessions();
+        foreach ($scoresJoueurs as $pseudo => $score) {
+            if($pseudo!==$user->pseudo){
+                $id=(User::findUser($pseudo))->id;
+                $request->session()->forget('cartesDestinationsMain_'.$id);
+            }     
+        }
+
+        return response()->json([
+            "success" => true,
+            "message" => "OK partie terminée",
+        ]);
+    }
+
+    public function fermerSessions(){
+        $user=Auth::user();
+
+        $request->session()->forget('participant');
+        $request->session()->forget('listeJoueurs');
+        $request->session()->forget('joueurEnCours');
+        $request->session()->forget('piocheVisibleGlobale');
+        $request->session()->forget('cartesDestinationsRestantes');
+        $request->session()->forget('piocheDestinations');
+        $request->session()->forget('couleursJoueurs');
+        $request->session()->forget('zonesPrises');
+        $request->session()->forget('scoresJoueurs');
+        $request->session()->forget('versRestants');
+        $request->session()->forget('cartesEnMain_'.$user->id);
+        $request->session()->forget('cartesDestinationsMain_'.$user->id);
+
+        return response()->json([
+            "success" => true,
+            "message" => "OK partie terminée",
+        ]);  
+    }
  
 
 }
