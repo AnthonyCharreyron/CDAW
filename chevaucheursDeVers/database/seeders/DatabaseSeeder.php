@@ -19,7 +19,8 @@ class DatabaseSeeder extends Seeder
             PartieSeeder::class,
             JoueSeeder::class,
             ListAmiSeeder::class,
-            MenuSeeder::class
+            MenuSeeder::class,
+            CarteJeuSeeder::class
         ]);
     }
 }
