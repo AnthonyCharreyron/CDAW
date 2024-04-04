@@ -104,6 +104,7 @@ class MonProfilController extends MenuController
         $data = User::getUsersNonAmis($user->id);
         echo json_encode(array("data" => $data));
     }
+    
     public function faireDemandeAmi(Request $request){
         $user=Auth::user();
         $id_user_friend = $request->input('id_user_for_friend');

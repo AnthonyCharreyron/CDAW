@@ -80,9 +80,6 @@ class ListeAmi extends Model
     
         return $suppressionReussie;
     }
-    
-    
-    
 
     public static function newRelation($idUser,$idUserFriend){
         self::insert(

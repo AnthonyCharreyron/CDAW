@@ -281,7 +281,7 @@ jQuery(function($) {
                     console.error(xhr.responseText);
                 }
             });
-        })
+        });
 
         $('#demander-nouveaux-amis').on('click', '.btn-action-demander-ami', function(){
             let userId = $(this).data('id');
