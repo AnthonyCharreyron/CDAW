@@ -10,29 +10,59 @@ class ListeAmi extends Model
     use HasFactory;
 
     protected $table = 'liste_ami';
+    public $timestamps = false;
 
     public static function getListeAmis($user) {
         return self::select('users.id', 'users.pseudo', 'users.photo_profil')
                     ->leftJoin('users', function($join) use ($user) {
                         $join->on('users.id', '=', \DB::raw(($user->id == 'liste_ami.id1') ? 'liste_ami.id1' : 'liste_ami.id2'));
                     })
-                    ->where('id1', '=', $user->id)
-                    ->orWhere('id2', '=', $user->id)
+                    ->where(function($query) use ($user) {
+                        $query->where('id1', '=', $user->id)
+                              ->orWhere('id2', '=', $user->id);
+                    })
                     ->where('est_accepte', '=', 1)
                     ->get();
     }
+    
 
     public static function getDemandePourMoi($user){
-        return self::select('users.id', 'users.pseudo', 'users.photo_profil')
-                    ->leftJoin('users', function($join) use ($user) {
-                        $join->on('users.id', '=', \DB::raw(($user->id == 'liste_ami.id1') ? 'liste_ami.id1' : 'liste_ami.id2'));
-                    })
+        return self::select('user1.id as id', 'user1.pseudo', 'user1.photo_profil')
+                    ->leftJoin('users as user1', 'user1.id', '=', 'liste_ami.id1')
+                    ->leftJoin('users as user2', 'user2.id', '=', 'liste_ami.id2')
                     ->where(function ($query) use ($user) {
-                        $query->where('id1', $user->id)
-                              ->orWhere('id2', $user->id);
+                        $query->where('liste_ami.id1', $user->id)
+                              ->orWhere('liste_ami.id2', $user->id);
                     })
-                    ->where('est_accepte', 0)
-                    ->where('id_demandeur', '!=', $user->id)
+                    ->where('liste_ami.est_accepte', 0)
+                    ->where('liste_ami.id_demandeur', '!=', $user->id)
                     ->get();
+    }    
+
+    public static function accepterDemande($idUser, $id_user_friend){
+        self::where(function($query) use ($idUser, $id_user_friend) {
+                $query->where('id1', '=', $idUser)
+                    ->where('id2', '=', $id_user_friend);
+            })
+            ->orWhere(function($query) use ($idUser, $id_user_friend) {
+                $query->where('id1', '=', $id_user_friend)
+                    ->where('id2', '=', $idUser);
+            })
+            ->update([
+                'est_accepte' => 1,
+            ]);
     }
+
+    public static function refuserDemande($idUser, $id_user_friend){
+        self::where(function($query) use ($idUser, $id_user_friend) {
+                $query->where('id1', '=', $idUser)
+                      ->where('id2', '=', $id_user_friend);
+            })
+            ->orWhere(function($query) use ($idUser, $id_user_friend) {
+                $query->where('id1', '=', $id_user_friend)
+                      ->where('id2', '=', $idUser);
+            })
+            ->delete();
+    }
+
 }

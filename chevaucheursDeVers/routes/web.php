@@ -25,6 +25,7 @@ Route::post('/monProfil/modifierProfil', [MonProfilController::class, 'modifierP
 Route::get('/listeAmi', [MonProfilController::class, 'listeAmi'])->middleware(AuthMiddleware::class);
 Route::get('/demandePourMoi', [MonProfilController::class, 'demandesPourMoi'])->middleware(AuthMiddleware::class);
 
+Route::post('/gestionDemandeAmi', [MonProfilController::class, 'gestionDemandeAmi']);
 
 Route::get('/historique', [HistoriqueController::class, 'getClassement']);
 Route::get('/historique/{id}', [HistoriqueController::class, 'statClassement'])->name('stats');

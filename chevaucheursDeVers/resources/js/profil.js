@@ -139,19 +139,46 @@ jQuery(function($) {
                     data: null, 
                     orderable: false,
                     render: function(data, type, row) {
-                        return `<button class="btn btn-succes">Test</button>`;
+                        return `<button class="btn btn-success btn-action" data-id="${row.id}">Accepter la demande d'ami</button>
+                        <button class="btn btn-danger btn-action" data-id="${row.id}">Refuser la demande</button>`;
                     }
                 }
             ]
         });
 
+        $('#demande-pour-moi').on('click', '.btn-action', function() {
+            let userId = $(this).data('id');
+            let formData = new FormData();
+            formData.append("id_user_friend", userId);
+            let friendAction = $(this).text() == `Accepter la demande d'ami` ? 'accepte' : 'refuse';
+            console.log(friendAction);
+            formData.append("demande_action", friendAction);
+            $.ajax({
+                url: '/gestionDemandeAmi',
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                method: 'post',
+                headers: {'X-CSRF-TOKEN': csrfToken},
+                success: function(data){
+                    console.log(data);
+                    alert("Demande traitée");
+                },
+                error: function(err) {
+                    console.log("Erreur");
+                    console.log(err);
+                }
+            });
+        });
+
         // Gestion de l'ouverture du modal au survol du bouton
-        $('.img-voir-profil').hover(function() {
+        $('body').on('mouseenter', '.img-voir-profil', function() {
             var idAmi = $(this).data('id-ami');
             loadAmiInfo(idAmi); 
-            //$('.btn-voir-profil').click(); 
             $('#modalProfilAmi').modal('show'); // Ouvrir le modal
         });
+        
 
         // Fermeture du modal lorsque vous cliquez en dehors de celui-ci ou sortez la souris du modal
         $(document).on('click', function(event) {

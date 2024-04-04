@@ -49,4 +49,29 @@ class MonProfilController extends MenuController
         $data = ListeAmi::getDemandePourMoi($user);
         echo json_encode(array("data" => $data));
     }
+
+    public function gestionDemandeAmi(Request $request){
+        $user=Auth::user();
+        $id_user_friend = $request->input('id_user_friend');
+        $demande = $request->input('demande_action');
+        
+        if($demande == "accepte"){
+            ListeAmi::accepterDemande($user->id, $id_user_friend);
+            return response()->json([
+                "success" => true,
+                "message" => 'Demande acceptée',
+            ]);
+        } elseif($demande == "refuse"){
+            ListeAmi::refuserDemande($user->id, $id_user_friend);
+            return response()->json([
+                "success" => true,
+                "message" => 'Demande refusée',
+            ]);
+        } else {
+            return response()->json([
+                "success" => false,
+                "message" => 'Problème de traitement',
+            ]);
+        }
+    }
 }
