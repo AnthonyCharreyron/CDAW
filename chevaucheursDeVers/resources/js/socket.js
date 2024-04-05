@@ -5,31 +5,31 @@ socket.onopen = function(event) {
 };
 
 socket.onmessage = function(event) {
-    const data = event.data.split(','); // Séparer les données en utilisant la virgule comme délimiteur
+    const data = event.data.split(','); 
     
-    const type = data[0]; // Le premier élément sera le type
-    const content = data.slice(1).join(','); // Le contenu sera le reste des éléments concaténés
+    const type = data[0];
+    const content = data.slice(1).join(','); 
 
     switch (type) {
         case 'chat':
             const messages = document.getElementById('messages');
             const li = document.createElement('li');
             li.innerHTML = content;
-            messages.insertBefore(li, messages.firstChild); // Insérer le nouvel élément avant le premier enfant existant
+            messages.insertBefore(li, messages.firstChild); 
             break;
         case 'reload':
             setTimeout(function() {
                 window.location.reload();
-            }, 500); // Recharge la page lorsque le message 'reload' est reçu
+            }, 500); 
             break;
         case 'lancer_partie':
             const [pioche, destinationsString, destinationsRestantesString, piocheDestinationsString, couleursJoueursString, scoresJoueursString, versRestantsString] = content.split('|');
-            const destinations = JSON.parse(destinationsString); // Convertir la chaîne JSON en objet JavaScript
-            const destinationsRestantes = JSON.parse(destinationsRestantesString); // Convertir la chaîne JSON en objet JavaScript
-            const piocheDestinations = JSON.parse(piocheDestinationsString); // Convertir la chaîne JSON en objet JavaScript
-            const couleursJoueurs = JSON.parse(couleursJoueursString); // Convertir la chaîne JSON en objet JavaScript
-            const scoresJoueurs = JSON.parse(scoresJoueursString); // Convertir la chaîne JSON en objet JavaScript
-            const versRestants = JSON.parse(versRestantsString); // Convertir la chaîne JSON en objet JavaScript
+            const destinations = JSON.parse(destinationsString); 
+            const destinationsRestantes = JSON.parse(destinationsRestantesString); 
+            const piocheDestinations = JSON.parse(piocheDestinationsString); 
+            const couleursJoueurs = JSON.parse(couleursJoueursString); 
+            const scoresJoueurs = JSON.parse(scoresJoueursString); 
+            const versRestants = JSON.parse(versRestantsString); 
             miseEnSession('piocheVisibleGlobale', pioche);
             miseEnSession('cartesDestinationsRestantes', destinationsRestantes);
             miseEnSession('piocheDestinations', piocheDestinations);
@@ -43,8 +43,6 @@ socket.onmessage = function(event) {
             for (const [cle, valeur] of Object.entries(destinations)) {
                 const typeCarte = cle;
                 const destinationsJoueur = valeur;
-                //console.log(typeCarte);
-                //console.log(destinationsJoueur);
                 miseEnSession(typeCarte, destinationsJoueur);
             }
 
